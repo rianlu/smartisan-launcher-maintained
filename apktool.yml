@@ -5,7 +5,7 @@ usesFramework:
   - 1
 sdkInfo:
   minSdkVersion: 19
-  targetSdkVersion: 19
+  targetSdkVersion: 24
 versionInfo:
   versionCode: 2026040701
   versionName: 1.5.1-r1

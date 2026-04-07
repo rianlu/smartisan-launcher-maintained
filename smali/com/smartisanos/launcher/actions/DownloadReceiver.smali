@@ -227,77 +227,50 @@
 
     .prologue
     .line 157
-    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
-
-    move-result-object v5
-
-    invoke-static {v5, p0, p1}, Lcom/smartisanos/home/net/DownloadSupervisor;->queryDownloadStatus(Landroid/content/Context;J)Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;
-
-    move-result-object v0
-
-    .line 158
-    .local v0, "dlStatus":Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;
-    const/4 v4, 0x0
-
-    .line 159
-    .local v4, "uri":Landroid/net/Uri;
-    if-eqz v0, :cond_0
-
-    .line 160
-    iget-object v3, v0, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->local_filename:Ljava/lang/String;
-
-    .line 161
-    .local v3, "path":Ljava/lang/String;
-    new-instance v1, Ljava/io/File;
-
-    invoke-direct {v1, v3}, Ljava/io/File;-><init>(Ljava/lang/String;)V
-
-    .line 162
-    .local v1, "file":Ljava/io/File;
-    invoke-virtual {v1}, Ljava/io/File;->exists()Z
-
-    move-result v5
-
-    if-eqz v5, :cond_0
-
-    .line 163
-    invoke-static {v1}, Landroid/net/Uri;->fromFile(Ljava/io/File;)Landroid/net/Uri;
+    invoke-static {p0, p1}, Lcom/smartisanos/launcher/actions/DownloadReceiver;->getDownloadFileUri(J)Landroid/net/Uri;
 
     move-result-object v4
 
-    .line 164
+    .line 158
+    .local v4, "uri":Landroid/net/Uri;
+    if-eqz v4, :cond_0
+
+    .line 159
     new-instance v2, Landroid/content/Intent;
 
     const-string v5, "android.intent.action.VIEW"
 
     invoke-direct {v2, v5}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 165
+    .line 160
     .local v2, "install_intent":Landroid/content/Intent;
     const-string v5, "application/vnd.android.package-archive"
 
     invoke-virtual {v2, v4, v5}, Landroid/content/Intent;->setDataAndType(Landroid/net/Uri;Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 167
+    .line 161
     const/high16 v5, 0x10000000
 
     invoke-virtual {v2, v5}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 168
+    .line 162
+    const/4 v5, 0x1
+
+    invoke-virtual {v2, v5}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
+
+    .line 163
     invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
 
     move-result-object v5
 
     invoke-virtual {v5, v2}, Lcom/smartisanos/launcher/LauncherApplication;->startActivity(Landroid/content/Intent;)V
 
-    .line 174
-    .end local v1    # "file":Ljava/io/File;
+    .line 169
     .end local v2    # "install_intent":Landroid/content/Intent;
-    .end local v3    # "path":Ljava/lang/String;
     :goto_0
     return-void
 
-    .line 173
+    .line 168
     :cond_0
     invoke-static {p0, p1}, Lcom/smartisanos/home/net/DownloadSupervisor;->cleanDownloadRecord(J)V
 
@@ -604,6 +577,19 @@
 
     .line 77
     .local v15, "type":I
+    invoke-static {v6, v7}, Lcom/smartisanos/launcher/actions/DownloadReceiver;->getDownloadFileUri(J)Landroid/net/Uri;
+
+    move-result-object v18
+
+    const/16 v16, 0x2
+
+    move/from16 v0, v16
+
+    if-ne v15, v0, :cond_8
+
+    if-nez v18, :cond_6
+
+    :cond_8
     invoke-static {v6, v7}, Lcom/smartisanos/launcher/actions/DownloadReceiver;->getDownloadFile(J)Ljava/io/File;
 
     move-result-object v8

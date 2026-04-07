@@ -1533,63 +1533,32 @@
 
     .line 1045
     :cond_1
-    invoke-static {p0, v2, v3}, Lcom/smartisanos/home/net/DownloadSupervisor;->queryDownloadStatus(Landroid/content/Context;J)Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;
-
-    move-result-object v1
+    const/4 v8, 0x0
 
     .line 1046
-    .local v1, "dlStatus":Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;
-    const/4 v5, 0x0
-
-    .line 1047
-    .local v5, "fileExist":Z
-    if-eqz v1, :cond_2
-
-    .line 1048
+    .local v8, "uri":Landroid/net/Uri;
     cmp-long v9, v2, v10
 
     if-lez v9, :cond_2
 
-    .line 1049
-    iget-object v7, v1, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->local_filename:Ljava/lang/String;
+    .line 1047
+    invoke-static {v2, v3}, Lcom/smartisanos/launcher/actions/DownloadReceiver;->getDownloadFileUri(J)Landroid/net/Uri;
+
+    move-result-object v8
 
     .line 1050
-    .local v7, "path":Ljava/lang/String;
-    if-eqz v7, :cond_2
+    :cond_2
+    if-nez v8, :cond_4
 
     .line 1051
-    new-instance v4, Ljava/io/File;
-
-    invoke-direct {v4, v7}, Ljava/io/File;-><init>(Ljava/lang/String;)V
-
-    .line 1052
-    .local v4, "file":Ljava/io/File;
-    if-eqz v4, :cond_2
-
-    invoke-virtual {v4}, Ljava/io/File;->exists()Z
-
-    move-result v9
-
-    if-eqz v9, :cond_2
-
-    .line 1053
-    const/4 v5, 0x1
-
-    .line 1059
-    .end local v4    # "file":Ljava/io/File;
-    .end local v7    # "path":Ljava/lang/String;
-    :cond_2
-    if-nez v5, :cond_4
-
-    .line 1060
     cmp-long v9, v2, v10
 
     if-lez v9, :cond_3
 
-    .line 1061
+    .line 1052
     invoke-static {v2, v3}, Lcom/smartisanos/home/net/DownloadSupervisor;->cleanDownloadRecord(J)V
 
-    .line 1063
+    .line 1054
     :cond_3
     iget-object v9, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mTitle:Lcom/smartisanos/launcher/theme/ThemeItemActivity$BottomTitle;
 
@@ -1603,38 +1572,31 @@
 
     goto :goto_0
 
-    .line 1067
+    .line 1058
     :cond_4
-    new-instance v9, Ljava/io/File;
-
-    iget-object v10, v1, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->local_filename:Ljava/lang/String;
-
-    invoke-direct {v9, v10}, Ljava/io/File;-><init>(Ljava/lang/String;)V
-
-    invoke-static {v9}, Landroid/net/Uri;->fromFile(Ljava/io/File;)Landroid/net/Uri;
-
-    move-result-object v8
-
-    .line 1068
-    .local v8, "uri":Landroid/net/Uri;
     new-instance v6, Landroid/content/Intent;
 
     const-string v9, "android.intent.action.VIEW"
 
     invoke-direct {v6, v9}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    .line 1069
+    .line 1059
     .local v6, "install_intent":Landroid/content/Intent;
     const-string v9, "application/vnd.android.package-archive"
 
     invoke-virtual {v6, v8, v9}, Landroid/content/Intent;->setDataAndType(Landroid/net/Uri;Ljava/lang/String;)Landroid/content/Intent;
 
-    .line 1070
+    .line 1060
     const/high16 v9, 0x10000000
 
-    invoke-virtual {v6, v9}, Landroid/content/Intent;->setFlags(I)Landroid/content/Intent;
+    invoke-virtual {v6, v9}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
-    .line 1071
+    .line 1061
+    const/4 v9, 0x1
+
+    invoke-virtual {v6, v9}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
+
+    .line 1062
     invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
 
     move-result-object v9

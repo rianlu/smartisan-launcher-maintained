@@ -30,6 +30,12 @@
 
 ## 常用命令
 
+先做安装兼容性检查：
+
+```sh
+./tools/check_install_compat.sh
+```
+
 本地调试构建并尝试安装：
 
 ```sh
@@ -80,6 +86,36 @@ EOF
 ```
 
 如果 `RELEASE_KEYSTORE_FILE` 不是绝对路径，脚本会默认从 `.local/signing/` 下查找。
+
+## 主题 APK 维护
+
+先批量下载原始主题 APK：
+
+```sh
+./tools/download_all_themes.sh
+```
+
+再批量修复主题安装兼容性并重签名：
+
+```sh
+./tools/build_theme_release.sh
+```
+
+默认行为：
+
+- 原始主题目录：`themes/source-apks/`
+- 维护版主题目录：`themes/maintained/`
+- 主题 `targetSdkVersion`：默认改为 `36`
+- 签名：复用 `.local/signing/release.env`
+- `build/` 只保留中间解包/构建产物，不作为最终分发目录
+
+常用示例：
+
+```sh
+THEME_LIMIT=2 ./tools/build_theme_release.sh
+THEME_FILTER=Literary ./tools/build_theme_release.sh
+KEEP_THEME_WORK=1 ./tools/build_theme_release.sh
+```
 
 ## 安装说明
 
