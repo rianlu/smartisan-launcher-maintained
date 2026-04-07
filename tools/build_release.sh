@@ -8,6 +8,14 @@ local_signing_dir="$repo_root/.local/signing"
 signing_env="$local_signing_dir/release.env"
 apktool_yml="$repo_root/apktool.yml"
 build_dir="$repo_root/build/release"
+apk_input_dirs="
+$repo_root/assets
+$repo_root/lib
+$repo_root/original
+$repo_root/res
+$repo_root/smali
+$repo_root/unknown
+"
 
 fail() {
   printf '%s\n' "FAIL: $1" >&2
@@ -23,9 +31,23 @@ require_file() {
 }
 
 clean_macos_metadata() {
-  find "$repo_root" -type f -name .DS_Store \
-    ! -path "$repo_root/.git/*" \
-    -exec rm -f {} +
+  printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
+    [ -n "$target_dir" ] || continue
+    [ -d "$target_dir" ] || continue
+    find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
+  done
+}
+
+assert_clean_macos_metadata() {
+  leftovers=$(
+    printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
+      [ -n "$target_dir" ] || continue
+      [ -d "$target_dir" ] || continue
+      find "$target_dir" -type f -name .DS_Store -print
+    done
+  )
+
+  [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
 }
 
 clean_apktool_workspace() {
@@ -120,6 +142,7 @@ sync_versions() {
 build_apk() {
   mkdir -p "$build_dir"
   clean_macos_metadata
+  assert_clean_macos_metadata
   # Apktool reuses build intermediates and can keep stale version metadata.
   clean_apktool_workspace
   rm -f "$unsigned_apk" "$aligned_apk" "$signed_apk"

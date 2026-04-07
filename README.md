@@ -107,15 +107,24 @@ EOF
 ./tools/build_theme_release.sh
 ```
 
+如果补了新主题包名，还需要把主题预览图同步提取到旧桌面的本地资产目录：
+
+```sh
+./tools/extract_theme_previews.sh
+```
+
 默认行为：
 
 - 原始主题目录：`themes/source-apks/`
 - 维护版主题目录：`themes/maintained/`
+- 主题预览资产目录：`assets/theme_preview/`
 - 主题 `targetSdkVersion`：默认改为 `36`
 - 签名：复用 `.local/signing/release.env`
+- `themes/source-apks/*.apk` 和 `themes/maintained/*.apk` 默认不提交进 git，只保留在本地与 GitHub Release
 - `build/` 只保留中间解包/构建产物，不作为最终分发目录
 - Launcher 在线主题下载固定指向 `gh-proxy` + GitHub Release：`themes-v1`
 - GitHub Release 里的主题资产文件名必须保持为 `<主题包名>.apk`
+- 更具体的主题资产维护说明见 `themes/README.md`
 
 常用示例：
 
@@ -123,6 +132,7 @@ EOF
 THEME_LIMIT=2 ./tools/build_theme_release.sh
 THEME_FILTER=Literary ./tools/build_theme_release.sh
 KEEP_THEME_WORK=1 ./tools/build_theme_release.sh
+./tools/extract_theme_previews.sh
 ```
 
 ## 主题分发
@@ -139,6 +149,7 @@ https://gh-proxy.org/https://github.com/rianlu/smartisan-launcher-maintained/rel
 - 把 `themes/maintained/` 下的 APK 上传为 release assets
 - 资产文件名必须和主题包名一致，例如 `com.smartisanos.launcher.theme.aero.apk`
 - 后续普通 Launcher release 不需要重复附带这些主题；只有主题本身发生变化时，才需要更新这个固定 release
+- 截至 2026-04-08，`themes-v1` 已发布 35 个主题资产；`copperred` 和 `gintama` 仍缺少可用上游包
 
 ## 主题兼容性说明
 
@@ -149,6 +160,37 @@ https://gh-proxy.org/https://github.com/rianlu/smartisan-launcher-maintained/rel
 - 如果继续依赖全量枚举，就会出现“详情页显示设定，但本地主题里看不到，点击设定后卡住”的不一致现象
 
 维护版已经把主题安装判断统一为“按已知主题包名逐个 `getPackageInfo()` 探测”，不再依赖 `getInstalledPackages(0)` 做主题识别。
+
+对于当前上游接口已失效的 `COPPER_RED` 和 `GINTAMA`：
+
+- 仍保留在主题定义与包名映射中，方便用户手动安装后被本地主题识别
+- 但默认不再出现在“在线主题”列表里，避免点击后无可用下载源
+- 主题详情页底部的全量主题横条也会同步隐藏，避免继续暴露无效入口；如果当前正查看这两个主题，则仍保留当前项，避免详情页异常
+
+## 主题支持扩充
+
+保守方案下，维护版已把以下新版主题补进旧主题列表与包名映射：
+
+- `BAMBOO`
+- `BLUE_GREEN`
+- `COPPER_RED`
+- `DARK_GRAY`
+- `DEEP_BLUE`
+- `GINTAMA`
+- `GRID`
+- `LAKE`
+- `LEAF`
+- `LIGHT_GOLD`
+- `RAVEN`
+- `WINE_RED`
+
+为避免把透明主题相关的额外行为一并带入旧桌面，当前没有把 `TRANS` 纳入旧项目主题列表。
+
+由于这些新版主题 APK 没有提供旧桌面所需的纯色 `dot.png`，维护版会根据主题缩略图主色生成兼容旧样式的圆点资源，避免在详情页底部横条里显示成桌面缩略图。
+
+从 2026-04-08 起，旧桌面的主题预览资产默认以新桌面仓库内置的 `assets/theme_preview` 为准，再转换成旧桌面使用的 `preview_9_S` / `preview_16_S` / `preview_9_L` / `preview_16_L` 文件名。这样可以避免直接使用主题 APK 自带 `preview_9/16` 时出现的重复预览问题，并让旧主题与新增主题的预览风格保持一致。
+
+当前只有 `smartisan_theme_mist` 仍沿用旧项目现有资产作为兜底，因为新桌面仓库里没有对应目录。`thumbnail_settings.png` / `thumbnail_settings_16.png` 仍保留原有提取逻辑，供设置页缩略图继续使用。
 
 ## 安装说明
 

@@ -32,6 +32,13 @@ clean_macos_metadata() {
   find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
 }
 
+assert_clean_macos_metadata() {
+  target_dir="$1"
+  [ -d "$target_dir" ] || return 0
+  leftovers=$(find "$target_dir" -type f -name .DS_Store -print)
+  [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
+}
+
 find_sdk_tool() {
   tool_name="$1"
 
@@ -176,6 +183,7 @@ build_theme() {
 
   apktool d -f "$source_apk" -o "$theme_work_dir" >/dev/null
   clean_macos_metadata "$theme_work_dir"
+  assert_clean_macos_metadata "$theme_work_dir"
   patch_apktool_yml "$theme_work_dir/apktool.yml"
   apktool b "$theme_work_dir" -o "$unsigned_apk" >/dev/null
   sign_apk "$unsigned_apk" "$aligned_apk" "$signed_apk"

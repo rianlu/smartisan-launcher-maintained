@@ -913,9 +913,35 @@
     iput-object v8, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mHorizontalLinearLayout:Landroid/widget/LinearLayout;
 
     .line 361
+    new-instance v6, Ljava/util/ArrayList;
+
     sget-object v8, Lcom/smartisanos/launcher/theme/ThemeManager;->SUPPORTED_THEME_ORDER:Ljava/util/List;
 
-    invoke-interface {v8}, Ljava/util/List;->size()I
+    invoke-direct {v6, v8}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+
+    const-string v8, "smartisan_theme_copper_red"
+
+    invoke-virtual {v8, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v9
+
+    if-nez v9, :cond_keep_copper
+
+    invoke-virtual {v6, v8}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
+
+    :cond_keep_copper
+    const-string v8, "smartisan_theme_gintama"
+
+    invoke-virtual {v8, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v9
+
+    if-nez v9, :cond_keep_gintama
+
+    invoke-virtual {v6, v8}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
+
+    :cond_keep_gintama
+    invoke-virtual {v6}, Ljava/util/ArrayList;->size()I
 
     move-result v4
 
@@ -925,12 +951,10 @@
 
     .local v2, "i":I
     :goto_0
-    if-ge v2, v4, :cond_1
+    if-ge v2, v4, :cond_theme_strip_done
 
     .line 363
-    sget-object v8, Lcom/smartisanos/launcher/theme/ThemeManager;->SUPPORTED_THEME_ORDER:Ljava/util/List;
-
-    invoke-interface {v8, v2}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-virtual {v6, v2}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
 
     move-result-object v5
 
@@ -1024,13 +1048,11 @@
     .end local v1    # "holder":Lcom/smartisanos/launcher/theme/ThemeItemActivity$ViewHolder;
     .end local v5    # "themeId":Ljava/lang/String;
     .end local v7    # "view":Landroid/view/View;
-    :cond_1
+    :cond_theme_strip_done
     invoke-direct {p0}, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->refreshHorizontalScrollView()V
 
     .line 378
-    sget-object v8, Lcom/smartisanos/launcher/theme/ThemeManager;->SUPPORTED_THEME_ORDER:Ljava/util/List;
-
-    invoke-interface {v8, v0}, Ljava/util/List;->indexOf(Ljava/lang/Object;)I
+    invoke-virtual {v6, v0}, Ljava/util/ArrayList;->indexOf(Ljava/lang/Object;)I
 
     move-result v3
 
@@ -1047,9 +1069,7 @@
     .line 397
     new-instance v8, Lcom/smartisanos/launcher/theme/ThemeItemActivity$ResourceLoader;
 
-    sget-object v9, Lcom/smartisanos/launcher/theme/ThemeManager;->SUPPORTED_THEME_ORDER:Ljava/util/List;
-
-    invoke-direct {v8, p0, p0, v9}, Lcom/smartisanos/launcher/theme/ThemeItemActivity$ResourceLoader;-><init>(Lcom/smartisanos/launcher/theme/ThemeItemActivity;Landroid/content/Context;Ljava/util/List;)V
+    invoke-direct {v8, p0, p0, v6}, Lcom/smartisanos/launcher/theme/ThemeItemActivity$ResourceLoader;-><init>(Lcom/smartisanos/launcher/theme/ThemeItemActivity;Landroid/content/Context;Ljava/util/List;)V
 
     iput-object v8, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mResourceLoader:Lcom/smartisanos/launcher/theme/ThemeItemActivity$ResourceLoader;
 

@@ -1632,6 +1632,22 @@
 
     move-result v6
 
+    if-nez v6, :cond_1
+
+    const-string v6, "smartisan_theme_copper_red"
+
+    invoke-virtual {v6, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v6
+
+    if-nez v6, :cond_1
+
+    const-string v6, "smartisan_theme_gintama"
+
+    invoke-virtual {v6, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v6
+
     if-eqz v6, :cond_2
 
     .line 476

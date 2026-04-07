@@ -1,3 +1,5 @@
 build/
 .local/
 .DS_Store
+themes/source-apks/*.apk
+themes/maintained/*.apk
