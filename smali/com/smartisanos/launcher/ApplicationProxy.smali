@@ -1092,30 +1092,6 @@
     :cond_3
     if-lez v7, :cond_4
 
-    iget-object v8, p0, Lcom/smartisanos/launcher/ApplicationProxy;->application:Landroid/app/Application;
-
-    invoke-static {v8}, Lcom/smartisanos/launcher/ApplicationProxy;->hasNavigationBar(Landroid/content/Context;)Z
-
-    move-result v8
-
-    if-eqz v8, :cond_4
-
-    if-ne v1, v7, :cond_4
-
-    iget-object v8, p0, Lcom/smartisanos/launcher/ApplicationProxy;->application:Landroid/app/Application;
-
-    iget v10, v2, Landroid/util/DisplayMetrics;->density:F
-
-    invoke-direct {p0, v8, v10}, Lcom/smartisanos/launcher/ApplicationProxy;->getBottomSystemInset(Landroid/content/Context;F)I
-
-    move-result v11
-
-    if-lez v11, :cond_4
-
-    if-le v1, v11, :cond_4
-
-    sub-int/2addr v1, v11
-
     .line 913
     :cond_4
     int-to-float v8, v6

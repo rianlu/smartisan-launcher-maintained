@@ -798,27 +798,33 @@
     or-int/lit16 v1, v1, 0x100
 
     .line 2467
-    or-int/lit16 v1, v1, 0x400
+    or-int/lit16 v1, v1, 0x200
 
     .line 2468
-    invoke-virtual {v0, v1}, Landroid/view/View;->setSystemUiVisibility(I)V
+    or-int/lit16 v1, v1, 0x400
 
     .line 2469
+    invoke-virtual {v0, v1}, Landroid/view/View;->setSystemUiVisibility(I)V
+
+    .line 2470
     const/high16 v8, 0x4000000
 
     invoke-virtual {p1, v8}, Landroid/view/Window;->clearFlags(I)V
 
-    .line 2470
+    .line 2471
     const/high16 v8, -0x80000000
 
     invoke-virtual {p1, v8}, Landroid/view/Window;->addFlags(I)V
 
-    .line 2471
+    .line 2472
     const/4 v8, 0x0
 
     invoke-virtual {p1, v8}, Landroid/view/Window;->setStatusBarColor(I)V
 
-    .line 2472
+    .line 2473
+    invoke-virtual {p1, v8}, Landroid/view/Window;->setNavigationBarColor(I)V
+
+    .line 2474
     return-void
 
     .line 2475
