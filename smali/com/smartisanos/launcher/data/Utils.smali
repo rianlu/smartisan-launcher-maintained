@@ -11285,67 +11285,83 @@
     invoke-virtual {v2, v3, v4}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 2011
-    const/4 v1, 0x0
+    const-string v2, "android.settings.HOME_SETTINGS"
 
-    .line 2012
-    .local v1, "intent":Landroid/content/Intent;
+    invoke-static {p0, v2}, Lcom/smartisanos/launcher/data/Utils;->tryStartActivityByAction(Landroid/app/Activity;Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_2
+
+    .line 2015
+    const-string v2, "android.settings.MANAGE_DEFAULT_APPS_SETTINGS"
+
+    invoke-static {p0, v2}, Lcom/smartisanos/launcher/data/Utils;->tryStartActivityByAction(Landroid/app/Activity;Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_2
+
+    .line 2019
     invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->isXiaoMiDevice()Z
 
     move-result v2
 
-    if-eqz v2, :cond_0
+    if-eqz v2, :cond_2
 
-    .line 2013
-    new-instance v1, Landroid/content/Intent;
-
-    .end local v1    # "intent":Landroid/content/Intent;
+    .line 2020
     const-string v2, "miui.intent.action.PREFERRED_APPLICATION_SETTINGS"
 
-    invoke-direct {v1, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+    invoke-static {p0, v2}, Lcom/smartisanos/launcher/data/Utils;->tryStartActivityByAction(Landroid/app/Activity;Ljava/lang/String;)Z
 
-    .line 2021
-    .restart local v1    # "intent":Landroid/content/Intent;
-    :goto_0
+    .line 2028
+    :cond_2
+    return-void
+
+    .line 2026
+    :cond_1
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->showDefaultLauncherSettingUI(Landroid/content/Context;)V
+
+    return-void
+.end method
+
+.method private static tryStartActivityByAction(Landroid/app/Activity;Ljava/lang/String;)Z
+    .locals 3
+    .param p0, "activity"    # Landroid/app/Activity;
+    .param p1, "action"    # Ljava/lang/String;
+
+    .prologue
+    .line 2029
+    new-instance v1, Landroid/content/Intent;
+
+    invoke-direct {v1, p1}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    .line 2030
+    .local v1, "intent":Landroid/content/Intent;
     :try_start_0
     invoke-virtual {p0, v1}, Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 2028
-    .end local v1    # "intent":Landroid/content/Intent;
-    :goto_1
-    return-void
+    .line 2031
+    const/4 v2, 0x1
 
-    .line 2017
-    .restart local v1    # "intent":Landroid/content/Intent;
-    :cond_0
-    new-instance v1, Landroid/content/Intent;
+    .line 2036
+    :goto_0
+    return v2
 
-    .end local v1    # "intent":Landroid/content/Intent;
-    const-string v2, "android.settings.HOME_SETTINGS"
-
-    invoke-direct {v1, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
-
-    .restart local v1    # "intent":Landroid/content/Intent;
-    goto :goto_0
-
-    .line 2022
+    .line 2032
     :catch_0
     move-exception v0
 
-    .line 2023
+    .line 2033
     .local v0, "e":Ljava/lang/Exception;
     invoke-virtual {v0}, Ljava/lang/Exception;->printStackTrace()V
 
-    goto :goto_1
+    .line 2034
+    const/4 v2, 0x0
 
-    .line 2026
-    .end local v0    # "e":Ljava/lang/Exception;
-    .end local v1    # "intent":Landroid/content/Intent;
-    :cond_1
-    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->showDefaultLauncherSettingUI(Landroid/content/Context;)V
-
-    goto :goto_1
+    goto :goto_0
 .end method
 
 .method public static setMiuiStatusBarDarkMode(Landroid/app/Activity;Z)Z
