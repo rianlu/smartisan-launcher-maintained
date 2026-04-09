@@ -23121,8 +23121,6 @@
 
     move-result-object v3
 
-    invoke-virtual {v3}, Lcom/smartisanos/launcher/view/MainView;->hideStatusBar()V
-
     .line 5640
     invoke-virtual {p0}, Lcom/smartisanos/launcher/view/Cell;->showOuterShadow()V
 

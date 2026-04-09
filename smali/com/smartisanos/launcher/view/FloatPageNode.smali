@@ -936,8 +936,6 @@
 
     move-result-object v3
 
-    invoke-virtual {v3}, Lcom/smartisanos/launcher/view/MainView;->hideStatusBar()V
-
     .line 226
     new-instance v3, Lcom/smartisanos/smengine/AnimationTimeLine;
 

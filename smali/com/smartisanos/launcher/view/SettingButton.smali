@@ -2245,8 +2245,6 @@
     invoke-virtual {v6, v7}, Lcom/smartisanos/smengine/AnimationTimeLine;->setAnimationListener(Lcom/smartisanos/smengine/Animation$AnimationListener;)V
 
     .line 328
-    invoke-virtual {v1}, Lcom/smartisanos/launcher/view/MainView;->hideStatusBar()V
-
     goto :goto_1
 
     .line 337

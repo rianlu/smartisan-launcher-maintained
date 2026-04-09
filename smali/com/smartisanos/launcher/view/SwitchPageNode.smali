@@ -2157,13 +2157,6 @@
 
     invoke-virtual {v4}, Lcom/smartisanos/launcher/view/MainView;->lockHardKey()V
 
-    .line 591
-    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Lcom/smartisanos/launcher/view/MainView;->hideStatusBar()V
-
     .line 594
     invoke-static {}, Lcom/smartisanos/smengine/World;->getInstance()Lcom/smartisanos/smengine/World;
 

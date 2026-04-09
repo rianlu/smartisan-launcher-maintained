@@ -1493,29 +1493,29 @@
 
     .line 684
     .local v58, "page_size":Lcom/smartisanos/smengine/math/Vector2f;
-    move-object/from16 v0, v58
+    sget-object v5, Lcom/smartisanos/launcher/data/Constants;->pageSizeScale:[Lcom/smartisanos/smengine/math/Vector2f;
+
+    move/from16 v0, v84
+
+    aget-object v6, v5, v0
+
+    .line 685
+    .local v6, "pageScale":Lcom/smartisanos/smengine/math/Vector2f;
+    move-object/from16 v0, v6
 
     iget v5, v0, Lcom/smartisanos/smengine/math/Vector2f;->x:F
 
-    move-object/from16 v0, v42
-
-    iget v6, v0, Lcom/smartisanos/smengine/math/Vector2f;->x:F
-
-    div-float v75, v5, v6
-
-    .line 685
-    .local v75, "scalex":F
-    move-object/from16 v0, v58
-
-    iget v5, v0, Lcom/smartisanos/smengine/math/Vector2f;->y:F
-
-    move-object/from16 v0, v42
-
-    iget v6, v0, Lcom/smartisanos/smengine/math/Vector2f;->y:F
-
-    div-float v76, v5, v6
+    move/from16 v75, v5
 
     .line 686
+    .local v75, "scalex":F
+    move-object/from16 v0, v6
+
+    iget v5, v0, Lcom/smartisanos/smengine/math/Vector2f;->x:F
+
+    move/from16 v76, v5
+
+    .line 687
     .local v76, "scaley":F
     const/4 v5, 0x2
 
@@ -4908,6 +4908,14 @@
 
     add-float/2addr v14, v15
 
+    iget v15, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->page_title_height:F
+
+    add-float/2addr v14, v15
+
+    iget v15, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->title_page_spacing:F
+
+    add-float/2addr v14, v15
+
     const/high16 v15, 0x3f000000    # 0.5f
 
     iget v0, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->page_height:F
@@ -5249,6 +5257,14 @@
     int-to-float v14, v14
 
     iget v15, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->page_view_margin_top:F
+
+    add-float/2addr v14, v15
+
+    iget v15, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->page_title_height:F
+
+    add-float/2addr v14, v15
+
+    iget v15, v9, Lcom/smartisanos/launcher/data/LayoutProperty;->title_page_spacing:F
 
     add-float/2addr v14, v15
 

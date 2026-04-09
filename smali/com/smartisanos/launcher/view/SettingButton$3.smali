@@ -103,5 +103,12 @@
     invoke-virtual {v0, v1, v3}, Lcom/smartisanos/launcher/StatusManager;->setLauncherStatus(IZ)V
 
     .line 326
+    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v2}, Lcom/smartisanos/launcher/view/MainView;->updateStatusBarText(I)V
+
+    .line 327
     return-void
 .end method
