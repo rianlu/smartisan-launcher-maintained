@@ -3930,5 +3930,6 @@
     <public type="id" name="setting_titlebar_confirm" id="0x7f0f0185" />
     <public type="id" name="action_settings" id="0x7f0f0186" />
     <public type="id" name="item_id_launcher_wallpaper" id="0x7f0f0187" />
+    <public type="id" name="theme_manual_install_tip_view" id="0x7f0f0188" />
     <public type="menu" name="main" id="0x7f100000" />
 </resources>

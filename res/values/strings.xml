@@ -249,7 +249,7 @@
     <string name="theme_default_name">Classic Black</string>
     <string name="theme_dialog_title">Notice</string>
     <string name="theme_download_dialog_content">The launcher theme to match the cover of your phone is not installed, do you want to go to Settings to download it?</string>
-    <string name="theme_manual_install_tip">Themes are saved to Downloads. After the download finishes, install the APK manually from the notification or Downloads app.</string>
+    <string name="theme_manual_install_tip">After download, install it from the notification or Downloads.</string>
     <string name="theme_settings_header_title">Color Theme</string>
     <string name="theme_title_bar_btn_download">Download</string>
     <string name="theme_title_bar_btn_install">Install</string>

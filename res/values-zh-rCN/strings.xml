@@ -251,7 +251,7 @@
     <string name="theme_default_name">经典黑</string>
     <string name="theme_dialog_title">提示</string>
     <string name="theme_download_dialog_content">未安装与当前背壳对应的桌面主题, 是否到设置中下载相应主题</string>
-    <string name="theme_manual_install_tip">主题会保存到系统下载目录，下载完成后请在通知栏或“下载”应用中手动安装。</string>
+    <string name="theme_manual_install_tip">下载后请在通知栏或“下载”中安装。</string>
     <string name="theme_settings_header_title">界面色彩主题</string>
     <string name="theme_title_bar_btn_download">下载</string>
     <string name="theme_title_bar_btn_install">安装</string>

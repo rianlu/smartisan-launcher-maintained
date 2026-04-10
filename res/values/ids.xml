@@ -104,6 +104,7 @@
     <id name="phone_detail_preview" />
     <id name="theme_preview_img_large" />
     <id name="theme_preview_bg" />
+    <id name="theme_manual_install_tip_view" />
     <id name="useragree_container" />
     <id name="useragree_titlebar" />
     <id name="user_experience_plan_selector" />
