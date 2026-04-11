@@ -41,7 +41,7 @@
 ## 当前状态
 
 - 维护版 Launcher 已可在新版 Android 上安装、打开并继续做后续兼容维护
-- 兼容性修复记录集中在 [docs/compatibility-fixes.md](docs/compatibility-fixes.md)
+- 主要兼容性修复记录集中在 [docs/compatibility-fixes.md](docs/compatibility-fixes.md)
 - 在线主题下载固定指向 `gh-proxy` + GitHub Release 的 `themes-v1`
 - `themes-v1` 已补入并公开 `MIST`（白雾）主题，主题预览与实际下载包保持对齐
 - `COPPER_RED` 和 `GINTAMA` 仍保留本地识别能力，但默认不再显示在“在线主题”列表中
@@ -78,6 +78,8 @@
 
 - Redmi Note 12 Turbo / Evolution X / Android 16
 - Xiaomi Pad 5 Pro / HyperOS 1.0.2.0 / Android 13
+- Android 15 Emulator / 手势导航 + 三键导航
+- Android 12 Emulator / 手势导航 + 三键导航
 
 > [!NOTE]
 > 当前仓库明确实测的是以上设备与系统组合。不同品牌、ROM、Android 版本下的表现可能存在差异，请不要默认视为所有设备都完全一致。
