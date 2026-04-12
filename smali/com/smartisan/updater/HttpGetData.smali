@@ -21,15 +21,15 @@
 
 # virtual methods
 .method public executeHttpGet(Ljava/lang/String;)Ljava/io/InputStream;
-    .locals 4
+    .locals 6
     .param p1, "url"    # Ljava/lang/String;
 
     .prologue
     .line 33
-    const/4 v2, 0x0
+    const/4 v3, 0x0
 
     .line 35
-    .local v2, "is":Ljava/io/InputStream;
+    .local v3, "is":Ljava/io/InputStream;
     :try_start_0
     new-instance v0, Ljava/net/URL;
 
@@ -37,29 +37,53 @@
 
     .line 36
     .local v0, "Url":Ljava/net/URL;
-    invoke-virtual {v0}, Ljava/net/URL;->openStream()Ljava/io/InputStream;
+    invoke-virtual {v0}, Ljava/net/URL;->openConnection()Ljava/net/URLConnection;
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v2
+    move-result-object v1
 
-    move-object v3, v2
+    .line 37
+    .local v1, "connection":Ljava/net/URLConnection;
+    :try_start_1
+    const-string v4, "User-Agent"
+
+    const-string v5, "SmartisanLauncherMaintained"
+
+    invoke-virtual {v1, v4, v5}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 38
+    const-string v4, "Accept"
+
+    const-string v5, "application/vnd.github+json"
+
+    invoke-virtual {v1, v4, v5}, Ljava/net/URLConnection;->setRequestProperty(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 39
+    invoke-virtual {v1}, Ljava/net/URLConnection;->getInputStream()Ljava/io/InputStream;
+    :try_end_1
+    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :catch_0
+
+    move-result-object v3
+
+    move-object v4, v3
 
     .line 41
     .end local v0    # "Url":Ljava/net/URL;
+    .end local v1    # "connection":Ljava/net/URLConnection;
     :goto_0
-    return-object v3
+    return-object v4
 
-    .line 38
+    .line 40
     :catch_0
-    move-exception v1
-
-    .line 39
-    .local v1, "e":Ljava/lang/Exception;
-    invoke-virtual {v1}, Ljava/lang/Exception;->printStackTrace()V
+    move-exception v2
 
     .line 41
-    const/4 v3, 0x0
+    .local v2, "e":Ljava/lang/Exception;
+    invoke-virtual {v2}, Ljava/lang/Exception;->printStackTrace()V
+
+    .line 42
+    const/4 v4, 0x0
 
     goto :goto_0
 .end method

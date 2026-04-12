@@ -2337,7 +2337,7 @@
     .local v0, "defSize":I
     new-instance v1, Lcom/smartisan/updater/ApkUpdater;
 
-    const-string v3, "http://update.smartisanos.com/launcher/update_info"
+    const-string v3, "https://api.github.com/repos/rianlu/smartisan-launcher-maintained/releases/latest"
 
     int-to-long v6, v0
 

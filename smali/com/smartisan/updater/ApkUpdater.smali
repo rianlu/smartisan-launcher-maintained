@@ -651,40 +651,22 @@
 
     .line 327
     .local v3, "url":Ljava/net/URL;
-    invoke-virtual {v3}, Ljava/net/URL;->getAuthority()Ljava/lang/String;
+    invoke-virtual {v3}, Ljava/net/URL;->getProtocol()Ljava/lang/String;
 
     move-result-object v1
 
     .line 328
-    .local v1, "host":Ljava/lang/String;
+    .local v1, "protocol":Ljava/lang/String;
     invoke-static {v1}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
 
     move-result v5
 
     if-nez v5, :cond_2
 
-    const-string v5, "dl.smartisan.cn"
+    const-string v5, "https"
 
     .line 329
-    invoke-virtual {v1, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v5
-
-    if-nez v5, :cond_0
-
-    const-string v5, "dl2.smartisan.cn"
-
-    .line 330
-    invoke-virtual {v1, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v5
-
-    if-nez v5, :cond_0
-
-    const-string v5, "update.smartisanos.com"
-
-    .line 331
-    invoke-virtual {v1, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v1, v5}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
     move-result v5
 
@@ -1800,13 +1782,27 @@
 
     .line 260
     :cond_0
+    iget-boolean v2, p0, Lcom/smartisan/updater/ApkUpdater;->mIsManualUpdate:Z
+
+    if-nez v2, :cond_1
+
+    invoke-direct {p0}, Lcom/smartisan/updater/ApkUpdater;->isVersionChecked()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    goto :goto_0
+
+    .line 260
+    :cond_1
     iget-object v2, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
 
     invoke-static {v2}, Lcom/smartisan/updater/UpdateUtils;->isNetworkAllowed(Landroid/content/Context;)Z
 
     move-result v2
 
-    if-eqz v2, :cond_1
+    if-eqz v2, :cond_2
 
     .line 261
     new-array v1, v1, [Ljava/lang/Void;
@@ -1821,10 +1817,10 @@
     return v1
 
     .line 263
-    :cond_1
+    :cond_2
     iget-boolean v2, p0, Lcom/smartisan/updater/ApkUpdater;->mIsManualUpdate:Z
 
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_3
 
     .line 265
     iget-object v2, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
@@ -1847,7 +1843,7 @@
 
     .line 268
     .end local v0    # "noNetWork":Ljava/lang/String;
-    :cond_2
+    :cond_3
     invoke-direct {p0}, Lcom/smartisan/updater/ApkUpdater;->checkSmartisanOs()V
 
     goto :goto_0
