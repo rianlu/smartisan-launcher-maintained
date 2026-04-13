@@ -2078,185 +2078,148 @@
 .end method
 
 .method public static checkDefaultHome(Landroid/app/Activity;)V
-    .locals 11
+    .locals 7
     .param p0, "activity"    # Landroid/app/Activity;
 
     .prologue
     .line 1917
-    const/4 v6, 0x2
+    const/4 v4, 0x2
 
     .line 1918
-    .local v6, "status":I
+    .local v4, "status":I
     invoke-virtual {p0}, Landroid/app/Activity;->getPackageName()Ljava/lang/String;
 
-    move-result-object v4
+    move-result-object v0
 
     .line 1919
-    .local v4, "pkg":Ljava/lang/String;
-    invoke-virtual {p0}, Landroid/app/Activity;->getPackageManager()Landroid/content/pm/PackageManager;
+    .local v0, "pkg":Ljava/lang/String;
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->defaultLauncherPackageName(Landroid/content/Context;)Ljava/lang/String;
 
-    move-result-object v3
+    move-result-object v1
 
     .line 1920
-    .local v3, "packageManager":Landroid/content/pm/PackageManager;
-    new-instance v2, Landroid/content/Intent;
+    .local v1, "defHomePkg":Ljava/lang/String;
+    sget-object v2, Lcom/smartisanos/launcher/data/Utils;->log:Lcom/smartisanos/launcher/LOG;
 
-    const-string v7, "android.intent.action.MAIN"
+    const-string v3, "DEBUG"
 
-    invoke-direct {v2, v7}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+    new-instance v5, Ljava/lang/StringBuilder;
 
-    .line 1921
-    .local v2, "intent":Landroid/content/Intent;
-    const-string v7, "android.intent.category.HOME"
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v2, v7}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
+    const-string v6, "defaultHomeStatus home pkg ["
 
-    .line 1922
-    const/4 v7, 0x0
-
-    invoke-virtual {v3, v2, v7}, Landroid/content/pm/PackageManager;->resolveActivity(Landroid/content/Intent;I)Landroid/content/pm/ResolveInfo;
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v5
 
-    .line 1923
-    .local v5, "res":Landroid/content/pm/ResolveInfo;
-    const/4 v0, 0x0
+    invoke-virtual {v5, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v5
+
+    const-string v6, "]"
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v2, v3, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 1921
+    if-nez v1, :cond_0
+
+    .line 1922
+    const/4 v4, 0x3
+
+    goto :goto_0
 
     .line 1924
-    .local v0, "defHomePkg":Ljava/lang/String;
-    if-eqz v5, :cond_0
+    :cond_0
+    const-string v2, "android"
+
+    invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
 
     .line 1925
-    iget-object v7, v5, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
+    const/4 v4, 0x3
 
-    if-eqz v7, :cond_0
-
-    .line 1926
-    iget-object v7, v5, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v1, v7, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
+    goto :goto_0
 
     .line 1927
-    .local v1, "homePkg":Ljava/lang/String;
-    move-object v0, v1
+    :cond_1
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_2
 
     .line 1928
-    sget-object v7, Lcom/smartisanos/launcher/data/Utils;->log:Lcom/smartisanos/launcher/LOG;
+    const/4 v4, 0x1
 
-    const-string v8, "DEBUG"
-
-    new-instance v9, Ljava/lang/StringBuilder;
-
-    invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v10, "defaultHomeStatus home pkg ["
-
-    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v9
-
-    invoke-virtual {v9, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v9
-
-    const-string v10, "]"
-
-    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v9
-
-    invoke-virtual {v9}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v9
-
-    invoke-virtual {v7, v8, v9}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
-
-    .line 1929
-    const-string v7, "android"
-
-    invoke-virtual {v7, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v7
-
-    if-eqz v7, :cond_1
+    goto :goto_0
 
     .line 1930
-    const/4 v6, 0x3
+    :cond_2
+    const/4 v4, 0x2
 
-    .line 1938
-    .end local v1    # "homePkg":Ljava/lang/String;
-    :cond_0
+    .line 1933
     :goto_0
-    sget-object v7, Lcom/smartisanos/launcher/data/Utils;->log:Lcom/smartisanos/launcher/LOG;
+    sget-object v2, Lcom/smartisanos/launcher/data/Utils;->log:Lcom/smartisanos/launcher/LOG;
 
-    const-string v8, "DEBUG"
+    const-string v3, "DEBUG"
 
-    new-instance v9, Ljava/lang/StringBuilder;
+    new-instance v5, Ljava/lang/StringBuilder;
 
-    invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v10, "checkDefaultHome status = ["
+    const-string v6, "checkDefaultHome status = ["
 
-    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v9
+    move-result-object v5
 
-    invoke-static {v6}, Lcom/smartisanos/launcher/data/Utils;->homeStatusToString(I)Ljava/lang/String;
+    invoke-static {v4}, Lcom/smartisanos/launcher/data/Utils;->homeStatusToString(I)Ljava/lang/String;
 
-    move-result-object v10
+    move-result-object v6
 
-    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v9
+    move-result-object v5
 
-    const-string v10, "]"
+    const-string v6, "]"
 
-    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v9
+    move-result-object v5
 
-    invoke-virtual {v9}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v9
+    move-result-object v5
 
-    invoke-virtual {v7, v8, v9}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-virtual {v2, v3, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 1939
-    packed-switch v6, :pswitch_data_0
+    .line 1934
+    packed-switch v4, :pswitch_data_0
 
-    .line 1951
+    .line 1946
     :goto_1
     :pswitch_0
     return-void
 
-    .line 1931
-    .restart local v1    # "homePkg":Ljava/lang/String;
-    :cond_1
-    invoke-virtual {v4, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v7
-
-    if-eqz v7, :cond_2
-
-    .line 1932
-    const/4 v6, 0x1
-
-    goto :goto_0
-
-    .line 1934
-    :cond_2
-    const/4 v6, 0x2
-
-    goto :goto_0
-
-    .line 1944
-    .end local v1    # "homePkg":Ljava/lang/String;
+    .line 1939
     :pswitch_1
-    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->setHomeToDefault(Landroid/app/Activity;Ljava/lang/String;)V
+    invoke-static {p0, v1}, Lcom/smartisanos/launcher/data/Utils;->setHomeToDefault(Landroid/app/Activity;Ljava/lang/String;)V
 
     goto :goto_1
 
-    .line 1939
+    .line 1934
     nop
 
     :pswitch_data_0
@@ -2650,7 +2613,7 @@
 .end method
 
 .method public static defaultLauncherPackageName(Landroid/content/Context;)Ljava/lang/String;
-    .locals 4
+    .locals 5
     .param p0, "context"    # Landroid/content/Context;
 
     .prologue

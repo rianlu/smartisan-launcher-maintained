@@ -61,7 +61,7 @@
 .end method
 
 .method public static getHomeActivities(Landroid/content/pm/PackageManager;Ljava/util/ArrayList;)V
-    .locals 0
+    .locals 1
     .param p0, "packageManager"    # Landroid/content/pm/PackageManager;
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -77,7 +77,18 @@
     .prologue
     .line 73
     .local p1, "list":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/content/pm/ResolveInfo;>;"
+    :try_start_0
+    invoke-virtual {p0, p1}, Landroid/content/pm/PackageManager;->getHomeActivities(Ljava/util/List;)Landroid/content/ComponentName;
+    :try_end_0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_0} :catch_0
+
+    :goto_0
     return-void
+
+    :catch_0
+    move-exception v0
+
+    goto :goto_0
 .end method
 
 .method public static getSystemProperties(Ljava/lang/String;)Ljava/lang/String;
