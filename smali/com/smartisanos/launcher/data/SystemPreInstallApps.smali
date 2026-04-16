@@ -733,87 +733,27 @@
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->PREDEFINED_DOCK:[Lcom/smartisanos/launcher/data/SystemPreInstallApps$APP;
 
     .line 110
-    const/16 v0, 0xb
+    const/4 v0, 0x3
 
     new-array v0, v0, [Lcom/smartisanos/home/apps/EmbeddedApp;
-
-    new-instance v1, Lcom/smartisanos/home/apps/Phone;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Phone;-><init>()V
-
-    aput-object v1, v0, v5
 
     new-instance v1, Lcom/smartisanos/home/apps/LauncherSettings;
 
     invoke-direct {v1}, Lcom/smartisanos/home/apps/LauncherSettings;-><init>()V
 
+    aput-object v1, v0, v5
+
+    new-instance v1, Lcom/smartisanos/home/apps/Weather;
+
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Weather;-><init>()V
+
     aput-object v1, v0, v6
 
-    new-instance v1, Lcom/smartisanos/home/apps/Mms;
+    new-instance v1, Lcom/smartisanos/home/apps/Search;
 
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Mms;-><init>()V
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Search;-><init>()V
 
     aput-object v1, v0, v7
-
-    new-instance v1, Lcom/smartisanos/home/apps/AppStore;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/AppStore;-><init>()V
-
-    aput-object v1, v0, v8
-
-    new-instance v1, Lcom/smartisanos/home/apps/GameCenter;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/GameCenter;-><init>()V
-
-    aput-object v1, v0, v9
-
-    const/4 v1, 0x5
-
-    new-instance v2, Lcom/smartisanos/home/apps/SmileCloud;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/SmileCloud;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    new-instance v2, Lcom/smartisanos/home/apps/Note;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Note;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    new-instance v2, Lcom/smartisanos/home/apps/Reader;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Reader;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    new-instance v2, Lcom/smartisanos/home/apps/BBS;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/BBS;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x9
-
-    new-instance v2, Lcom/smartisanos/home/apps/Weather;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Weather;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xa
-
-    new-instance v2, Lcom/smartisanos/home/apps/Search;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Search;-><init>()V
-
-    aput-object v2, v0, v1
 
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->EMBEDDED_APPS:[Lcom/smartisanos/home/apps/EmbeddedApp;
 
@@ -2419,87 +2359,27 @@
 
     .line 127
     :sswitch_0
-    const/16 v0, 0xb
+    const/4 v0, 0x3
 
     new-array v0, v0, [Lcom/smartisanos/home/apps/EmbeddedApp;
-
-    new-instance v1, Lcom/smartisanos/home/apps/Phone;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Phone;-><init>()V
-
-    aput-object v1, v0, v2
 
     new-instance v1, Lcom/smartisanos/home/apps/LauncherSettings;
 
     invoke-direct {v1}, Lcom/smartisanos/home/apps/LauncherSettings;-><init>()V
 
+    aput-object v1, v0, v2
+
+    new-instance v1, Lcom/smartisanos/home/apps/Weather;
+
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Weather;-><init>()V
+
     aput-object v1, v0, v3
 
-    new-instance v1, Lcom/smartisanos/home/apps/Mms;
+    new-instance v1, Lcom/smartisanos/home/apps/Search;
 
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Mms;-><init>()V
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Search;-><init>()V
 
     aput-object v1, v0, v4
-
-    new-instance v1, Lcom/smartisanos/home/apps/AppStore;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/AppStore;-><init>()V
-
-    aput-object v1, v0, v5
-
-    new-instance v1, Lcom/smartisanos/home/apps/GameCenter;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/GameCenter;-><init>()V
-
-    aput-object v1, v0, v6
-
-    const/4 v1, 0x5
-
-    new-instance v2, Lcom/smartisanos/home/apps/SmileCloud;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/SmileCloud;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    new-instance v2, Lcom/smartisanos/home/apps/Note;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Note;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    new-instance v2, Lcom/smartisanos/home/apps/Reader;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Reader;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    new-instance v2, Lcom/smartisanos/home/apps/BBS;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/BBS;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x9
-
-    new-instance v2, Lcom/smartisanos/home/apps/Weather;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Weather;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xa
-
-    new-instance v2, Lcom/smartisanos/home/apps/Search;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Search;-><init>()V
-
-    aput-object v2, v0, v1
 
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->EMBEDDED_APPS:[Lcom/smartisanos/home/apps/EmbeddedApp;
 
@@ -2527,71 +2407,27 @@
 
     .line 161
     :sswitch_2
-    const/16 v0, 0x9
+    const/4 v0, 0x3
 
     new-array v0, v0, [Lcom/smartisanos/home/apps/EmbeddedApp;
-
-    new-instance v1, Lcom/smartisanos/home/apps/Phone;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Phone;-><init>()V
-
-    aput-object v1, v0, v2
 
     new-instance v1, Lcom/smartisanos/home/apps/LauncherSettings;
 
     invoke-direct {v1}, Lcom/smartisanos/home/apps/LauncherSettings;-><init>()V
 
+    aput-object v1, v0, v2
+
+    new-instance v1, Lcom/smartisanos/home/apps/Weather;
+
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Weather;-><init>()V
+
     aput-object v1, v0, v3
 
-    new-instance v1, Lcom/smartisanos/home/apps/Mms;
+    new-instance v1, Lcom/smartisanos/home/apps/Search;
 
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Mms;-><init>()V
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Search;-><init>()V
 
     aput-object v1, v0, v4
-
-    new-instance v1, Lcom/smartisanos/home/apps/SmileCloud;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/SmileCloud;-><init>()V
-
-    aput-object v1, v0, v5
-
-    new-instance v1, Lcom/smartisanos/home/apps/Note;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Note;-><init>()V
-
-    aput-object v1, v0, v6
-
-    const/4 v1, 0x5
-
-    new-instance v2, Lcom/smartisanos/home/apps/Reader;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Reader;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    new-instance v2, Lcom/smartisanos/home/apps/BBS;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/BBS;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    new-instance v2, Lcom/smartisanos/home/apps/Weather;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Weather;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    new-instance v2, Lcom/smartisanos/home/apps/Search;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Search;-><init>()V
-
-    aput-object v2, v0, v1
 
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->EMBEDDED_APPS:[Lcom/smartisanos/home/apps/EmbeddedApp;
 
@@ -2637,87 +2473,27 @@
     if-eqz p0, :cond_0
 
     .line 179
-    const/16 v0, 0xb
+    const/4 v0, 0x3
 
     new-array v0, v0, [Lcom/smartisanos/home/apps/EmbeddedApp;
-
-    new-instance v1, Lcom/smartisanos/home/apps/Phone;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Phone;-><init>()V
-
-    aput-object v1, v0, v2
 
     new-instance v1, Lcom/smartisanos/home/apps/LauncherSettings;
 
     invoke-direct {v1}, Lcom/smartisanos/home/apps/LauncherSettings;-><init>()V
 
+    aput-object v1, v0, v2
+
+    new-instance v1, Lcom/smartisanos/home/apps/Weather;
+
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Weather;-><init>()V
+
     aput-object v1, v0, v3
 
-    new-instance v1, Lcom/smartisanos/home/apps/Mms;
+    new-instance v1, Lcom/smartisanos/home/apps/Search;
 
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Mms;-><init>()V
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Search;-><init>()V
 
     aput-object v1, v0, v4
-
-    new-instance v1, Lcom/smartisanos/home/apps/AppStore;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/AppStore;-><init>()V
-
-    aput-object v1, v0, v5
-
-    new-instance v1, Lcom/smartisanos/home/apps/GameCenter;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/GameCenter;-><init>()V
-
-    aput-object v1, v0, v6
-
-    const/4 v1, 0x5
-
-    new-instance v2, Lcom/smartisanos/home/apps/SmileCloud;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/SmileCloud;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    new-instance v2, Lcom/smartisanos/home/apps/Note;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Note;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    new-instance v2, Lcom/smartisanos/home/apps/Reader;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Reader;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    new-instance v2, Lcom/smartisanos/home/apps/BBS;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/BBS;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x9
-
-    new-instance v2, Lcom/smartisanos/home/apps/Weather;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Weather;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0xa
-
-    new-instance v2, Lcom/smartisanos/home/apps/Search;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Search;-><init>()V
-
-    aput-object v2, v0, v1
 
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->EMBEDDED_APPS:[Lcom/smartisanos/home/apps/EmbeddedApp;
 
@@ -2727,71 +2503,27 @@
 
     .line 193
     :cond_0
-    const/16 v0, 0x9
+    const/4 v0, 0x3
 
     new-array v0, v0, [Lcom/smartisanos/home/apps/EmbeddedApp;
-
-    new-instance v1, Lcom/smartisanos/home/apps/Phone;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Phone;-><init>()V
-
-    aput-object v1, v0, v2
 
     new-instance v1, Lcom/smartisanos/home/apps/LauncherSettings;
 
     invoke-direct {v1}, Lcom/smartisanos/home/apps/LauncherSettings;-><init>()V
 
+    aput-object v1, v0, v2
+
+    new-instance v1, Lcom/smartisanos/home/apps/Weather;
+
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Weather;-><init>()V
+
     aput-object v1, v0, v3
 
-    new-instance v1, Lcom/smartisanos/home/apps/Mms;
+    new-instance v1, Lcom/smartisanos/home/apps/Search;
 
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Mms;-><init>()V
+    invoke-direct {v1}, Lcom/smartisanos/home/apps/Search;-><init>()V
 
     aput-object v1, v0, v4
-
-    new-instance v1, Lcom/smartisanos/home/apps/SmileCloud;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/SmileCloud;-><init>()V
-
-    aput-object v1, v0, v5
-
-    new-instance v1, Lcom/smartisanos/home/apps/Note;
-
-    invoke-direct {v1}, Lcom/smartisanos/home/apps/Note;-><init>()V
-
-    aput-object v1, v0, v6
-
-    const/4 v1, 0x5
-
-    new-instance v2, Lcom/smartisanos/home/apps/Reader;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Reader;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x6
-
-    new-instance v2, Lcom/smartisanos/home/apps/BBS;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/BBS;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x7
-
-    new-instance v2, Lcom/smartisanos/home/apps/Weather;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Weather;-><init>()V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x8
-
-    new-instance v2, Lcom/smartisanos/home/apps/Search;
-
-    invoke-direct {v2}, Lcom/smartisanos/home/apps/Search;-><init>()V
-
-    aput-object v2, v0, v1
 
     sput-object v0, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->EMBEDDED_APPS:[Lcom/smartisanos/home/apps/EmbeddedApp;
 
