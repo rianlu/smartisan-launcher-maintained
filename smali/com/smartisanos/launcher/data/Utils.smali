@@ -11745,6 +11745,58 @@
     .line 2009
     sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
 
+    const/16 v3, 0x1d
+
+    if-lt v2, v3, :cond_legacy
+
+    # Android 10+ (SDK 29): use RoleManager to request ROLE_HOME
+    :try_start_role
+    const-string v2, "role"
+
+    invoke-virtual {p0, v2}, Landroid/app/Activity;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+
+    move-result-object v2
+
+    check-cast v2, Landroid/app/role/RoleManager;
+
+    if-eqz v2, :cond_role_fail
+
+    const-string v3, "android.app.role.HOME"
+
+    invoke-virtual {v2, v3}, Landroid/app/role/RoleManager;->isRoleAvailable(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_role_fail
+
+    invoke-virtual {v2, v3}, Landroid/app/role/RoleManager;->isRoleHeld(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-nez v4, :cond_2
+
+    invoke-virtual {v2, v3}, Landroid/app/role/RoleManager;->createRequestRoleIntent(Ljava/lang/String;)Landroid/content/Intent;
+
+    move-result-object v4
+
+    const/4 v5, 0x0
+
+    invoke-virtual {p0, v4, v5}, Landroid/app/Activity;->startActivityForResult(Landroid/content/Intent;I)V
+
+    :try_end_role
+    .catch Ljava/lang/Exception; {:try_start_role .. :try_end_role} :catch_role
+
+    return-void
+
+    :catch_role
+    move-exception v2
+
+    :cond_role_fail
+    # RoleManager failed, fall through to intent-based approach
+
+    :cond_legacy
+    sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
+
     const/16 v3, 0x15
 
     if-lt v2, v3, :cond_1
