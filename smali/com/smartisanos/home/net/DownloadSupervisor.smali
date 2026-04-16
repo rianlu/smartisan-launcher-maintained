@@ -61,7 +61,7 @@
 .end method
 
 .method public static cleanDownloadRecord(J)V
-    .locals 6
+    .locals 8
     .param p0, "downloadId"    # J
 
     .prologue
@@ -124,13 +124,61 @@
 
     .line 123
     .local v2, "record":Lcom/smartisanos/launcher/data/handler/DLRecord;
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_3
 
+    if-nez v3, :cond_2
+
+    :try_start_force_remove
+    const/4 v4, 0x1
+
+    new-array v4, v4, [J
+
+    const/4 v5, 0x0
+
+    aput-wide p0, v4, v5
+
+    invoke-virtual {v0, v4}, Landroid/app/DownloadManager;->remove([J)I
+
+    iget-object v4, v2, Lcom/smartisanos/launcher/data/handler/DLRecord;->file:Ljava/lang/String;
+
+    invoke-static {v4}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v5
+
+    if-nez v5, :cond_2
+
+    sget-object v5, Landroid/os/Environment;->DIRECTORY_DOWNLOADS:Ljava/lang/String;
+
+    invoke-static {v5}, Landroid/os/Environment;->getExternalStoragePublicDirectory(Ljava/lang/String;)Ljava/io/File;
+
+    move-result-object v6
+
+    new-instance v7, Ljava/io/File;
+
+    invoke-direct {v7, v6, v4}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v7}, Ljava/io/File;->exists()Z
+
+    move-result v4
+
+    if-eqz v4, :cond_2
+
+    invoke-virtual {v7}, Ljava/io/File;->delete()Z
+
+    :try_end_force_remove
+    .catch Ljava/lang/Exception; {:try_start_force_remove .. :try_end_force_remove} :catch_force_remove
+
+    goto :cond_2
+
+    :catch_force_remove
+    move-exception v4
+
+    :cond_2
     .line 124
     invoke-static {p0, p1}, Lcom/smartisanos/launcher/data/handler/DownloadRecordDB;->removeRecordByDL_ID(J)V
 
     .line 126
-    :cond_2
+    :cond_3
     return-void
 .end method
 
