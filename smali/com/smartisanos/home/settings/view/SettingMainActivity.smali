@@ -2715,6 +2715,61 @@
 
     .line 301
     :cond_f
+    const-string v4, "setting_switch_launcher"
+
+    const-string v5, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v4, v5, v6}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v4
+
+    if-ne v0, v4, :cond_f2
+
+    :try_start_switch_launcher
+    new-instance v4, Landroid/content/Intent;
+
+    const-string v5, "android.settings.HOME_SETTINGS"
+
+    invoke-direct {v4, v5}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p0, v4}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+
+    :try_end_switch_launcher
+    .catch Ljava/lang/Exception; {:try_start_switch_launcher .. :try_end_switch_launcher} :catch_switch_launcher
+
+    goto/16 :goto_0
+
+    :catch_switch_launcher
+    move-exception v4
+
+    :try_start_switch_launcher2
+    new-instance v4, Landroid/content/Intent;
+
+    const-string v5, "android.settings.MANAGE_DEFAULT_APPS_SETTINGS"
+
+    invoke-direct {v4, v5}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p0, v4}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+
+    :try_end_switch_launcher2
+    .catch Ljava/lang/Exception; {:try_start_switch_launcher2 .. :try_end_switch_launcher2} :catch_switch_launcher2
+
+    goto/16 :goto_0
+
+    :catch_switch_launcher2
+    move-exception v4
+
+    goto/16 :goto_0
+
+    :cond_f2
     iget-object v4, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mShareView:Lcom/smartisanos/home/settings/ShareView;
 
     invoke-virtual {v4}, Lcom/smartisanos/home/settings/ShareView;->isShowing()Z
@@ -3055,6 +3110,33 @@
     iput-object v8, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mUserExper:Landroid/widget/RelativeLayout;
 
     .line 158
+    const-string v8, "setting_switch_launcher"
+
+    const-string v9, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v8, v9, v10}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v8
+
+    if-eqz v8, :cond_skip_switch_launcher
+
+    invoke-virtual {p0, v8}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v8
+
+    if-eqz v8, :cond_skip_switch_launcher
+
+    invoke-virtual {v8, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    :cond_skip_switch_launcher
     iget-object v8, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mAboutUs:Landroid/view/View;
 
     invoke-virtual {v8, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V

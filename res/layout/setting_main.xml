@@ -33,6 +33,10 @@
                 <TextView android:textSize="@dimen/setting_item_text_size" android:textColor="@drawable/more_item_color_bg" android:paddingLeft="@dimen/setting_item_text_left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/setting_user_experience_title_txt" android:layout_centerVertical="true" />
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/setting_next" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
             </RelativeLayout>
+            <RelativeLayout android:orientation="horizontal" android:id="@id/setting_switch_launcher" android:background="@drawable/more_item_middle" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:textSize="@dimen/setting_item_text_size" android:textColor="@drawable/more_item_color_bg" android:paddingLeft="@dimen/setting_item_text_left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="切换默认桌面" android:layout_centerVertical="true" />
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/setting_next" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            </RelativeLayout>
             <RelativeLayout android:orientation="horizontal" android:id="@id/setting_about_us" android:background="@drawable/setting_item_down" android:layout_width="match_parent" android:layout_height="wrap_content">
                 <TextView android:textSize="@dimen/setting_item_text_size" android:textColor="@drawable/more_item_color_bg" android:paddingLeft="@dimen/setting_item_text_left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/setting_about_us" android:layout_centerVertical="true" />
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/setting_next" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
