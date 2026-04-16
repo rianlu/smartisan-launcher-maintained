@@ -1926,7 +1926,7 @@
 
     .line 715
     .local v9, "status":Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;
-    if-eqz v9, :cond_0
+    if-eqz v9, :cond_check_file
 
     .line 716
     iget v11, v9, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->status:I
@@ -2023,6 +2023,42 @@
     move-result v8
 
     .line 736
+    goto :goto_1
+
+    :cond_check_file
+    iget-object v11, v3, Lcom/smartisanos/launcher/data/handler/DLRecord;->file:Ljava/lang/String;
+
+    invoke-static {v11}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v12
+
+    if-nez v12, :cond_clean_rec
+
+    sget-object v12, Landroid/os/Environment;->DIRECTORY_DOWNLOADS:Ljava/lang/String;
+
+    invoke-static {v12}, Landroid/os/Environment;->getExternalStoragePublicDirectory(Ljava/lang/String;)Ljava/io/File;
+
+    move-result-object v13
+
+    new-instance v14, Ljava/io/File;
+
+    invoke-direct {v14, v13, v11}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {v14}, Ljava/io/File;->exists()Z
+
+    move-result v15
+
+    if-eqz v15, :cond_clean_rec
+
+    const/16 v2, 0x6b
+
+    goto :goto_1
+
+    :cond_clean_rec
+    iget-wide v12, v3, Lcom/smartisanos/launcher/data/handler/DLRecord;->dl_id:J
+
+    invoke-static {v12, v13}, Lcom/smartisanos/home/net/DownloadSupervisor;->cleanDownloadRecord(J)V
+
     goto :goto_1
 
     .line 707

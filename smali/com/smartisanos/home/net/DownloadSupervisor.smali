@@ -820,6 +820,10 @@
 
     iput-object v0, v9, Lcom/smartisanos/launcher/data/handler/DLRecord;->dl_url:Ljava/lang/String;
 
+    move-object/from16 v0, p2
+
+    iput-object v0, v9, Lcom/smartisanos/launcher/data/handler/DLRecord;->file:Ljava/lang/String;
+
     .line 67
     const/4 v11, 0x1
 
