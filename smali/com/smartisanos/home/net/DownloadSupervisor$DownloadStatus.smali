@@ -116,18 +116,29 @@
     iput-object v0, p0, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->local_uri:Ljava/lang/String;
 
     .line 259
+    :try_start_local_filename
     const-string v0, "local_filename"
 
     invoke-interface {p1, v0}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
 
     move-result v0
 
+    if-ltz v0, :skip_local_filename
+
     invoke-interface {p1, v0}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
 
     move-result-object v0
 
     iput-object v0, p0, Lcom/smartisanos/home/net/DownloadSupervisor$DownloadStatus;->local_filename:Ljava/lang/String;
+    :try_end_local_filename
+    .catch Ljava/lang/Exception; {:try_start_local_filename .. :try_end_local_filename} :catch_local_filename
 
+    goto :skip_local_filename
+
+    :catch_local_filename
+    move-exception v0
+
+    :skip_local_filename
     .line 260
     const-string v0, "status"
 
