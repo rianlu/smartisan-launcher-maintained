@@ -2020,6 +2020,37 @@
     return-void
 .end method
 
+.method protected onResume()V
+    .locals 5
+
+    invoke-super {p0}, Landroid/app/Activity;->onResume()V
+
+    iget-object v0, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mDisplayedTheme:Lcom/smartisanos/launcher/theme/Theme;
+
+    if-eqz v0, :cond_0
+
+    iget-object v1, v0, Lcom/smartisanos/launcher/theme/Theme;->mId:Ljava/lang/String;
+
+    iget-object v2, v0, Lcom/smartisanos/launcher/theme/Theme;->mPackage:Ljava/lang/String;
+
+    invoke-static {v1, v2, p0}, Lcom/smartisanos/launcher/theme/ThemeManager;->getThemeStatus(Ljava/lang/String;Ljava/lang/String;Landroid/content/Context;)[I
+
+    move-result-object v3
+
+    const/4 v4, 0x0
+
+    aget v4, v3, v4
+
+    const/4 v0, 0x1
+
+    aget v0, v3, v0
+
+    invoke-static {v1, v4, v0}, Lcom/smartisanos/launcher/theme/ThemeManager;->updateThemeStatus(Ljava/lang/String;II)V
+
+    :cond_0
+    return-void
+.end method
+
 .method protected onDestroy()V
     .locals 3
 

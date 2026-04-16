@@ -99,7 +99,7 @@
     sput-object v0, Lcom/smartisanos/launcher/theme/Theme;->log:Lcom/smartisanos/launcher/LOG;
 
     .line 46
-    const/4 v0, 0x6
+    const/4 v0, 0x7
 
     new-array v0, v0, [I
 
@@ -119,6 +119,7 @@
         0x68
         0x69
         0x6a
+        0x6b
     .end array-data
 .end method
 
