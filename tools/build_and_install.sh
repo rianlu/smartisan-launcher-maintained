@@ -5,6 +5,7 @@ script_dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 build_dir="$repo_root/build"
 unsigned_apk="$build_dir/smartisan-launcher-debug-unsigned.apk"
+aligned_apk="$build_dir/smartisan-launcher-debug-aligned.apk"
 signed_apk="$build_dir/smartisan-launcher-debug-signed.apk"
 keystore_dir="$build_dir/signing"
 keystore_path="$keystore_dir/debug.keystore"
@@ -82,8 +83,39 @@ build_apk() {
   clean_macos_metadata
   assert_clean_macos_metadata
   clean_apktool_workspace
-  rm -f "$unsigned_apk" "$signed_apk"
+  rm -f "$unsigned_apk" "$aligned_apk" "$signed_apk"
   apktool b "$repo_root" -o "$unsigned_apk"
+}
+
+find_sdk_tool() {
+  tool_name="$1"
+
+  if command -v "$tool_name" >/dev/null 2>&1; then
+    command -v "$tool_name"
+    return 0
+  fi
+
+  for sdk_root in \
+    "$repo_root/.local/android-sdk" \
+    "${ANDROID_HOME:-}" \
+    "${ANDROID_SDK_ROOT:-}" \
+    "$HOME/Library/Android/sdk" \
+    "$HOME/Android/Sdk"
+  do
+    [ -d "$sdk_root/build-tools" ] || continue
+    found_tool=
+    for candidate in "$sdk_root"/build-tools/*/"$tool_name"; do
+      if [ -x "$candidate" ]; then
+        found_tool="$candidate"
+      fi
+    done
+    if [ -n "${found_tool:-}" ]; then
+      printf '%s\n' "$found_tool"
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 ensure_keystore() {
@@ -102,14 +134,29 @@ ensure_keystore() {
 }
 
 sign_apk() {
-  cp "$unsigned_apk" "$signed_apk"
-  jarsigner \
-    -keystore "$keystore_path" \
-    -storepass android \
-    -keypass android \
-    "$signed_apk" \
-    androiddebugkey >/dev/null
-  jarsigner -verify "$signed_apk" >/dev/null
+  if apksigner_bin=$(find_sdk_tool apksigner) && zipalign_bin=$(find_sdk_tool zipalign); then
+    "$zipalign_bin" -f 4 "$unsigned_apk" "$aligned_apk"
+    "$apksigner_bin" sign \
+      --ks "$keystore_path" \
+      --ks-key-alias androiddebugkey \
+      --ks-pass pass:android \
+      --key-pass pass:android \
+      --out "$signed_apk" \
+      "$aligned_apk"
+    "$apksigner_bin" verify "$signed_apk" >/dev/null
+  else
+    cp "$unsigned_apk" "$signed_apk"
+    jarsigner \
+      -sigalg SHA256withRSA \
+      -digestalg SHA-256 \
+      -keystore "$keystore_path" \
+      -storepass android \
+      -keypass android \
+      "$signed_apk" \
+      androiddebugkey >/dev/null
+    jarsigner -verify "$signed_apk" >/dev/null
+    echo "warn: apksigner not found, used jarsigner (v1 only)" >&2
+  fi
 }
 
 select_device() {
