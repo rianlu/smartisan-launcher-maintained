@@ -120,7 +120,8 @@ select_device() {
     return 0
   fi
 
-  devices=$("$adb_bin" devices | awk 'NR>1 && $2=="device" {print $1}')
+  # adb 输出为 serial<TAB>state；序列号可能含空格，不能用默认 FS 按列取 $2
+  devices=$("$adb_bin" devices | awk -F'\t' 'NR>1 && $2=="device" {print $1}')
   count=$(printf '%s\n' "$devices" | sed '/^$/d' | wc -l | tr -d ' ')
 
   if [ "$count" -eq 0 ]; then
@@ -137,7 +138,7 @@ select_device() {
 
 list_devices() {
   adb_bin="$1"
-  "$adb_bin" devices | awk 'NR>1 && $2=="device" {print $1}'
+  "$adb_bin" devices | awk -F'\t' 'NR>1 && $2=="device" {print $1}'
 }
 
 install_to_device() {

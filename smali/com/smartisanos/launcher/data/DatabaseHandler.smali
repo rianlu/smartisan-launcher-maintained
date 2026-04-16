@@ -6770,7 +6770,7 @@
     move-result-object v10
 
     .line 2109
-    if-eqz v10, :cond_5
+    if-eqz v10, :cond_b
 
     .line 2112
     invoke-static {v10}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;

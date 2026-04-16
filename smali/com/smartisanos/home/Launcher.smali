@@ -253,6 +253,149 @@
     return-void
 .end method
 
+.method private refreshPendingIconAppearance()V
+    .locals 11
+
+    invoke-static {p0}, Lcom/smartisanos/home/settings/icons/IconPackManager;->isLauncherRefreshPending(Landroid/content/Context;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_start
+
+    return-void
+
+    :cond_start
+    invoke-static {p0}, Lcom/smartisanos/home/settings/icons/IconPackManager;->clearLauncherRefreshPending(Landroid/content/Context;)V
+
+    # collect unique package names from all desktop items
+
+    new-instance v3, Ljava/util/ArrayList;
+
+    invoke-direct {v3}, Ljava/util/ArrayList;-><init>()V
+
+    invoke-static {}, Lcom/smartisanos/launcher/LauncherModel;->getItemMap()Ljava/util/HashMap;
+
+    move-result-object v4
+
+    new-instance v2, Ljava/util/ArrayList;
+
+    invoke-interface {v4}, Ljava/util/Map;->keySet()Ljava/util/Set;
+
+    move-result-object v0
+
+    invoke-direct {v2, v0}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+
+    invoke-interface {v2}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+
+    move-result-object v5
+
+    :cond_loop
+    :goto_loop
+    invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_loop_end
+
+    invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Ljava/lang/Long;
+
+    invoke-virtual {v1}, Ljava/lang/Long;->longValue()J
+
+    move-result-wide v7
+
+    invoke-static {v7, v8}, Lcom/smartisanos/launcher/LauncherModel;->getItemInfo(J)Lcom/smartisanos/launcher/data/ItemInfo;
+
+    move-result-object v6
+
+    if-eqz v6, :cond_loop
+
+    iget-object v9, v6, Lcom/smartisanos/launcher/data/ItemInfo;->packageName:Ljava/lang/String;
+
+    invoke-static {v9}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_loop
+
+    invoke-virtual {v3, v9}, Ljava/util/ArrayList;->contains(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_loop
+
+    invoke-virtual {v3, v9}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    goto :goto_loop
+
+    :cond_loop_end
+    invoke-virtual {v3}, Ljava/util/ArrayList;->size()I
+
+    move-result v10
+
+    if-lez v10, :cond_end
+
+    # show initializing dialog
+
+    sget v0, Lcom/smartisanos/launcher/ResIds$string;->initializing:I
+
+    invoke-virtual {p0, v0}, Lcom/smartisanos/home/Launcher;->getString(I)Ljava/lang/String;
+
+    move-result-object v9
+
+    const/4 v0, 0x1
+
+    invoke-virtual {p0, v0, v9}, Lcom/smartisanos/home/Launcher;->showDialog(ZLjava/lang/String;)V
+
+    # build RedirectIconInfo[] with correct useImprovedAppIcon flag
+
+    new-array v0, v10, [Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    sget-boolean v1, Lcom/smartisanos/launcher/data/Constants;->ENABLE_SYNC_APP_ICON:Z
+
+    const/4 v2, 0x0
+
+    :goto_fill
+    if-ge v2, v10, :cond_fill_done
+
+    new-instance v6, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    invoke-direct {v6}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;-><init>()V
+
+    invoke-virtual {v3, v2}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+
+    move-result-object v7
+
+    check-cast v7, Ljava/lang/String;
+
+    iput-object v7, v6, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->packageName:Ljava/lang/String;
+
+    iput-boolean v1, v6, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
+
+    aput-object v6, v0, v2
+
+    add-int/lit8 v2, v2, 0x1
+
+    goto :goto_fill
+
+    :cond_fill_done
+    invoke-static {v0}, Lcom/smartisanos/launcher/LauncherModel;->updateAppIcon([Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
+
+    # dismiss dialog after 1500ms
+
+    const/4 v0, 0x0
+
+    const-wide/16 v1, 0x5dc
+
+    invoke-virtual {p0, v0, v9, v1, v2}, Lcom/smartisanos/home/Launcher;->showDialogDelayed(ZLjava/lang/String;J)V
+
+    :cond_end
+    return-void
+.end method
+
 .method static synthetic access$000()Lcom/smartisanos/launcher/LOG;
     .locals 1
 
@@ -3230,6 +3373,8 @@
 
     .line 463
     invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->requestSyncWeatherData(Landroid/content/Context;)V
+
+    invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->refreshPendingIconAppearance()V
 
     .line 465
     iget-object v3, p0, Lcom/smartisanos/home/Launcher;->mEditPageTitleDialog:Lcom/smartisanos/launcher/view/EditTitleDialog;

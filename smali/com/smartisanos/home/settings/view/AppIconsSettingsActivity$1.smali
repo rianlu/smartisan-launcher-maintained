@@ -65,16 +65,6 @@
 
     invoke-virtual {v1, v0}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
 
-    .line 83
     :cond_0
-    iget-object v1, p0, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity$1;->this$0:Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;
-
-    invoke-static {v1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->access$100(Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;)Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity$IconSettingsAdapter;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity$IconSettingsAdapter;->notifyDataSetChanged()V
-
-    .line 84
     return-void
 .end method

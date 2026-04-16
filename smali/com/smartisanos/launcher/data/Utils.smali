@@ -9293,6 +9293,16 @@
 
     .line 1459
     .local v5, "pkg":Ljava/lang/String;
+    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
+
+    move-result-object v9
+
+    invoke-static {v9, v5}, Lcom/smartisanos/home/settings/icons/IconPackManager;->getPackedIcon(Landroid/content/Context;Ljava/lang/String;)Landroid/graphics/drawable/Drawable;
+
+    move-result-object v1
+
+    if-nez v1, :goto_2
+
     :try_start_0
     invoke-static {v5}, Lcom/smartisanos/launcher/data/Utils;->isHalfAlphaIcon(Ljava/lang/String;)Z
 
