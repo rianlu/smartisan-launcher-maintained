@@ -9,15 +9,6 @@ aligned_apk="$build_dir/smartisan-launcher-debug-aligned.apk"
 signed_apk="$build_dir/smartisan-launcher-debug-signed.apk"
 keystore_dir="$build_dir/signing"
 keystore_path="$keystore_dir/debug.keystore"
-apk_input_dirs="
-$repo_root/assets
-$repo_root/lib
-$repo_root/original
-$repo_root/res
-$repo_root/smali
-$repo_root/unknown
-"
-
 fail() {
   echo "FAIL: $1" >&2
   exit 1
@@ -28,23 +19,23 @@ need_cmd() {
 }
 
 clean_macos_metadata() {
-  printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
-    [ -n "$target_dir" ] || continue
-    [ -d "$target_dir" ] || continue
-    find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
-  done
+  find "$repo_root" \
+    \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
+    -type f -name .DS_Store -exec rm -f {} +
 }
 
 assert_clean_macos_metadata() {
   leftovers=$(
-    printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
-      [ -n "$target_dir" ] || continue
-      [ -d "$target_dir" ] || continue
-      find "$target_dir" -type f -name .DS_Store -print
-    done
+    find "$repo_root" \
+      \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
+      -type f -name .DS_Store -print
   )
 
   [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
+}
+
+cleanup_macos_metadata_on_exit() {
+  clean_macos_metadata >/dev/null 2>&1 || true
 }
 
 clean_apktool_workspace() {
@@ -240,6 +231,7 @@ install_apk() {
 need_cmd apktool
 need_cmd keytool
 need_cmd jarsigner
+trap cleanup_macos_metadata_on_exit EXIT
 
 build_apk
 ensure_keystore

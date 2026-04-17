@@ -29,14 +29,26 @@ require_file() {
 clean_macos_metadata() {
   target_dir="$1"
   [ -d "$target_dir" ] || return 0
-  find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
+  find "$target_dir" \
+    \( -path "$target_dir/.git" -o -path "$target_dir/.git/*" \) -prune -o \
+    -type f -name .DS_Store -exec rm -f {} +
 }
 
 assert_clean_macos_metadata() {
   target_dir="$1"
   [ -d "$target_dir" ] || return 0
-  leftovers=$(find "$target_dir" -type f -name .DS_Store -print)
+  leftovers=$(
+    find "$target_dir" \
+      \( -path "$target_dir/.git" -o -path "$target_dir/.git/*" \) -prune -o \
+      -type f -name .DS_Store -print
+  )
   [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
+}
+
+cleanup_macos_metadata_on_exit() {
+  clean_macos_metadata "$input_path" >/dev/null 2>&1 || true
+  clean_macos_metadata "$output_dir" >/dev/null 2>&1 || true
+  clean_macos_metadata "$work_root" >/dev/null 2>&1 || true
 }
 
 find_sdk_tool() {
@@ -205,6 +217,7 @@ need_cmd jarsigner
 need_cmd perl
 need_cmd sed
 need_cmd sort
+trap cleanup_macos_metadata_on_exit EXIT
 
 load_signing
 mkdir -p "$output_dir" "$work_root"

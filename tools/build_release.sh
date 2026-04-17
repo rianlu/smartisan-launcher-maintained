@@ -8,15 +8,6 @@ local_signing_dir="$repo_root/.local/signing"
 signing_env="$local_signing_dir/release.env"
 apktool_yml="$repo_root/apktool.yml"
 build_dir="$repo_root/build/release"
-apk_input_dirs="
-$repo_root/assets
-$repo_root/lib
-$repo_root/original
-$repo_root/res
-$repo_root/smali
-$repo_root/unknown
-"
-
 fail() {
   printf '%s\n' "FAIL: $1" >&2
   exit 1
@@ -31,23 +22,23 @@ require_file() {
 }
 
 clean_macos_metadata() {
-  printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
-    [ -n "$target_dir" ] || continue
-    [ -d "$target_dir" ] || continue
-    find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
-  done
+  find "$repo_root" \
+    \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
+    -type f -name .DS_Store -exec rm -f {} +
 }
 
 assert_clean_macos_metadata() {
   leftovers=$(
-    printf '%s\n' "$apk_input_dirs" | while IFS= read -r target_dir; do
-      [ -n "$target_dir" ] || continue
-      [ -d "$target_dir" ] || continue
-      find "$target_dir" -type f -name .DS_Store -print
-    done
+    find "$repo_root" \
+      \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
+      -type f -name .DS_Store -print
   )
 
   [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
+}
+
+cleanup_macos_metadata_on_exit() {
+  clean_macos_metadata >/dev/null 2>&1 || true
 }
 
 clean_apktool_workspace() {
@@ -207,6 +198,7 @@ print_summary() {
 need_cmd apktool
 need_cmd perl
 need_cmd jarsigner
+trap cleanup_macos_metadata_on_exit EXIT
 
 load_config
 sync_versions
