@@ -1011,7 +1011,7 @@
 .end method
 
 .method private postEmergencyUnlockEvent()V
-    .locals 3
+    .locals 2
 
     .prologue
     .line 856
@@ -1036,12 +1036,6 @@
     move-result v0
 
     if-eqz v0, :cond_0
-
-    sget-object v0, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
-
-    const-string v1, "######## skip emergency unlock event because animation already init"
-
-    invoke-virtual {v0, v1}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
 
     return-void
 
@@ -2905,6 +2899,20 @@
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->rebootLauncher()V
 
     .line 977
+    return-void
+.end method
+
+.method public onBackPressed()V
+    .locals 1
+
+    .prologue
+    iget-object v0, p0, Lcom/smartisanos/home/Launcher;->mMainView:Lcom/smartisanos/launcher/view/MainView;
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->handleBackKeyFromActivity()V
+
+    :cond_0
     return-void
 .end method
 

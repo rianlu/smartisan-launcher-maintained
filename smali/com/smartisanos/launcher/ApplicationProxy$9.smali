@@ -124,21 +124,6 @@
 
     .line 515
     :cond_4
-    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Lcom/smartisanos/home/Launcher;->setLauncherWillPreparePowerOff()V
-
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_ON marked launcher prepare power off"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
-    .line 516
     iget-object v4, p0, Lcom/smartisanos/launcher/ApplicationProxy$9;->this$0:Lcom/smartisanos/launcher/ApplicationProxy;
 
     invoke-static {v4}, Lcom/smartisanos/launcher/ApplicationProxy;->access$400(Lcom/smartisanos/launcher/ApplicationProxy;)Lcom/smartisanos/smengine/Event;
@@ -254,31 +239,21 @@
 
     .line 531
     :cond_7a
-    sget-boolean v4, Lcom/smartisanos/launcher/data/Constants;->ENABLE_UNLOCK_ANIMATION:Z
-
-    if-nez v4, :cond_7b
-
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
+    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
 
     move-result-object v4
 
-    const-string v5, "### ACTION_KEYGUARD_ON force enable unlock animation switch"
+    invoke-virtual {v4}, Lcom/smartisanos/home/Launcher;->setLauncherWillPreparePowerOff()V
 
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+    sget-boolean v4, Lcom/smartisanos/launcher/data/Constants;->ENABLE_UNLOCK_ANIMATION:Z
+
+    if-nez v4, :cond_7b
 
     const/4 v4, 0x1
 
     sput-boolean v4, Lcom/smartisanos/launcher/data/Constants;->ENABLE_UNLOCK_ANIMATION:Z
 
     :cond_7b
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_ON send init unlock animation event"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
     iget-object v4, p0, Lcom/smartisanos/launcher/ApplicationProxy$9;->this$0:Lcom/smartisanos/launcher/ApplicationProxy;
 
     invoke-virtual {v4}, Lcom/smartisanos/launcher/ApplicationProxy;->createInitUnlockAnimationEvent()Lcom/smartisanos/smengine/Event;
@@ -448,14 +423,6 @@
 
     if-nez v4, :cond_e_enable_ready
 
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_TO_DISMISS force enable unlock animation switch"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
     const/4 v4, 0x1
 
     sput-boolean v4, Lcom/smartisanos/launcher/data/Constants;->ENABLE_UNLOCK_ANIMATION:Z
@@ -479,14 +446,6 @@
 
     if-nez v4, :cond_e_has_init
 
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_TO_DISMISS missing init before play, send init now"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
     iget-object v4, p0, Lcom/smartisanos/launcher/ApplicationProxy$9;->this$0:Lcom/smartisanos/launcher/ApplicationProxy;
 
     invoke-virtual {v4}, Lcom/smartisanos/launcher/ApplicationProxy;->createInitUnlockAnimationEvent()Lcom/smartisanos/smengine/Event;
@@ -498,22 +457,7 @@
     goto :cond_e_init_done
 
     :cond_e_has_init
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_TO_DISMISS play with existing init"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
     :cond_e_init_done
-    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v4
-
-    const-string v5, "### ACTION_KEYGUARD_TO_DISMISS send play unlock animation event"
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
 
     iget-object v4, p0, Lcom/smartisanos/launcher/ApplicationProxy$9;->this$0:Lcom/smartisanos/launcher/ApplicationProxy;
 

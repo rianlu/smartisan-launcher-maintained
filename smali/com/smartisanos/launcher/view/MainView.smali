@@ -3156,6 +3156,15 @@
     goto :goto_0
 .end method
 
+.method public handleBackKeyFromActivity()V
+    .locals 0
+
+    .prologue
+    invoke-direct {p0}, Lcom/smartisanos/launcher/view/MainView;->handleBackKey()V
+
+    return-void
+.end method
+
 .method private handleKey(Lcom/smartisanos/smengine/TouchEvent;F)V
     .locals 7
     .param p1, "event"    # Lcom/smartisanos/smengine/TouchEvent;
