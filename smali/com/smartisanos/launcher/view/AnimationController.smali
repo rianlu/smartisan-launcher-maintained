@@ -7389,6 +7389,12 @@
     if-nez v1, :cond_5
 
     .line 851
+    sget-object v1, Lcom/smartisanos/launcher/view/AnimationController;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v2, "### init unlock animation blocked: ENABLE_UNLOCK_ANIMATION=false"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
     sget-boolean v1, Lcom/smartisanos/launcher/LOG;->ENABLE_DEBUG:Z
 
     if-eqz v1, :cond_0
@@ -7407,7 +7413,17 @@
 
     sget v2, Lcom/smartisanos/launcher/data/Constants;->MULTI_PAGE_MODE:I
 
-    if-eq v1, v2, :cond_0
+    if-ne v1, v2, :cond_5a
+
+    sget-object v1, Lcom/smartisanos/launcher/view/AnimationController;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v2, "### init unlock animation blocked: current mode is MULTI_PAGE_MODE"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
+    goto :goto_0
+
+    :cond_5a
 
     .line 859
     iget-boolean v1, p0, Lcom/smartisanos/launcher/view/AnimationController;->mUnlockAnimationHasInit:Z
@@ -8000,6 +8016,12 @@
 
     .line 960
     :cond_7
+    sget-object v2, Lcom/smartisanos/launcher/view/AnimationController;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v3, "### play unlock animation start unlock9"
+
+    invoke-virtual {v2, v3}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
     iget-object v2, p0, Lcom/smartisanos/launcher/view/AnimationController;->mLauncherAnimation9:Lcom/smartisanos/launcher/view/UnlockAnimationXML;
 
     invoke-virtual {v2, v0}, Lcom/smartisanos/launcher/view/UnlockAnimationXML;->start(Lcom/smartisanos/launcher/view/Page;)V
@@ -8093,6 +8115,12 @@
 
     .line 979
     :cond_c
+    sget-object v2, Lcom/smartisanos/launcher/view/AnimationController;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v3, "### play unlock animation start unlock16"
+
+    invoke-virtual {v2, v3}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
     iget-object v2, p0, Lcom/smartisanos/launcher/view/AnimationController;->mLauncherAnimation16:Lcom/smartisanos/launcher/view/UnlockAnimationXML;
 
     invoke-virtual {v2, v0}, Lcom/smartisanos/launcher/view/UnlockAnimationXML;->start(Lcom/smartisanos/launcher/view/Page;)V

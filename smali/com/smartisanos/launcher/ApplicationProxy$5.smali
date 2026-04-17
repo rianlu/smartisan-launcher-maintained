@@ -36,10 +36,18 @@
 
 # virtual methods
 .method public run()V
-    .locals 4
+    .locals 5
 
     .prologue
     .line 384
+    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
+
+    move-result-object v1
+
+    const-string v2, "### init unlock animation event run"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
     sget-boolean v1, Lcom/smartisanos/launcher/LOG;->ENABLE_DEBUG:Z
 
     if-eqz v1, :cond_0
@@ -93,6 +101,41 @@
     move-result-object v1
 
     invoke-virtual {v1}, Lcom/smartisanos/launcher/view/PageView;->initUnlockScreenAnimation()V
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->getPageView()Lcom/smartisanos/launcher/view/PageView;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Lcom/smartisanos/launcher/view/PageView;->getAnimationController()Lcom/smartisanos/launcher/view/AnimationController;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Lcom/smartisanos/launcher/view/AnimationController;->isUnlockAnimationInit()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_1a
+
+    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
+
+    move-result-object v1
+
+    const-string v2, "### init unlock animation event result hasInit=true"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
+    goto :goto_1a
+
+    :cond_1a
+    invoke-static {}, Lcom/smartisanos/launcher/ApplicationProxy;->access$200()Lcom/smartisanos/launcher/LOG;
+
+    move-result-object v1
+
+    const-string v2, "### init unlock animation event result hasInit=false"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
+    :goto_1a
 
     .line 390
     invoke-static {}, Lcom/smartisanos/smengine/World;->getInstance()Lcom/smartisanos/smengine/World;

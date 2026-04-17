@@ -1997,21 +1997,26 @@
 
     .line 431
     .local v1, "fil":Landroid/content/IntentFilter;
-    const-string v6, "android.intent.action.USER_PRESENT"
+    const-string v6, "android.intent.action.SCREEN_OFF"
 
     invoke-virtual {v1, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
 
     .line 432
-    const-string v6, "action_keyguard_to_dismiss"
+    const-string v6, "android.intent.action.USER_PRESENT"
 
     invoke-virtual {v1, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
 
     .line 433
-    const-string v6, "action_keyguard_on"
+    const-string v6, "action_keyguard_to_dismiss"
 
     invoke-virtual {v1, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
 
     .line 434
+    const-string v6, "action_keyguard_on"
+
+    invoke-virtual {v1, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+
+    .line 435
     iget-object v6, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mLockScreenReceiver:Landroid/content/BroadcastReceiver;
 
     invoke-direct {p0, v6, v1}, Lcom/smartisanos/launcher/ApplicationProxy;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)V

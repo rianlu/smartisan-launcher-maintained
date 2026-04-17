@@ -1011,10 +1011,41 @@
 .end method
 
 .method private postEmergencyUnlockEvent()V
-    .locals 2
+    .locals 3
 
     .prologue
     .line 856
+    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->getPageView()Lcom/smartisanos/launcher/view/PageView;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/PageView;->getAnimationController()Lcom/smartisanos/launcher/view/AnimationController;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/AnimationController;->isUnlockAnimationInit()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    sget-object v0, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v1, "######## skip emergency unlock event because animation already init"
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+
+    return-void
+
+    :cond_0
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->createEmergencyUnlockEvent()Lcom/smartisanos/smengine/Event;
 
     move-result-object v0
@@ -3786,7 +3817,15 @@
     .line 498
     .end local v2    # "shouldDoChangeThemeAnim":Z
     :cond_12
+    iget-boolean v3, p0, Lcom/smartisanos/home/Launcher;->mLauncherIsPreparingPowerOff:Z
+
+    if-eqz v3, :cond_12_skip_emergency
+
+    iput-boolean v7, p0, Lcom/smartisanos/home/Launcher;->mLauncherIsPreparingPowerOff:Z
+
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->postEmergencyUnlockEvent()V
+
+    :cond_12_skip_emergency
 
     goto/16 :goto_0
 
