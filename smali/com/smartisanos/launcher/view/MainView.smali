@@ -13633,7 +13633,22 @@
     iput-wide v2, p0, Lcom/smartisanos/launcher/view/MainView;->mStartTime:J
 
     .line 560
-    iget v0, p0, Lcom/smartisanos/launcher/view/MainView;->mFrameDeltaTime:F
+    const/high16 v1, 0x42c80000    # 100.0f
+
+    cmpg-float v4, v0, v1
+
+    if-lez v4, :cond_delta_ok
+
+    move v0, v1
+
+    :cond_delta_ok
+    iget v1, p0, Lcom/smartisanos/launcher/view/MainView;->mFrameDeltaTime:F
+
+    mul-float/2addr v0, v1
+
+    const v1, 0x3d75c28f    # 0.06f (= 1/16.6667)
+
+    mul-float/2addr v0, v1
 
     .line 561
     invoke-static {}, Lcom/smartisanos/smengine/World;->getInstance()Lcom/smartisanos/smengine/World;
