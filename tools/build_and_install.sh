@@ -7,8 +7,27 @@ build_dir="$repo_root/build"
 unsigned_apk="$build_dir/smartisan-launcher-debug-unsigned.apk"
 aligned_apk="$build_dir/smartisan-launcher-debug-aligned.apk"
 signed_apk="$build_dir/smartisan-launcher-debug-signed.apk"
-keystore_dir="$build_dir/signing"
-keystore_path="$keystore_dir/debug.keystore"
+keystore_dir="$repo_root/.local/signing"
+release_env="$keystore_dir/release.env"
+
+if [ -f "$release_env" ]; then
+  # Load release signing config
+  . "$release_env"
+  keystore_path="$keystore_dir/$RELEASE_KEYSTORE_FILE"
+  keystore_alias="$RELEASE_KEY_ALIAS"
+  keystore_pass="$RELEASE_STORE_PASSWORD"
+  key_pass="$RELEASE_KEY_PASSWORD"
+  echo "Using release signing: $keystore_path"
+else
+  # Fallback to debug signing
+  keystore_dir="$build_dir/signing"
+  keystore_path="$keystore_dir/debug.keystore"
+  keystore_alias="androiddebugkey"
+  keystore_pass="android"
+  key_pass="android"
+  echo "Using debug signing: $keystore_path"
+fi
+
 fail() {
   echo "FAIL: $1" >&2
   exit 1
@@ -110,17 +129,20 @@ find_sdk_tool() {
 }
 
 ensure_keystore() {
-  mkdir -p "$keystore_dir"
-  if [ ! -f "$keystore_path" ]; then
-    keytool -genkeypair \
-      -keystore "$keystore_path" \
-      -storepass android \
-      -keypass android \
-      -alias androiddebugkey \
-      -dname "CN=Android Debug,O=Android,C=US" \
-      -keyalg RSA \
-      -keysize 2048 \
-      -validity 10000 >/dev/null
+  # Only create keystore if we are in debug mode and it doesn't exist
+  if [ ! -f "$release_env" ]; then
+    mkdir -p "$(dirname "$keystore_path")"
+    if [ ! -f "$keystore_path" ]; then
+      keytool -genkeypair \
+        -keystore "$keystore_path" \
+        -storepass "$keystore_pass" \
+        -keypass "$key_pass" \
+        -alias "$keystore_alias" \
+        -dname "CN=Android Debug,O=Android,C=US" \
+        -keyalg RSA \
+        -keysize 2048 \
+        -validity 10000 >/dev/null
+    fi
   fi
 }
 
@@ -129,9 +151,9 @@ sign_apk() {
     "$zipalign_bin" -f 4 "$unsigned_apk" "$aligned_apk"
     "$apksigner_bin" sign \
       --ks "$keystore_path" \
-      --ks-key-alias androiddebugkey \
-      --ks-pass pass:android \
-      --key-pass pass:android \
+      --ks-key-alias "$keystore_alias" \
+      --ks-pass "pass:$keystore_pass" \
+      --key-pass "pass:$key_pass" \
       --out "$signed_apk" \
       "$aligned_apk"
     "$apksigner_bin" verify "$signed_apk" >/dev/null
@@ -141,10 +163,10 @@ sign_apk() {
       -sigalg SHA256withRSA \
       -digestalg SHA-256 \
       -keystore "$keystore_path" \
-      -storepass android \
-      -keypass android \
+      -storepass "$keystore_pass" \
+      -keypass "$key_pass" \
       "$signed_apk" \
-      androiddebugkey >/dev/null
+      "$keystore_alias" >/dev/null
     jarsigner -verify "$signed_apk" >/dev/null
     echo "warn: apksigner not found, used jarsigner (v1 only)" >&2
   fi
