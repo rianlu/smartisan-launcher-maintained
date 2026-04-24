@@ -1121,19 +1121,13 @@
 
     move-result v0
 
-    if-eqz v0, :cond_0
-
-    .line 1617
+    :cond_0
     invoke-virtual {p0}, Lcom/smartisanos/home/Launcher;->getWindow()Landroid/view/Window;
 
     move-result-object v0
 
-    const/4 v1, 0x0
+    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->applyTransparentStatusBar(Landroid/content/Context;Landroid/view/Window;)V
 
-    invoke-static {v0, v1}, Lcom/meizu/flyme/reflect/StatusBarProxy;->setStatusBarDarkIcon(Landroid/view/Window;Z)Z
-
-    .line 1619
-    :cond_0
     return-void
 .end method
 

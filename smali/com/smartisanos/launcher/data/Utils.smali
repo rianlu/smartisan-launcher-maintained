@@ -877,6 +877,8 @@
 
     if-lt v8, v9, :cond_0
 
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Constants;->initGaussianDarkLight(Landroid/content/Context;)V
+
     .line 2464
     invoke-virtual {p1}, Landroid/view/Window;->getDecorView()Landroid/view/View;
 
@@ -897,6 +899,33 @@
 
     .line 2468
     or-int/lit16 v1, v1, 0x400
+
+    sget v8, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v9, 0x17
+
+    if-lt v8, v9, :cond_light_done
+
+    sget-object v8, Lcom/smartisanos/launcher/data/Constants;->sGaussianResSuffix:Ljava/lang/String;
+
+    const-string v9, "_light"
+
+    invoke-virtual {v8, v9}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_clear_light
+
+    or-int/lit16 v1, v1, 0x2000
+
+    goto :cond_light_done
+
+    :cond_clear_light
+    const v8, -0x2001
+
+    and-int/2addr v1, v8
+
+    :cond_light_done
 
     .line 2469
     invoke-virtual {v0, v1}, Landroid/view/View;->setSystemUiVisibility(I)V
