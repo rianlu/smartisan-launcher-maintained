@@ -239,6 +239,13 @@
     .line 135
     invoke-direct {p0, p1}, Lsmartisanos/widget/SwitchEx;->initView(Landroid/content/Context;)V
 
+    .line 135
+    const/4 v0, 0x1
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Lsmartisanos/widget/SwitchEx;->setLayerType(ILandroid/graphics/Paint;)V
+
     .line 136
     return-void
 .end method

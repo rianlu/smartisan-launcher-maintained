@@ -2,6 +2,69 @@
 
 本文件按日期记录维护版主线里已经落地的兼容性修复与关键可用性修复。
 
+## 2026-04-19 三星 S24 Ultra / One UI 上开关控件显示不完整（issue #13）
+
+### 现象
+
+- 三星 Galaxy S24 Ultra（One UI / Android 16）在桌面设置、应用图标设置页，右侧 `SwitchEx` 开关显示不完整，部分被遮挡
+- v1.5.1-r5 在同一机型正常，v1.5.1-r6 出现此问题
+- r5 → r6 之间未动相关布局和 smali，唯一的相关变量是 `targetSdkVersion` 由 24 升到 28
+
+### 根因
+
+- `smartisanos.widget.SwitchEx` 自绘时先把"mask → bottom（带 `PorterDuff.Mode.SRC_IN` xfermode）→ frame → button"合成到一张 ARGB_8888 offscreen bitmap，再 blit 到 view canvas
+- `targetSdk ≥ 28` 后系统默认使用更激进的硬件加速路径；Samsung HWUI 在把这块 offscreen bitmap 上传为 GPU 纹理时对 PorterDuff 预合成透明通道的处理有边界偏差，最终 blit 到屏幕上看起来就是开关被局部遮挡
+- 其它 GPU / OEM 组合没有暴露该问题，所以 issue 只在 S24U 这一类机型出现
+
+### 修复
+
+- `smali/smartisanos/widget/SwitchEx.smali`
+  - 构造函数末尾加 `setLayerType(LAYER_TYPE_SOFTWARE, null)`，强制该自定义控件走软件渲染层
+  - 该控件尺寸本就只有几十像素见方，软件渲染的性能差异可忽略
+  - 不改任何自绘逻辑、不改布局、不回退 `targetSdk`
+
+### 结果
+
+- PorterDuff 合成在软件 canvas 上行为一致，规避各 GPU / OEM 硬件加速兼容差异
+- 其它机型的开关渲染不受影响
+
+### 验证
+
+- `sh tools/build_and_install.sh` 本地构建通过，apktool / smali 无 `.locals` / 寄存器报错
+- 需要 S24 Ultra / One UI 机型真机回归（反馈者验证）
+
+## 2026-04-19 部分 OEM 的 Android 16 机型安装失败（issue #14）
+
+### 现象
+
+- iQOO 13 / OriginOS 6 / Android 16 等机型安装 APK 时提示 `INSTALL_PARSE_FAILED_MANIFEST_MALFORMED`
+- 报错定位在 `AndroidManifest.xml` 第 40 行的 `com.smartisanos.home.Launcher`：`Targeting S+ (version 31 and above) requires that an explicit value for android:exported be defined when intent filters are present`
+
+### 根因
+
+- Android 12（S）开始要求带 `<intent-filter>` 的四大组件显式声明 `android:exported`
+- 本项目 `targetSdkVersion = 28`，按 AOSP 规则本不应强制此检查；但 OriginOS 6 / HyperOS 等部分 OEM ROM 把该解析检查回移到了所有安装场景，无论 target SDK
+- manifest 中 4 处组件带 intent-filter 但缺省 `android:exported`，在这些 ROM 上安装直接被判非法
+
+### 修复
+
+- `AndroidManifest.xml`
+  - `com.smartisanos.home.Launcher`：补 `android:exported="true"`（HOME / LAUNCHER 入口必须公开）
+  - `com.smartisanos.launcher.receiver.LauncherReceiver`：补 `android:exported="true"`（接收 `EXTERNAL_APPLICATIONS_AVAILABLE` / `INSTALL_SHORTCUT` / `DOWNLOAD_COMPLETE` 等系统广播）
+  - `com.smartisanos.launcher.receiver.DataDumpReceiver`：补 `android:exported="true"`（调试广播入口）
+  - `com.smartisan.feedbackhelper.utils.ReportGenerate`：补 `android:exported="true"`（反馈上报 service）
+- 全部统一设为 `true`，与 Android 12 之前默认"带 intent-filter 即导出"的历史行为一致，避免破坏已在使用中的广播 / 主屏入口
+
+### 结果
+
+- 严格校验的 OEM ROM 可正常安装
+- 原有桌面入口、广播接收、反馈上报链路保持不变
+
+### 验证
+
+- `sh tools/build_and_install.sh` 本地编译签名，无 apktool / aapt 报错
+- Android 12 / 15 / 16 真机或模拟器安装不再触发 `MANIFEST_MALFORMED`
+
 ## 2026-04-07 Android 12 ~ 16 首页上下留缝修复
 
 ### 现象
