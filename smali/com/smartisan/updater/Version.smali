@@ -104,7 +104,7 @@
 
     .line 35
     :cond_0
-    const-string v0, "https://gh-proxy.org/"
+    const-string v0, "https://gh.llkk.cc/"
 
     invoke-virtual {p0, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
@@ -129,7 +129,7 @@
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v1, "https://gh-proxy.org/"
+    const-string v1, "https://gh.llkk.cc/"
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
