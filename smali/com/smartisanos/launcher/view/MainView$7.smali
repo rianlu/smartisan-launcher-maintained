@@ -136,9 +136,15 @@
 
     move-object v1, v4
 
-    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
-    
+    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
+
+    move-result v22
+
+    if-eqz v22, :cond_sync_state_skip
+
     invoke-static {v0}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
+
+    :cond_sync_state_skip
 
     .line 920
     .local v4, "bmap":Landroid/graphics/Bitmap;

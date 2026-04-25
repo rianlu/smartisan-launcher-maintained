@@ -910,6 +910,11 @@
 
     if-eqz v8, :cond_hide_navigation_off
 
+    # 仅在桌面主界面(Launcher)隐藏虚拟键，避免影响设置/搜索等页面
+    instance-of v8, p0, Lcom/smartisanos/home/Launcher;
+
+    if-eqz v8, :cond_hide_navigation_off
+
     or-int/lit8 v1, v1, 0x2
 
     or-int/lit16 v1, v1, 0x1000
@@ -5603,21 +5608,25 @@
 
 
 .method private static logWallpaperDiag(Ljava/lang/String;)V
-    .locals 0
+    .locals 1
     .param p0, "msg"    # Ljava/lang/String;
 
     .prologue
+    const-string v0, "WallpaperDiag"
+    invoke-static {v0, p0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
     return-void
 .end method
 
 
 
 .method private static logWallpaperDiagException(Ljava/lang/String;Ljava/lang/Throwable;)V
-    .locals 0
+    .locals 1
     .param p0, "msg"    # Ljava/lang/String;
     .param p1, "tr"    # Ljava/lang/Throwable;
 
     .prologue
+    const-string v0, "WallpaperDiag"
+    invoke-static {v0, p0, p1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
     return-void
 .end method
 
@@ -5798,13 +5807,27 @@
 
     move-result-object v0
 
-    if-eqz v0, :cond_0
+    if-eqz v0, :cond_try_theme_path
 
     invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
 
     move-result-object v1
 
     const-string v2, "LOCKSCREEN_SOURCE_THEME_BACKGROUND"
+    invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+
+    return-object v1
+
+    :cond_try_theme_path
+    const/4 v3, 0x0
+
+    invoke-static {p0, v3}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_0
+
+    const-string v2, "LOCKSCREEN_SOURCE_THEME_PATH_FALLBACK"
     invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
 
     return-object v1
@@ -6439,15 +6462,15 @@
     goto :goto_0
 .end method
 
-.method public static syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
+.method public static syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
     .locals 5
     .param p0, "context"    # Landroid/content/Context;
     .param p1, "bitmap"    # Landroid/graphics/Bitmap;
 
     .prologue
-    if-eqz p0, :cond_0
+    if-eqz p0, :cond_invalid_param
 
-    if-eqz p1, :cond_0
+    if-eqz p1, :cond_invalid_param
 
     :try_start_0
     invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->backupOriginalSystemWallpaperIfNeeded(Landroid/content/Context;)V
@@ -6483,17 +6506,19 @@
     const-string v1, "SYNC_SET_SYSTEM_WALLPAPER_OK"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
 
-    goto :goto_0
+    const/4 v1, 0x1
+    return v1
 
     :cond_1
     invoke-virtual {v0, p1}, Landroid/app/WallpaperManager;->setBitmap(Landroid/graphics/Bitmap;)V
 
     const-string v1, "SYNC_SET_SYSTEM_WALLPAPER_OK_LEGACY"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+
+    const/4 v1, 0x1
+    return v1
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
-
-    goto :goto_0
 
     :catch_0
     move-exception v1
@@ -6503,15 +6528,22 @@
     const-string v1, "SYNC_SET_SYSTEM_WALLPAPER_EXCEPTION"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
 
-    goto :goto_0
+    const/4 v1, 0x0
+    return v1
 
     :cond_set_skip_backup
     const-string v1, "SYNC_SET_SKIP_BACKUP_NOT_READY"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
 
-    :cond_0
-    :goto_0
-    return-void
+    const/4 v1, 0x0
+    return v1
+
+    :cond_invalid_param
+    const-string v1, "SYNC_SET_SKIP_INVALID_PARAM"
+    invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+
+    const/4 v1, 0x0
+    return v1
 .end method
 
 
@@ -6564,7 +6596,8 @@
 
     const-string v9, "BACKUP_SKIP_NO_PERMISSION"
     invoke-static {v9}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
-    return-void
+    # Continue to try WallpaperManager APIs; many ROMs can still read via getDrawable/getWallpaperFile
+    goto :cond_backup_try
 
     :cond_backup_try
     :try_start_0
@@ -6786,10 +6819,23 @@
 
     move-result-object v1
 
-    invoke-static {p0, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
+    invoke-static {p0, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
+    move-result v2
+
+    if-eqz v2, :cond_sync_state_skip
 
     # Mark as synced
     invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
+
+    const-string v2, "SYNC_IF_NEEDED_STATE_MARKED"
+    invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+    goto :cond_sync_state_done
+
+    :cond_sync_state_skip
+    const-string v2, "SYNC_IF_NEEDED_STATE_SKIP_SYNC_FAILED"
+    invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+
+    :cond_sync_state_done
 
     const-string v2, "SYNC_IF_NEEDED_DONE"
     invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V

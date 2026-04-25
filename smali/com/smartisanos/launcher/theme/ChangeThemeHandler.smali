@@ -673,9 +673,15 @@
 
     move-result-object v1
 
-    invoke-static {v9, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
+    invoke-static {v9, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
+
+    move-result v12
+
+    if-eqz v12, :cond_sync_state_skip
 
     invoke-static {v9}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
+
+    :cond_sync_state_skip
 
     .line 1341
     iget-boolean v8, p1, Lcom/smartisanos/launcher/theme/Theme;->useIconLightShadow:Z
@@ -7279,6 +7285,10 @@
     if-eq v2, v3, :cond_2
 
     .line 289
+    iput-object p1, p0, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->mChangeToTheme:Lcom/smartisanos/launcher/theme/Theme;
+
+    invoke-direct {p0, p1}, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->applyTheme(Lcom/smartisanos/launcher/theme/Theme;)V
+
     invoke-virtual {p0}, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->forceCompleteChangeTheme()V
 
     .line 310
@@ -7304,6 +7314,10 @@
     if-nez v1, :cond_3
 
     .line 294
+    iput-object p1, p0, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->mChangeToTheme:Lcom/smartisanos/launcher/theme/Theme;
+
+    invoke-direct {p0, p1}, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->applyTheme(Lcom/smartisanos/launcher/theme/Theme;)V
+
     invoke-virtual {p0}, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->forceCompleteChangeTheme()V
 
     goto :goto_0
