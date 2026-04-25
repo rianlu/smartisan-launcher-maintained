@@ -21,6 +21,7 @@
 - 搜索页支持分身/多开结果显示与直接启动
 - 设置页提供“切换默认桌面”入口
 - 设置页提供“隐藏虚拟键”开关
+- 支持桌面空白区域下拉展开通知栏（不同 ROM 兼容性存在差异）
 - 在线更新对接 GitHub Release（支持回桌面自动静默检查）
 - 设置页提供“关闭电池优化”入口（用于提升后台包变更刷新稳定性）
 
@@ -46,8 +47,11 @@
 ## 本地构建
 
 ```sh
-# 调试构建并安装
+# 调试构建并安装（默认安装到所有在线设备）
 sh tools/build_and_install.sh
+
+# 仅安装到指定设备
+ANDROID_SERIAL=<设备序列号> sh tools/build_and_install.sh
 
 # release 构建
 sh tools/build_release.sh

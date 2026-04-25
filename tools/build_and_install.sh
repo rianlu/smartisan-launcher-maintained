@@ -215,6 +215,11 @@ install_apk() {
     return 0
   fi
 
+  if [ -n "${ANDROID_SERIAL:-}" ]; then
+    install_to_device "$adb_bin" "$ANDROID_SERIAL"
+    return 0
+  fi
+
   if [ -n "${ANDROID_SERIALS:-}" ]; then
     printf '%s\n' "$ANDROID_SERIALS" | tr ', ' '\n\n' | sed '/^$/d' | while IFS= read -r device_serial; do
       install_to_device "$adb_bin" "$device_serial"
@@ -222,7 +227,7 @@ install_apk() {
     return 0
   fi
 
-  if [ "${INSTALL_ALL_DEVICES:-0}" = "1" ]; then
+  if [ "${INSTALL_ALL_DEVICES:-1}" = "1" ]; then
     devices=$(list_devices "$adb_bin")
     if [ -z "$devices" ]; then
       echo "no adb device detected, skipped install"

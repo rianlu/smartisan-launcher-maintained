@@ -2321,6 +2321,288 @@
     goto :goto_0
 .end method
 
+.method private invokeStatusBarMethod(Ljava/lang/Object;Ljava/lang/String;)Z
+    .locals 4
+    .param p1, "service"    # Ljava/lang/Object;
+    .param p2, "methodName"    # Ljava/lang/String;
+
+    .prologue
+    const/4 v0, 0x0
+
+    .line 1308
+    :try_start_0
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    move-result-object v1
+
+    const/4 v2, 0x0
+
+    new-array v3, v2, [Ljava/lang/Class;
+
+    invoke-virtual {v1, p2, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+
+    move-result-object v1
+
+    const/4 v3, 0x1
+
+    invoke-virtual {v1, v3}, Ljava/lang/reflect/Method;->setAccessible(Z)V
+
+    new-array v2, v2, [Ljava/lang/Object;
+
+    invoke-virtual {v1, p1, v2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    const/4 v0, 0x1
+    :try_end_0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_0} :catch_0
+
+    .line 1311
+    :goto_0
+    return v0
+
+    .line 1309
+    :catch_0
+    move-exception v1
+
+    goto :goto_0
+.end method
+
+.method private tryExpandNotificationPanel()Z
+    .locals 3
+
+    .prologue
+    const/4 v0, 0x0
+
+    .line 1315
+    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_1
+
+    .line 1316
+    const-string v2, "statusbar"
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/home/Launcher;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_1
+
+    .line 1317
+    const-string v2, "expandNotificationsPanel"
+
+    invoke-direct {p0, v1, v2}, Lcom/smartisanos/launcher/view/DragLayer;->invokeStatusBarMethod(Ljava/lang/Object;Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    .line 1318
+    const/4 v0, 0x1
+
+    goto :cond_1
+
+    .line 1320
+    :cond_0
+    const-string v2, "expand"
+
+    invoke-direct {p0, v1, v2}, Lcom/smartisanos/launcher/view/DragLayer;->invokeStatusBarMethod(Ljava/lang/Object;Ljava/lang/String;)Z
+
+    move-result v0
+
+    .line 1324
+    :cond_1
+    sget-boolean v1, Lcom/smartisanos/launcher/LOG;->ENABLE_DEBUG:Z
+
+    if-eqz v1, :cond_3
+
+    if-eqz v0, :cond_2
+
+    sget-object v1, Lcom/smartisanos/launcher/view/DragLayer;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v2, "DEBUG"
+
+    const-string v3, "PULLDOWN_STATUSBAR_EXPAND_OK"
+
+    invoke-virtual {v1, v2, v3}, Lcom/smartisanos/launcher/LOG;->info(Ljava/lang/String;Ljava/lang/String;)V
+
+    goto :cond_3
+
+    :cond_2
+    sget-object v1, Lcom/smartisanos/launcher/view/DragLayer;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v2, "DEBUG"
+
+    const-string v3, "PULLDOWN_STATUSBAR_EXPAND_FAIL"
+
+    invoke-virtual {v1, v2, v3}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 1324
+    :cond_3
+    return v0
+.end method
+
+.method private tryOpenNotificationPanelByPullDownOnIntercept(Lcom/smartisanos/smengine/TMotionEvent;)Z
+    .locals 6
+    .param p1, "ev"    # Lcom/smartisanos/smengine/TMotionEvent;
+
+    .prologue
+    const/4 v5, 0x0
+
+    const/4 v4, 0x1
+
+    .line 1355
+    invoke-virtual {p1}, Lcom/smartisanos/smengine/TMotionEvent;->getPointerCount()I
+
+    move-result v0
+
+    if-eq v0, v4, :cond_0
+
+    return v5
+
+    .line 1358
+    :cond_0
+    iget-boolean v0, p0, Lcom/smartisanos/launcher/view/DragLayer;->mClickDownOnDock:Z
+
+    if-nez v0, :cond_1
+
+    invoke-virtual {p0, v4}, Lcom/smartisanos/launcher/view/DragLayer;->getStatus(I)Z
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const/4 v0, 0x2
+
+    invoke-virtual {p0, v0}, Lcom/smartisanos/launcher/view/DragLayer;->getStatus(I)Z
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const/4 v0, 0x4
+
+    invoke-virtual {p0, v0}, Lcom/smartisanos/launcher/view/DragLayer;->getStatus(I)Z
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const/16 v0, 0x8
+
+    invoke-virtual {p0, v0}, Lcom/smartisanos/launcher/view/DragLayer;->getStatus(I)Z
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const/16 v0, 0x10
+
+    invoke-virtual {p0, v0}, Lcom/smartisanos/launcher/view/DragLayer;->getStatus(I)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_2
+
+    .line 1364
+    :cond_1
+    return v5
+
+    .line 1367
+    :cond_2
+    invoke-static {}, Lcom/smartisanos/launcher/StatusManager;->getInstance()Lcom/smartisanos/launcher/StatusManager;
+
+    move-result-object v0
+
+    const/16 v1, 0x20
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/launcher/StatusManager;->getLauncherStatus(I)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_3
+
+    return v5
+
+    .line 1371
+    :cond_3
+    invoke-virtual {p1}, Lcom/smartisanos/smengine/TMotionEvent;->getY()F
+
+    move-result v0
+
+    iget-object v1, p0, Lcom/smartisanos/launcher/view/DragLayer;->mStartY:[F
+
+    aget v1, v1, v5
+
+    sub-float v1, v0, v1
+
+    .line 1372
+    .local v1, "moveYDown":F
+    const/4 v0, 0x0
+
+    cmpl-float v0, v1, v0
+
+    if-lez v0, :cond_1
+
+    .line 1375
+    invoke-virtual {p1}, Lcom/smartisanos/smengine/TMotionEvent;->getX()F
+
+    move-result v0
+
+    iget-object v2, p0, Lcom/smartisanos/launcher/view/DragLayer;->mStartX:[F
+
+    aget v2, v2, v5
+
+    sub-float/2addr v0, v2
+
+    invoke-static {v0}, Ljava/lang/Math;->abs(F)F
+
+    move-result v2
+
+    .line 1376
+    .local v2, "moveXAbs":F
+    cmpl-float v0, v1, v2
+
+    if-lez v0, :cond_1
+
+    .line 1379
+    iget v0, p0, Lcom/smartisanos/launcher/view/DragLayer;->mTouchSlop:I
+
+    int-to-float v0, v0
+
+    const/high16 v3, 0x3fc00000    # 1.5f
+
+    mul-float/2addr v0, v3
+
+    cmpl-float v0, v1, v0
+
+    if-lez v0, :cond_1
+
+    .line 1383
+    invoke-direct {p0}, Lcom/smartisanos/launcher/view/DragLayer;->tryExpandNotificationPanel()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    .line 1384
+    invoke-virtual {p1}, Lcom/smartisanos/smengine/TMotionEvent;->getY()F
+
+    move-result v0
+
+    iget-object v3, p0, Lcom/smartisanos/launcher/view/DragLayer;->mStartY:[F
+
+    aput v0, v3, v5
+
+    .line 1385
+    const/4 v0, -0x1
+
+    iput v0, p0, Lcom/smartisanos/launcher/view/DragLayer;->mCurrentEventHandler:I
+
+    .line 1386
+    return v4
+.end method
+
 
 # virtual methods
 .method public clear(Z)V
@@ -4824,6 +5106,17 @@
 
     .line 256
     :cond_12
+    invoke-direct {p0, p1}, Lcom/smartisanos/launcher/view/DragLayer;->tryOpenNotificationPanelByPullDownOnIntercept(Lcom/smartisanos/smengine/TMotionEvent;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_12_0
+
+    move v0, v1
+
+    goto/16 :goto_0
+
+    :cond_12_0
     invoke-direct {p0, p1}, Lcom/smartisanos/launcher/view/DragLayer;->canTriggerScroll(Lcom/smartisanos/smengine/TMotionEvent;)Z
 
     move-result v0

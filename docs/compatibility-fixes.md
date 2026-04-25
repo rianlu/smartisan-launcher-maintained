@@ -2,6 +2,38 @@
 
 本文件按日期记录维护版主线里已经落地的兼容性修复与关键可用性修复。
 
+## 2026-04-25 桌面空白区域下拉展开通知栏（issue #7）
+
+### 现象
+
+- 桌面空白区域下拉无法展开系统通知栏
+- 旧实现即使接入反射调用，也经常不触发
+
+### 根因
+
+- 旧尝试挂在 `onPageScrollEvent()` 的滚动结束分支，触发前提依赖页面滚动状态
+- 锤子桌面触摸链路较特殊，很多“空白区下拉”不会进入该分支，导致逻辑失效
+
+### 修复
+
+- `smali/com/smartisanos/launcher/view/DragLayer.smali`
+  - 新增独立拦截路径 `tryOpenNotificationPanelByPullDownOnIntercept(...)`
+  - 在 `onInterceptTouchEvent()` 的 move 分支直接判定单指下拉手势并触发展开
+  - 通过反射优先调用 `expandNotificationsPanel`，失败回退 `expand`
+  - 移除旧的滚动结束分支触发逻辑，避免重复路径与无效判断
+- `AndroidManifest.xml`
+  - 增加 `android.permission.EXPAND_STATUS_BAR`
+
+### 结果
+
+- 在支持机型上，桌面空白区域下拉可直接展开通知栏（无需辅助服务）
+- 保留 ROM 差异容错：不支持机型不会崩溃，仅表现为不展开
+
+### 验证
+
+- `sh tools/build_and_install.sh` 构建签名安装通过
+- Android 15 / 16 实机验证：空白区下拉可展开通知栏
+
 ## 2026-04-19 三星 S24 Ultra / One UI 上开关控件显示不完整（issue #13）
 
 ### 现象
