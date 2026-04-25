@@ -1118,51 +1118,41 @@
 
     move-result-object v1
 
-    .line 222
-    .local v1, "currentTheme":Lcom/smartisanos/launcher/theme/Theme;
-    invoke-static {v1}, Lcom/smartisanos/launcher/theme/ThemeManager;->isGaussianTheme(Lcom/smartisanos/launcher/theme/Theme;)Z
-
-    move-result v2
-
-    if-eqz v2, :cond_1
-
-    .line 223
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 226
-    .end local v1    # "currentTheme":Lcom/smartisanos/launcher/theme/Theme;
+    .line 222
     :cond_1
     if-nez v0, :cond_2
 
-    .line 227
+    .line 223
     iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mItemLauncherWallpaper:Lcom/smartisanos/home/settings/SettingItemTextVertical;
 
     const v2, 0x7f0202b2
 
     invoke-virtual {v1, v2}, Lcom/smartisanos/home/settings/SettingItemTextVertical;->setImageResource(I)V
 
-    .line 228
+    .line 224
     return-void
 
-    .line 231
+    .line 227
     :cond_2
     invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->scaledItemTheme(Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
 
     move-result-object v0
 
-    .line 232
+    .line 228
     iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mItemLauncherWallpaper:Lcom/smartisanos/home/settings/SettingItemTextVertical;
 
     invoke-virtual {v1, v0}, Lcom/smartisanos/home/settings/SettingItemTextVertical;->setBitmap(Landroid/graphics/Bitmap;)V
 
-    .line 233
+    .line 229
     return-void
 .end method
 
 .method public clearCustomGaussianWallpaper()V
-    .locals 2
+    .locals 3
 
     .prologue
     .line 234
@@ -1190,7 +1180,21 @@
     .line 240
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->refreshGaussianWallpaperIfNeeded()V
 
-    .line 241
+    # Force sync system wallpaper
+    const-string v0, "wallpaper_sync_pref"
+    const/4 v1, 0x0
+    invoke-virtual {p0, v0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+    move-result-object v0
+    invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+    move-result-object v0
+    const-string v1, "last_synced_state"
+    const-string v2, "force_sync"
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+    move-result-object v0
+    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
+
     return-void
 .end method
 
@@ -3346,11 +3350,29 @@
     .line 198
     invoke-virtual {v6}, Ljava/io/FileOutputStream;->flush()V
 
-    .line 199
+    invoke-virtual {v6}, Ljava/io/FileOutputStream;->close()V
+
+    const/4 v6, 0x0
+
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->updateGaussianWallpaperItemPreview()V
 
-    .line 200
+    .line 199
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->refreshGaussianWallpaperIfNeeded()V
+
+    # Force sync system wallpaper
+    const-string v0, "wallpaper_sync_pref"
+    const/4 v1, 0x0
+    invoke-virtual {p0, v0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+    move-result-object v0
+    invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+    move-result-object v0
+    const-string v1, "last_synced_state"
+    const-string v2, "force_sync"
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+    move-result-object v0
+    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
 
     goto :goto_cleanup
 

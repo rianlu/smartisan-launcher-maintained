@@ -42,44 +42,17 @@
 
 # virtual methods
 .method public run()V
-    .locals 2
+    .locals 1
 
     .prologue
-    .line 988
-    iget-boolean v0, p0, Lcom/smartisanos/launcher/view/MainView$7$2;->val$isDark:Z
+    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
+
+    move-result-object v0
 
     if-eqz v0, :cond_0
 
-    .line 990
-    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
+    invoke-virtual {v0}, Lcom/smartisanos/home/Launcher;->resetStatusBarColor()V
 
-    move-result-object v0
-
-    invoke-static {v0}, Lcom/smartisanos/launcher/theme/ThemeManager;->getCurrentTheme(Landroid/content/Context;)Lcom/smartisanos/launcher/theme/Theme;
-
-    move-result-object v0
-
-    .line 989
-    invoke-static {v0}, Lcom/smartisanos/launcher/data/Utils;->setStatusBarColor(Lcom/smartisanos/launcher/theme/Theme;)V
-
-    .line 995
-    :goto_0
-    return-void
-
-    .line 993
     :cond_0
-    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
-
-    move-result-object v0
-
-    invoke-static {v0}, Lcom/smartisanos/launcher/theme/ThemeManager;->getCurrentTheme(Landroid/content/Context;)Lcom/smartisanos/launcher/theme/Theme;
-
-    move-result-object v0
-
-    const-string v1, "_light"
-
-    .line 992
-    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/Utils;->setStatusBarColor(Lcom/smartisanos/launcher/theme/Theme;Ljava/lang/String;)V
-
-    goto :goto_0
+    return-void
 .end method

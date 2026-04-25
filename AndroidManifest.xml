@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -61,7 +62,7 @@
         <activity android:launchMode="singleTop" android:name="com.smartisanos.home.settings.EngineSetActivity" android:screenOrientation="portrait" android:taskAffinity="com.android.settings" android:theme="@style/LauncherThemeStyle">
             <meta-data android:name="smartisanos.PACKAGELOCK_PACKAGENAME" android:value="com.android.settings"/>
         </activity>
-        <provider android:authorities="com.smartisanos.launcher.exportprovider" android:exported="true" android:name="com.smartisanos.launcher.data.ExportDataProvider" android:readPermission="com.smartisanos.launcher.READ_DATABASE" android:writePermission="com.smartisanos.launcher.WRITE_DATABASE"/>
+        <provider android:authorities="com.smartisanos.launcher.exportprovider;com.smartisanos.home.settings" android:exported="true" android:name="com.smartisanos.launcher.data.ExportDataProvider" android:readPermission="com.smartisanos.launcher.READ_DATABASE" android:writePermission="com.smartisanos.launcher.WRITE_DATABASE"/>
         <activity android:excludeFromRecents="true" android:exported="true" android:name="com.smartisanos.launcher.StartActivityForSearch" android:screenOrientation="portrait" android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>

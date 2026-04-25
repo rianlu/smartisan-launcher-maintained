@@ -299,6 +299,8 @@
 
 .field public static volatile VOICE_ASSIT_BY_MENU:I
 
+.field public static sIsDarkBackground:Z
+
 .field public static app_text_bold:I
 
 .field public static app_text_color:I
@@ -5620,6 +5622,8 @@
 
     .line 1666
     :cond_0
+    sput-boolean v0, Lcom/smartisanos/launcher/data/Constants;->sIsDarkBackground:Z
+
     if-eqz v0, :cond_1
 
     .line 1667

@@ -53,6 +53,8 @@
 
 .field public static final REQUEST_CODE_VERIFY_PASSWORD:I = 0x15
 
+.field private static final REQUEST_CODE_WALLPAPER_PERMISSION:I = 0x12d
+
 .field public static final SETUP_WIZARD_COMPLETE:I = 0x1
 
 .field private static final TRANSACTION_ANIM_NONE:I = 0x1
@@ -1108,7 +1110,7 @@
     return-void
 .end method
 
-.method private resetStatusBarColor()V
+.method public resetStatusBarColor()V
     .locals 2
 
     .prologue
@@ -1299,6 +1301,45 @@
     invoke-virtual {p0, v0}, Landroid/content/Context;->startActivity(Landroid/content/Intent;)V
 
     goto :goto_0
+.end method
+
+.method private maybeRequestWallpaperPermissionAndSync()V
+    .locals 3
+
+    .prologue
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v1, 0x17
+
+    if-lt v0, v1, :cond_sync_now
+
+    const-string v0, "android.permission.READ_EXTERNAL_STORAGE"
+
+    invoke-static {p0, v0}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
+
+    move-result v1
+
+    if-nez v1, :cond_request
+
+    :cond_sync_now
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
+
+    return-void
+
+    :cond_request
+    const/4 v1, 0x1
+
+    new-array v1, v1, [Ljava/lang/String;
+
+    const/4 v2, 0x0
+
+    aput-object v0, v1, v2
+
+    const/16 v2, 0x12d
+
+    invoke-static {p0, v1, v2}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
+
+    return-void
 .end method
 
 
@@ -2246,6 +2287,10 @@
 
     invoke-virtual {v0, v2}, Lcom/smartisanos/home/Launcher;->setContentView(I)V
 
+    move-object/from16 v0, p0
+
+    invoke-direct {v0}, Lcom/smartisanos/home/Launcher;->maybeRequestWallpaperPermissionAndSync()V
+
     .line 313
     sget-object v2, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
 
@@ -2838,6 +2883,36 @@
     invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->setStatusBarColor(Lcom/smartisanos/launcher/theme/Theme;)V
 
     goto :goto_2
+.end method
+
+.method public onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+    .locals 1
+
+    .prologue
+    invoke-super {p0, p1, p2, p3}, Landroid/app/Activity;->onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+
+    const/16 v0, 0x12d
+
+    if-ne p1, v0, :cond_1
+
+    array-length v0, p3
+
+    if-lez v0, :cond_0
+
+    const/4 v0, 0x0
+
+    aget v0, p3, v0
+
+    if-nez v0, :cond_0
+
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
+
+    goto :cond_1
+
+    :cond_0
+
+    :cond_1
+    return-void
 .end method
 
 .method public onDestroy()V
@@ -3811,7 +3886,7 @@
 
     .line 620
     :cond_11
-    invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->resetStatusBarColor()V
+    invoke-virtual {p0}, Lcom/smartisanos/home/Launcher;->resetStatusBarColor()V
 
     .line 621
     return-void
