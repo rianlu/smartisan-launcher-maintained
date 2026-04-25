@@ -900,6 +900,28 @@
     .line 2468
     or-int/lit16 v1, v1, 0x400
 
+    const-string v8, "launcher_hide_navigation_bar"
+
+    const/4 v9, 0x0
+
+    invoke-static {v8, v9}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_hide_navigation_off
+
+    or-int/lit8 v1, v1, 0x2
+
+    or-int/lit16 v1, v1, 0x1000
+
+    goto :cond_hide_navigation_done
+
+    :cond_hide_navigation_off
+    and-int/lit8 v1, v1, -0x3
+
+    and-int/lit16 v1, v1, -0x1001
+
+    :cond_hide_navigation_done
     sget v8, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v9, 0x17

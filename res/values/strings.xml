@@ -158,6 +158,7 @@
     <string name="obsession_header_title">OCD Settings</string>
     <string name="obsession_hide_badge">Hide Icon Badge</string>
     <string name="obsession_hide_lable">Hide Icon Labels</string>
+    <string name="hide_navigation_bar_label">Hide Navigation Bar On Home Screen</string>
     <string name="ocd_setting">OCD Settings</string>
     <string name="official_icon">Official Icon</string>
     <string name="ok">OK</string>

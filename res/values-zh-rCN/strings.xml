@@ -160,6 +160,7 @@
     <string name="obsession_header_title">强迫症选项</string>
     <string name="obsession_hide_badge">隐藏图标上的角标</string>
     <string name="obsession_hide_lable">隐藏桌面图标名称</string>
+    <string name="hide_navigation_bar_label">桌面隐藏虚拟键</string>
     <string name="ocd_setting">强迫症选项</string>
     <string name="official_icon">官方图标</string>
     <string name="ok">确认</string>
