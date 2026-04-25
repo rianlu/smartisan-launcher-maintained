@@ -35,9 +35,9 @@
 
 .field public static final BACKGROUND_MODULATE_COLOR_FOR_UNLOCK_TYPE:I = 0x3
 
-.field public static final BASE_16_MAX_PAGE_COUNT:I = 0x14
+.field public static final BASE_16_MAX_PAGE_COUNT:I = 0x40
 
-.field public static final BASE_9_MAX_PAGE_COUNT:I = 0x24
+.field public static final BASE_9_MAX_PAGE_COUNT:I = 0x78
 
 .field public static final BLACK_COMPONENT_LIST:[Ljava/lang/String;
 

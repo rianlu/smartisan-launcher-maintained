@@ -2919,7 +2919,7 @@
     .param p0, "mode"    # I
 
     .prologue
-    const/16 v0, 0x24
+    const/16 v0, 0x78
 
     .line 1037
     packed-switch p0, :pswitch_data_0
@@ -2931,7 +2931,7 @@
 
     .line 1044
     :pswitch_1
-    const/16 v0, 0x14
+    const/16 v0, 0x40
 
     goto :goto_0
 
