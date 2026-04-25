@@ -202,6 +202,7 @@
     <string name="setting_follow_title">关注我们</string>
     <string name="setting_grade_txt">去 Google Play 评分</string>
     <string name="setting_main_title">锤子桌面</string>
+    <string name="setting_battery_optimization">关闭电池优化</string>
     <string name="setting_user_experience_des_txt">为了改善产品的用户体验，锤子桌面会对各个功能的使用情况进行统计，但绝不涉及用户的个人隐私数据。</string>
     <string name="setting_user_experience_switch_txt">参与用户体验改进计划</string>
     <string name="setting_user_experience_title_txt">Smartisan 服务条款</string>

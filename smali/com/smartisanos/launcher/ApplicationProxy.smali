@@ -2064,6 +2064,18 @@
 
     invoke-virtual {v3, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
 
+    const-string v6, "android.intent.action.APPLICATION_MESSAGE_UPDATE"
+
+    invoke-virtual {v3, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+
+    const-string v6, "android.intent.action.BADGE_COUNT_UPDATE"
+
+    invoke-virtual {v3, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+
+    const-string v6, "com.htc.launcher.action.SET_NOTIFICATION"
+
+    invoke-virtual {v3, v6}, Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V
+
     .line 447
     iget-object v6, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mNewMessageReceiver:Landroid/content/BroadcastReceiver;
 

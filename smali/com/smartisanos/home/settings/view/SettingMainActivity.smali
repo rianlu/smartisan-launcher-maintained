@@ -1682,6 +1682,99 @@
     return-void
 .end method
 
+.method private openBatteryOptimizationSettings()V
+    .locals 7
+
+    .prologue
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v2
+
+    :try_start_0
+    new-instance v3, Landroid/content/Intent;
+
+    const-string v4, "android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"
+
+    invoke-direct {v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v5, "package:"
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-static {v4}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Landroid/content/Intent;->setData(Landroid/net/Uri;)Landroid/content/Intent;
+
+    invoke-virtual {p0, v3}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    return-void
+
+    :catch_0
+    move-exception v0
+
+    :try_start_1
+    new-instance v3, Landroid/content/Intent;
+
+    const-string v4, "android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"
+
+    invoke-direct {v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p0, v3}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+    :try_end_1
+    .catch Ljava/lang/Exception; {:try_start_1 .. :try_end_1} :catch_1
+
+    return-void
+
+    :catch_1
+    move-exception v1
+
+    :try_start_2
+    new-instance v3, Landroid/content/Intent;
+
+    const-string v4, "android.settings.APPLICATION_DETAILS_SETTINGS"
+
+    invoke-direct {v3, v4}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    const-string v4, "package"
+
+    const/4 v5, 0x0
+
+    invoke-static {v4, v2, v5}, Landroid/net/Uri;->fromParts(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Landroid/net/Uri;
+
+    move-result-object v4
+
+    invoke-virtual {v3, v4}, Landroid/content/Intent;->setData(Landroid/net/Uri;)Landroid/content/Intent;
+
+    invoke-virtual {p0, v3}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+    :try_end_2
+    .catch Ljava/lang/Exception; {:try_start_2 .. :try_end_2} :catch_2
+
+    return-void
+
+    :catch_2
+    move-exception v6
+
+    return-void
+.end method
+
 .method private unregisterCheckedButton()V
     .locals 2
 
@@ -2778,6 +2871,29 @@
 
     .line 301
     :cond_f
+    const-string v4, "setting_battery_optimization"
+
+    const-string v5, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v4, v5, v6}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v4
+
+    if-ne v0, v4, :cond_f1
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->openBatteryOptimizationSettings()V
+
+    goto/16 :goto_0
+
+    :cond_f1
     const-string v4, "setting_switch_launcher"
 
     const-string v5, "id"
@@ -3231,6 +3347,33 @@
     invoke-virtual {v8, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
 
     :cond_skip_switch_launcher
+    const-string v8, "setting_battery_optimization"
+
+    const-string v9, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v8, v9, v10}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v8
+
+    if-eqz v8, :cond_skip_battery_optimization
+
+    invoke-virtual {p0, v8}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v8
+
+    if-eqz v8, :cond_skip_battery_optimization
+
+    invoke-virtual {v8, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    :cond_skip_battery_optimization
     iget-object v8, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mAboutUs:Landroid/view/View;
 
     invoke-virtual {v8, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V

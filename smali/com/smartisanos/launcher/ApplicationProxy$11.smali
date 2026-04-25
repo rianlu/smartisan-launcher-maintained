@@ -47,24 +47,8 @@
 
     .line 633
     .local v0, "action":Ljava/lang/String;
-    if-nez v0, :cond_1
+    if-eqz v0, :cond_0
 
-    .line 646
-    :cond_0
-    :goto_0
-    return-void
-
-    .line 636
-    :cond_1
-    const-string v1, "com.smartisanos.launcher.new_message"
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_0
-
-    .line 640
     invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
 
     move-result-object v1
@@ -90,11 +74,12 @@
 
     invoke-interface {v1, p2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    goto :goto_0
+    goto :cond_0
 
     .line 645
     :cond_3
     invoke-static {p2}, Lcom/smartisanos/launcher/LauncherModel;->handleOnNewMessage(Landroid/content/Intent;)V
 
-    goto :goto_0
+    :cond_0
+    return-void
 .end method

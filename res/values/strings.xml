@@ -200,6 +200,7 @@
     <string name="setting_follow_title">Follow Us</string>
     <string name="setting_grade_txt">Rate on Google Play</string>
     <string name="setting_main_title">Smartisan Launcher</string>
+    <string name="setting_battery_optimization">Battery Optimization</string>
     <string name="setting_user_experience_des_txt">Once enabled, anonymous information will be collected to improve the user experience of Smartisan OS. None of your personal information will be included.</string>
     <string name="setting_user_experience_switch_txt">Join Now</string>
     <string name="setting_user_experience_title_txt">Smartisan Service Terms</string>

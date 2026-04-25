@@ -629,14 +629,14 @@
 
     .line 1520
     .restart local v4    # "mainView":Lcom/smartisanos/launcher/view/MainView;
-    if-eqz v4, :cond_0
+    if-eqz v4, :cond_5_release_running
 
     .line 1523
     invoke-virtual {v4}, Lcom/smartisanos/launcher/view/MainView;->getDockView()Lcom/smartisanos/launcher/view/DockView;
 
     move-result-object v9
 
-    if-eqz v9, :cond_0
+    if-eqz v9, :cond_5_release_running
 
     .line 1526
     invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
@@ -651,7 +651,15 @@
 
     move-result-object v9
 
-    if-eqz v9, :cond_0
+    if-eqz v9, :cond_5_release_running
+
+    .line 1529
+    goto :cond_6
+
+    :cond_5_release_running
+    sput-boolean v8, Lcom/smartisanos/launcher/data/DatabaseHandler$PackageTask;->mHandleTaskRunning:Z
+
+    goto :goto_0
 
     .line 1529
     :cond_6
