@@ -38,23 +38,37 @@ need_cmd() {
 }
 
 clean_macos_metadata() {
-  find "$repo_root" \
-    \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
-    -type f -name .DS_Store -exec rm -f {} +
+  apk_source_dirs | while IFS= read -r target_dir; do
+    find "$target_dir" -type f -name .DS_Store -exec rm -f {} +
+  done
 }
 
 assert_clean_macos_metadata() {
   leftovers=$(
-    find "$repo_root" \
-      \( -path "$repo_root/.git" -o -path "$repo_root/.git/*" \) -prune -o \
-      -type f -name .DS_Store -print
+    apk_source_dirs | while IFS= read -r target_dir; do
+      find "$target_dir" -type f -name .DS_Store -print
+    done
   )
 
-  [ -z "$leftovers" ] || fail "workspace still contains .DS_Store files:\n$leftovers"
+  [ -z "$leftovers" ] || fail "APK source tree still contains .DS_Store files:\n$leftovers"
 }
 
 cleanup_macos_metadata_on_exit() {
   clean_macos_metadata >/dev/null 2>&1 || true
+}
+
+apk_source_dirs() {
+  for target_dir in \
+    "$repo_root/assets" \
+    "$repo_root/lib" \
+    "$repo_root/original" \
+    "$repo_root/res" \
+    "$repo_root/unknown" \
+    "$repo_root"/smali*
+  do
+    [ -d "$target_dir" ] || continue
+    printf '%s\n' "$target_dir"
+  done
 }
 
 clean_apktool_workspace() {
