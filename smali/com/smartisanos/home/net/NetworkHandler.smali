@@ -743,6 +743,86 @@
 
     .line 514
     :cond_8
+    const-string v1, "calendar"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_9
+
+    const-string v1, "calender"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_9
+
+    const-string v1, "schedule"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_a
+
+    .line 515
+    :cond_9
+    sget v1, Lcom/smartisanos/home/R$drawable;->calendar:I
+
+    return v1
+
+    .line 518
+    :cond_a
+    const-string v1, "clock"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_b
+
+    const-string v1, "alarm"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_b
+
+    const-string v1, "deskclock"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_b
+
+    const-string v1, "timer"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_b
+
+    const-string v1, "stopwatch"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_c
+
+    .line 519
+    :cond_b
+    sget v1, Lcom/smartisanos/home/R$drawable;->clock:I
+
+    return v1
+
+    .line 522
+    :cond_c
     return v2
 .end method
 
@@ -784,6 +864,16 @@
     .line 524
     .local v2, "app":Lcom/smartisanos/launcher/LauncherApplication;
     if-eqz v2, :cond_4
+
+    invoke-static {v2, v0}, Lcom/smartisanos/home/Launcher;->isSystemAppByPackageName(Landroid/content/Context;Ljava/lang/String;)Z
+
+    move-result v7
+
+    if-nez v7, :cond_sys_app
+
+    return v9
+
+    :cond_sys_app
 
     invoke-virtual {v2}, Lcom/smartisanos/launcher/LauncherApplication;->getResources()Landroid/content/res/Resources;
 
