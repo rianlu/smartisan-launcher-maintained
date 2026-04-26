@@ -3484,6 +3484,18 @@
 
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->refreshPendingIconAppearance()V
 
+    invoke-static {}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->needFetchIconForInit()Z
+
+    move-result v3
+
+    if-eqz v3, :cond_icon_bootstrap_done
+
+    sget-object v3, Lcom/smartisanos/launcher/data/DatabaseUpdater$Action;->EVENT_REQUEST_FETCH_ICON:Lcom/smartisanos/launcher/data/DatabaseUpdater$Action;
+
+    invoke-static {v3}, Lcom/smartisanos/launcher/data/DatabaseUpdater;->updateDatabase(Lcom/smartisanos/launcher/data/DatabaseUpdater$Action;)V
+
+    :cond_icon_bootstrap_done
+
     .line 465
     iget-object v3, p0, Lcom/smartisanos/home/Launcher;->mEditPageTitleDialog:Lcom/smartisanos/launcher/view/EditTitleDialog;
 

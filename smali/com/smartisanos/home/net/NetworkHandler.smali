@@ -563,6 +563,8 @@
 
     move-result v5
 
+    return v5
+
     .line 488
     .end local v0    # "pkg":Ljava/lang/String;
     .end local v1    # "iconUrl":Ljava/lang/String;
@@ -570,7 +572,338 @@
     .end local v3    # "md5":Ljava/lang/String;
     .end local v4    # "iconInfo":Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
     :cond_1
+    invoke-static {p0}, Lcom/smartisanos/home/net/NetworkHandler;->applyBuiltinRoleIconFallback(Lcom/smartisanos/launcher/data/ItemInfo;)Z
+
+    move-result v5
+
     return v5
+.end method
+
+.method private static getBuiltinRoleIconResId(Lcom/smartisanos/launcher/data/ItemInfo;)I
+    .locals 3
+    .param p0, "item"    # Lcom/smartisanos/launcher/data/ItemInfo;
+
+    .prologue
+    const/4 v2, 0x0
+
+    .line 490
+    if-nez p0, :cond_0
+
+    return v2
+
+    .line 494
+    :cond_0
+    const/4 v0, 0x0
+
+    .line 495
+    .local v0, "roleSource":Ljava/lang/String;
+    iget-object v1, p0, Lcom/smartisanos/launcher/data/ItemInfo;->componentName:Ljava/lang/String;
+
+    if-eqz v1, :cond_1
+
+    .line 496
+    iget-object v1, p0, Lcom/smartisanos/launcher/data/ItemInfo;->componentName:Ljava/lang/String;
+
+    invoke-virtual {v1}, Ljava/lang/String;->toLowerCase()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 499
+    :goto_0
+    if-nez v0, :cond_2
+
+    return v2
+
+    .line 497
+    :cond_1
+    iget-object v1, p0, Lcom/smartisanos/launcher/data/ItemInfo;->packageName:Ljava/lang/String;
+
+    if-eqz v1, :goto_0
+
+    .line 498
+    iget-object v1, p0, Lcom/smartisanos/launcher/data/ItemInfo;->packageName:Ljava/lang/String;
+
+    invoke-virtual {v1}, Ljava/lang/String;->toLowerCase()Ljava/lang/String;
+
+    move-result-object v0
+
+    goto :goto_0
+
+    .line 502
+    :cond_2
+    const-string v1, "dial"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_3
+
+    const-string v1, "call"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_3
+
+    const-string v1, "twelvekey"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_4
+
+    .line 503
+    :cond_3
+    sget v1, Lcom/smartisanos/home/R$drawable;->app_icon_phone:I
+
+    return v1
+
+    .line 506
+    :cond_4
+    const-string v1, "sms"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_5
+
+    const-string v1, "mms"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_5
+
+    const-string v1, "messag"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_5
+
+    const-string v1, "conversation"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_6
+
+    .line 507
+    :cond_5
+    sget v1, Lcom/smartisanos/home/R$drawable;->app_icon_mms:I
+
+    return v1
+
+    .line 510
+    :cond_6
+    const-string v1, "contact"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_7
+
+    const-string v1, "people"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_7
+
+    const-string v1, "person"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_7
+
+    const-string v1, "addressbook"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_8
+
+    .line 511
+    :cond_7
+    sget v1, Lcom/smartisanos/home/R$drawable;->contact_shortcut:I
+
+    return v1
+
+    .line 514
+    :cond_8
+    return v2
+.end method
+
+.method private static applyBuiltinRoleIconFallback(Lcom/smartisanos/launcher/data/ItemInfo;)Z
+    .locals 10
+    .param p0, "item"    # Lcom/smartisanos/launcher/data/ItemInfo;
+
+    .prologue
+    const/4 v9, 0x0
+
+    .line 518
+    if-eqz p0, :cond_4
+
+    iget-object v0, p0, Lcom/smartisanos/launcher/data/ItemInfo;->packageName:Ljava/lang/String;
+
+    if-nez v0, :cond_0
+
+    .line 519
+    return v9
+
+    .line 522
+    :cond_0
+    invoke-static {p0}, Lcom/smartisanos/home/net/NetworkHandler;->getBuiltinRoleIconResId(Lcom/smartisanos/launcher/data/ItemInfo;)I
+
+    move-result v1
+
+    .line 523
+    .local v1, "resId":I
+    if-nez v1, :cond_1
+
+    return v9
+
+    :cond_1
+    :try_start_0
+    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
+
+    move-result-object v2
+
+    .line 524
+    .local v2, "app":Lcom/smartisanos/launcher/LauncherApplication;
+    if-eqz v2, :cond_4
+
+    invoke-virtual {v2}, Lcom/smartisanos/launcher/LauncherApplication;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v3
+
+    .line 525
+    .local v3, "res":Landroid/content/res/Resources;
+    if-eqz v3, :cond_4
+
+    .line 527
+    invoke-virtual {v3, v1}, Landroid/content/res/Resources;->getDrawable(I)Landroid/graphics/drawable/Drawable;
+
+    move-result-object v4
+
+    .line 528
+    .local v4, "drawable":Landroid/graphics/drawable/Drawable;
+    invoke-static {v4}, Lcom/smartisanos/launcher/data/Utils;->drawableToBitmapWithoutShadow(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+
+    move-result-object v5
+
+    .line 529
+    .local v5, "bmp":Landroid/graphics/Bitmap;
+    invoke-static {v5}, Lcom/smartisanos/launcher/data/Utils;->Bitmap2Bytes(Landroid/graphics/Bitmap;)[B
+
+    move-result-object v6
+
+    .line 530
+    .local v6, "data":[B
+    if-eqz v6, :cond_4
+
+    array-length v7, v6
+
+    if-lez v7, :cond_4
+
+    .line 532
+    invoke-static {v6}, Lcom/smartisanos/home/net/NetworkHandler$NetUtils;->getMd5([B)Ljava/lang/String;
+
+    move-result-object v7
+
+    .line 533
+    .local v7, "md5":Ljava/lang/String;
+    if-eqz v7, :cond_4
+
+    .line 535
+    new-instance v8, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    invoke-direct {v8}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;-><init>()V
+
+    .line 536
+    .local v8, "saveInfo":Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+    iput-object v0, v8, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->packageName:Ljava/lang/String;
+
+    .line 537
+    iput-object v7, v8, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->md5:Ljava/lang/String;
+
+    const/4 v7, 0x1
+
+    iput-boolean v7, v8, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
+
+    .line 538
+    invoke-static {p0, v8, v6}, Lcom/smartisanos/home/net/NetworkHandler;->saveIconForPackageActivities(Lcom/smartisanos/launcher/data/ItemInfo;Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;[B)Z
+
+    move-result v7
+    :try_end_0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_0} :catch_0
+
+    return v7
+
+    .line 549
+    .end local v2    # "app":Lcom/smartisanos/launcher/LauncherApplication;
+    .end local v3    # "res":Landroid/content/res/Resources;
+    .end local v4    # "drawable":Landroid/graphics/drawable/Drawable;
+    .end local v5    # "bmp":Landroid/graphics/Bitmap;
+    .end local v6    # "data":[B
+    .end local v7    # "md5":Ljava/lang/String;
+    .end local v8    # "saveInfo":Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+    :catch_0
+    move-exception v2
+
+    .line 550
+    .local v2, "t":Ljava/lang/Throwable;
+    sget-object v3, Lcom/smartisanos/home/net/NetworkHandler;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v4, "DEBUG"
+
+    new-instance v5, Ljava/lang/StringBuilder;
+
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v6, "applyBuiltinRoleIconFallback fail: "
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v5
+
+    invoke-virtual {v2}, Ljava/lang/Throwable;->getClass()Ljava/lang/Class;
+
+    move-result-object v6
+
+    invoke-virtual {v6}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v3, v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 552
+    return v9
+
+    .line 547
+    .end local v2    # "t":Ljava/lang/Throwable;
+    :cond_4
+    return v9
 .end method
 
 .method private static getOwnerIdMap(Ljava/lang/String;)Ljava/util/Map;
@@ -1335,6 +1668,28 @@
     const-string v6, "handleDL_ICON return by ENABLE_DOWNLOAD_ICON is false"
 
     invoke-virtual {v4, v5, v6}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+
+    if-eqz p1, :cond_0
+
+    invoke-interface {p1}, Ljava/util/List;->size()I
+
+    move-result v4
+
+    if-lez v4, :cond_0
+
+    const/4 v4, 0x0
+
+    invoke-interface {p1, v4}, Ljava/util/List;->get(I)Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Lcom/smartisanos/launcher/data/ItemInfo;
+
+    invoke-static {v1}, Lcom/smartisanos/home/net/NetworkHandler;->applyBuiltinRoleIconFallback(Lcom/smartisanos/launcher/data/ItemInfo;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_0
 
     .line 185
     sput-boolean v7, Lcom/smartisanos/home/net/NetworkHandler;->BE_INTERRUPTED:Z
