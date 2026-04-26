@@ -1,5 +1,6 @@
 build/
 .local/
 .DS_Store
+scratch/
 themes/source-apks/*.apk
 themes/maintained/*.apk

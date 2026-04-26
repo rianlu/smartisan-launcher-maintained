@@ -38,6 +38,10 @@
   - 处理方式：在桌面设置中开启“关闭电池优化”引导并完成设置
 - 关于全面屏手势、多任务过渡、返回动画割裂：
   - 请优先查看置顶 #11 的系统限制说明
+- 关于非锤子 ROM 下应用开关动画仍是系统默认：
+  - 详见 [#27](https://github.com/rianlu/smartisan-launcher-maintained/issues/27)
+  - 当前维护版不再继续在旧 `smali` 主线上叠加局部动画补丁
+  - 如果未来要做统一替代动画，只有接受大改的“方案 B”才值得投入，见 `docs/feature-migration-roadmap.md`
 
 ## 壁纸与主题逻辑
 
