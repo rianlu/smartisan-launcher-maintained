@@ -2974,6 +2974,23 @@
 
     .line 976
     :cond_1
+    invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->shouldSkipLauncherRebootAfterWallpaperSync()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1_reboot
+
+    sget-object v0, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
+
+    const-string v1, "DEBUG"
+
+    const-string v2, "skip rebootLauncher because wallpaper sync just finished"
+
+    invoke-virtual {v0, v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+
+    return-void
+
+    :cond_1_reboot
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->rebootLauncher()V
 
     .line 977

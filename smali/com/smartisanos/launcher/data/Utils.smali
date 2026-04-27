@@ -75,6 +75,8 @@
 
 .field private static lastSyncWeatherDataTime:J
 
+.field private static lastWallpaperSyncAt:J
+
 .field private static final log:Lcom/smartisanos/launcher/LOG;
 
 .field private static mWeatherInfoToast:Landroid/widget/Toast;
@@ -138,6 +140,8 @@
 
     .line 2148
     sput-wide v2, Lcom/smartisanos/launcher/data/Utils;->lastSyncWeatherDataTime:J
+
+    sput-wide v2, Lcom/smartisanos/launcher/data/Utils;->lastWallpaperSyncAt:J
 
     .line 2213
     sput-object v1, Lcom/smartisanos/launcher/data/Utils;->mWeatherInfoToast:Landroid/widget/Toast;
@@ -6506,6 +6510,8 @@
     const-string v1, "SYNC_SET_SYSTEM_WALLPAPER_OK"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
 
+    invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->markLauncherRebootSkipForWallpaperSync()V
+
     const/4 v1, 0x1
     return v1
 
@@ -6514,6 +6520,8 @@
 
     const-string v1, "SYNC_SET_SYSTEM_WALLPAPER_OK_LEGACY"
     invoke-static {v1}, Lcom/smartisanos/launcher/data/Utils;->logWallpaperDiag(Ljava/lang/String;)V
+
+    invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->markLauncherRebootSkipForWallpaperSync()V
 
     const/4 v1, 0x1
     return v1
@@ -6544,6 +6552,62 @@
 
     const/4 v1, 0x0
     return v1
+.end method
+
+.method private static markLauncherRebootSkipForWallpaperSync()V
+    .locals 2
+
+    .prologue
+    invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
+
+    move-result-wide v0
+
+    sput-wide v0, Lcom/smartisanos/launcher/data/Utils;->lastWallpaperSyncAt:J
+
+    return-void
+.end method
+
+.method public static shouldSkipLauncherRebootAfterWallpaperSync()Z
+    .locals 8
+
+    .prologue
+    const-wide/16 v6, 0x0
+
+    sget-wide v0, Lcom/smartisanos/launcher/data/Utils;->lastWallpaperSyncAt:J
+
+    cmp-long v2, v0, v6
+
+    if-nez v2, :cond_check
+
+    const/4 v0, 0x0
+
+    return v0
+
+    :cond_check
+    invoke-static {}, Landroid/os/SystemClock;->uptimeMillis()J
+
+    move-result-wide v2
+
+    sub-long/2addr v2, v0
+
+    const-wide/16 v4, 0x1388
+
+    cmp-long v0, v2, v4
+
+    if-lez v0, :cond_skip
+
+    sput-wide v6, Lcom/smartisanos/launcher/data/Utils;->lastWallpaperSyncAt:J
+
+    const/4 v0, 0x0
+
+    return v0
+
+    :cond_skip
+    sput-wide v6, Lcom/smartisanos/launcher/data/Utils;->lastWallpaperSyncAt:J
+
+    const/4 v0, 0x1
+
+    return v0
 .end method
 
 

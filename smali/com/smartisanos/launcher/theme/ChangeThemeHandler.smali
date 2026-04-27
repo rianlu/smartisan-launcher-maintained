@@ -669,6 +669,18 @@
 
     invoke-static {v9}, Lcom/smartisanos/launcher/data/Constants;->initByTheme(Landroid/content/Context;)V
 
+    invoke-static {p1}, Lcom/smartisanos/launcher/theme/ThemeManager;->isGaussianTheme(Lcom/smartisanos/launcher/theme/Theme;)Z
+
+    move-result v12
+
+    if-eqz v12, :cond_theme_sync_wallpaper
+
+    invoke-static {v9}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
+
+    goto :cond_sync_state_skip
+
+    :cond_theme_sync_wallpaper
+
     invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
 
     move-result-object v1
