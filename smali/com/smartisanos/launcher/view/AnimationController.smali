@@ -6942,9 +6942,6 @@
 
     .prologue
     .line 221
-    invoke-virtual {p0}, Lcom/smartisanos/launcher/view/AnimationController;->playUnlockAnimation()V
-
-    .line 222
     sget-boolean v0, Lcom/smartisanos/launcher/LOG;->ENABLE_DEBUG:Z
 
     if-eqz v0, :cond_0

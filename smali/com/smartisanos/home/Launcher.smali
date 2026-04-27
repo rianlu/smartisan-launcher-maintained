@@ -1178,6 +1178,15 @@
     return-void
 .end method
 
+.method public clearLauncherPreparePowerOffFlag()V
+    .locals 0
+
+    .prologue
+    invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->setLauncherFinishPowerOff()V
+
+    return-void
+.end method
+
 .method private strictMode()V
     .locals 1
 
