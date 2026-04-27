@@ -1352,6 +1352,15 @@
     invoke-static {v2, v3}, Lcom/smartisanos/launcher/data/LauncherSettings;->updateSetting(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 756
+    iget-object v2, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mDisplayedTheme:Lcom/smartisanos/launcher/theme/Theme;
+
+    invoke-static {p0, v2}, Lcom/smartisanos/launcher/data/Utils;->getSystemSyncWallpaper(Landroid/content/Context;Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
+
+    move-result-object v2
+
+    invoke-static {p0, v2}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
+
+    .line 757
     invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
 
     move-result-object v2
@@ -1364,7 +1373,7 @@
 
     invoke-virtual {v2, v3}, Lcom/smartisanos/launcher/ApplicationProxy;->setEnableStatusbarMessage(Z)V
 
-    .line 757
+    .line 758
     iget-object v2, p0, Lcom/smartisanos/launcher/theme/ThemeItemActivity;->mHandler:Landroid/os/Handler;
 
     const/4 v3, 0x1

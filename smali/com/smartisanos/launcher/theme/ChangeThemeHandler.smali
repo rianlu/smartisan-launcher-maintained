@@ -669,32 +669,19 @@
 
     invoke-static {v9}, Lcom/smartisanos/launcher/data/Constants;->initByTheme(Landroid/content/Context;)V
 
-    invoke-static {p1}, Lcom/smartisanos/launcher/theme/ThemeManager;->isGaussianTheme(Lcom/smartisanos/launcher/theme/Theme;)Z
+    sget-object v12, Lcom/smartisanos/launcher/theme/ChangeThemeHandler$RequireChangeFrom;->SETTING:Lcom/smartisanos/launcher/theme/ChangeThemeHandler$RequireChangeFrom;
 
-    move-result v12
+    iget-object v0, p0, Lcom/smartisanos/launcher/theme/ChangeThemeHandler;->mRequireChangeFrom:Lcom/smartisanos/launcher/theme/ChangeThemeHandler$RequireChangeFrom;
 
-    if-eqz v12, :cond_theme_sync_wallpaper
+    if-eq v0, v12, :cond_skip_system_wallpaper_sync
 
-    invoke-static {v9}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
-
-    goto :cond_sync_state_skip
-
-    :cond_theme_sync_wallpaper
-
-    invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
+    invoke-static {v9, p1}, Lcom/smartisanos/launcher/data/Utils;->getSystemSyncWallpaper(Landroid/content/Context;Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
 
     move-result-object v1
 
-    invoke-static {v9, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
+    invoke-static {v9, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)V
 
-    move-result v12
-
-    if-eqz v12, :cond_sync_state_skip
-
-    invoke-static {v9}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
-
-    :cond_sync_state_skip
-
+    :cond_skip_system_wallpaper_sync
     .line 1341
     iget-boolean v8, p1, Lcom/smartisanos/launcher/theme/Theme;->useIconLightShadow:Z
 
@@ -3900,8 +3887,9 @@
     invoke-virtual {v5, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 713
-    sget-boolean v8, Lcom/smartisanos/launcher/data/Constants;->sIsGaussianTheme:Z
+    invoke-static {p1}, Lcom/smartisanos/launcher/theme/ThemeManager;->isGaussianTheme(Lcom/smartisanos/launcher/theme/Theme;)Z
 
+    move-result v8
     if-eqz v8, :cond_1
 
     .line 719

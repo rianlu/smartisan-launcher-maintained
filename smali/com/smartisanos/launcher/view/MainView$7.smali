@@ -63,12 +63,14 @@
 
     move-result-object v22
 
-    sget-object v23, Lcom/smartisanos/launcher/data/Constants;->sWallpaperUri:Ljava/lang/String;
+    invoke-static/range {v22 .. v22}, Lcom/smartisanos/launcher/theme/ThemeManager;->getCurrentTheme(Landroid/content/Context;)Lcom/smartisanos/launcher/theme/Theme;
 
-    invoke-static/range {v22 .. v23}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaperByUri(Landroid/content/Context;Ljava/lang/String;)Landroid/graphics/Bitmap;
+    move-result-object v23
+
+    invoke-static/range {v23 .. v23}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;)Landroid/graphics/Bitmap;
 
     move-result-object v16
-    
+
     .line 907
     .local v16, "ori":Landroid/graphics/Bitmap;
     sget-object v22, Lcom/smartisanos/launcher/data/Constants;->sGaussianResSuffix:Ljava/lang/String;
@@ -129,22 +131,6 @@
     invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/Utils;->getLockscreenWallpaper(Lcom/smartisanos/launcher/theme/Theme;Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
 
     move-result-object v4
-
-    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
-
-    move-result-object v0
-
-    move-object v1, v4
-
-    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaper(Landroid/content/Context;Landroid/graphics/Bitmap;)Z
-
-    move-result v22
-
-    if-eqz v22, :cond_sync_state_skip
-
-    invoke-static {v0}, Lcom/smartisanos/launcher/data/Utils;->updateWallpaperSyncState(Landroid/content/Context;)V
-
-    :cond_sync_state_skip
 
     .line 920
     .local v4, "bmap":Landroid/graphics/Bitmap;

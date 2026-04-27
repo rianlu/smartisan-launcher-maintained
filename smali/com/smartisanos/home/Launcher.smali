@@ -53,8 +53,6 @@
 
 .field public static final REQUEST_CODE_VERIFY_PASSWORD:I = 0x15
 
-.field private static final REQUEST_CODE_WALLPAPER_PERMISSION:I = 0x12d
-
 .field public static final SETUP_WIZARD_COMPLETE:I = 0x1
 
 .field private static final TRANSACTION_ANIM_NONE:I = 0x1
@@ -1313,41 +1311,9 @@
 .end method
 
 .method private maybeRequestWallpaperPermissionAndSync()V
-    .locals 3
+    .locals 0
 
     .prologue
-    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
-
-    const/16 v1, 0x17
-
-    if-lt v0, v1, :cond_sync_now
-
-    const-string v0, "android.permission.READ_EXTERNAL_STORAGE"
-
-    invoke-static {p0, v0}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
-
-    move-result v1
-
-    if-nez v1, :cond_request
-
-    :cond_sync_now
-    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
-
-    return-void
-
-    :cond_request
-    const/4 v1, 0x1
-
-    new-array v1, v1, [Ljava/lang/String;
-
-    const/4 v2, 0x0
-
-    aput-object v0, v1, v2
-
-    const/16 v2, 0x12d
-
-    invoke-static {p0, v1, v2}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
-
     return-void
 .end method
 
@@ -2895,32 +2861,10 @@
 .end method
 
 .method public onRequestPermissionsResult(I[Ljava/lang/String;[I)V
-    .locals 1
+    .locals 0
 
     .prologue
     invoke-super {p0, p1, p2, p3}, Landroid/app/Activity;->onRequestPermissionsResult(I[Ljava/lang/String;[I)V
-
-    const/16 v0, 0x12d
-
-    if-ne p1, v0, :cond_1
-
-    array-length v0, p3
-
-    if-lez v0, :cond_0
-
-    const/4 v0, 0x0
-
-    aget v0, p3, v0
-
-    if-nez v0, :cond_0
-
-    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->syncSystemWallpaperIfNeeded(Landroid/content/Context;)V
-
-    goto :cond_1
-
-    :cond_0
-
-    :cond_1
     return-void
 .end method
 
@@ -2978,19 +2922,11 @@
 
     move-result v0
 
-    if-eqz v0, :cond_1_reboot
-
-    sget-object v0, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
-
-    const-string v1, "DEBUG"
-
-    const-string v2, "skip rebootLauncher because wallpaper sync just finished"
-
-    invoke-virtual {v0, v1, v2}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
+    if-eqz v0, :cond_2
 
     return-void
 
-    :cond_1_reboot
+    :cond_2
     invoke-direct {p0}, Lcom/smartisanos/home/Launcher;->rebootLauncher()V
 
     .line 977
@@ -3702,6 +3638,36 @@
     iget-object v3, p0, Lcom/smartisanos/home/Launcher;->mMainView:Lcom/smartisanos/launcher/view/MainView;
 
     invoke-virtual {v3}, Lcom/smartisanos/launcher/view/MainView;->onResume()V
+
+    iget-object v3, p0, Lcom/smartisanos/home/Launcher;->mMainView:Lcom/smartisanos/launcher/view/MainView;
+
+    if-eqz v3, :cond_gaussian_dirty_done
+
+    iget-object v4, p0, Lcom/smartisanos/home/Launcher;->mMainView:Lcom/smartisanos/launcher/view/MainView;
+
+    if-eqz v4, :cond_gaussian_dirty_done
+
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->consumeGaussianWallpaperDirty(Landroid/content/Context;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_gaussian_dirty_done
+
+    iget-object v3, p0, Lcom/smartisanos/home/Launcher;->mContext:Landroid/app/Activity;
+
+    invoke-static {v3}, Lcom/smartisanos/launcher/theme/ThemeManager;->getCurrentTheme(Landroid/content/Context;)Lcom/smartisanos/launcher/theme/Theme;
+
+    move-result-object v3
+
+    invoke-static {v3}, Lcom/smartisanos/launcher/theme/ThemeManager;->isGaussianTheme(Lcom/smartisanos/launcher/theme/Theme;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_gaussian_dirty_done
+
+    invoke-virtual {v4}, Lcom/smartisanos/launcher/view/MainView;->changeWallpaper()V
+
+    :cond_gaussian_dirty_done
 
     .line 559
     invoke-static {}, Lcom/smartisanos/home/net/NetStatusUtil;->isEnableDownload()Z
