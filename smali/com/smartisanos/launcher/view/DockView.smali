@@ -3396,6 +3396,21 @@
     .param p1, "en"    # Z
 
     .prologue
+    if-eqz p1, :cond_hide_dock_label_checked
+
+    const-string v1, "launcher_hide_dock_label"
+
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_hide_dock_label_checked
+
+    const/4 p1, 0x0
+
+    :cond_hide_dock_label_checked
     .line 173
     iget-object v1, p0, Lcom/smartisanos/launcher/view/DockView;->mDockCells:Ljava/util/ArrayList;
 

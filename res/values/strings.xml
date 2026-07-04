@@ -35,6 +35,12 @@
     <string name="additional_features_sub_text">Display, gestures, and search options</string>
     <string name="transparent_theme_grid_lines_label">Show grid lines in transparent theme</string>
     <string name="transparent_theme_grid_lines_tips">Show cell borders when using the transparent theme.</string>
+    <string name="icon_label_size_label">Icon Label Size</string>
+    <string name="icon_label_size_50">50%</string>
+    <string name="icon_label_size_100">100%</string>
+    <string name="icon_label_size_200">200%</string>
+    <string name="hide_dock_label_label">Hide Dock Icon Labels</string>
+    <string name="hide_dock_label_tips">Only hides icon labels in the Dock. Desktop icon labels follow the main setting.</string>
     <string name="unlock_animation_compat_label">Unlock Animation Compatibility Mode</string>
     <string name="unlock_animation_compat_tips">Enable only if the unlock animation is missing or abnormal. It may cause duplicate unlock animations on some devices.</string>
     <string name="profile_apps_text">Cloned Apps</string>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="20.0dp"
+    android:paddingTop="18.0dp"
+    android:paddingRight="20.0dp"
+    android:paddingBottom="12.0dp">
+
+    <TextView
+        android:id="@id/icon_size_percent_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/setting_item_text_color"
+        android:textSize="20.0sp"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:id="@id/icon_size_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="28.0dp"
+        android:layout_marginTop="16.0dp"
+        android:max="4"
+        android:progressDrawable="@drawable/icon_size_seekbar_progress"
+        android:splitTrack="false"
+        android:thumb="@drawable/icon_size_seekbar_thumb" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6.0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0.0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:text="@string/icon_label_size_50"
+            android:textColor="@color/setting_item_summary_text_color"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_label_size_100"
+            android:textColor="@color/setting_item_summary_text_color"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:layout_width="0.0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="right"
+            android:text="@string/icon_label_size_200"
+            android:textColor="@color/setting_item_summary_text_color"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+</LinearLayout>

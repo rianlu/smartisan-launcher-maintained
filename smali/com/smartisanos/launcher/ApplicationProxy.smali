@@ -77,11 +77,15 @@
 
 .field private mObsCmpMode:Landroid/database/ContentObserver;
 
+.field private mObsDockLabel:Landroid/database/ContentObserver;
+
 .field private mObsEnableCellular:Landroid/database/ContentObserver;
 
 .field private mObsEnableSyncIcon:Landroid/database/ContentObserver;
 
 .field private mObsFlipAnim:Landroid/database/ContentObserver;
+
+.field private mObsIconLabelSize:Landroid/database/ContentObserver;
 
 .field private mObsOpenApp:Landroid/database/ContentObserver;
 
@@ -1783,6 +1787,26 @@
 
     iput-object v0, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mLabelObserver:Landroid/database/ContentObserver;
 
+    const-string v0, "launcher_hide_dock_label"
+
+    const-string v1, "System"
+
+    invoke-direct {p0, v0, v1}, Lcom/smartisanos/launcher/ApplicationProxy;->createAndRegisterObserver(Ljava/lang/String;Ljava/lang/String;)Landroid/database/ContentObserver;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mObsDockLabel:Landroid/database/ContentObserver;
+
+    const-string v0, "launcher_icon_label_size"
+
+    const-string v1, "System"
+
+    invoke-direct {p0, v0, v1}, Lcom/smartisanos/launcher/ApplicationProxy;->createAndRegisterObserver(Ljava/lang/String;Ljava/lang/String;)Landroid/database/ContentObserver;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mObsIconLabelSize:Landroid/database/ContentObserver;
+
     .line 301
     const-string v0, "launcher_hide_badge"
 
@@ -2272,6 +2296,14 @@
 
     invoke-virtual {v0, v1}, Landroid/content/ContentResolver;->unregisterContentObserver(Landroid/database/ContentObserver;)V
 
+    iget-object v1, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mObsDockLabel:Landroid/database/ContentObserver;
+
+    invoke-virtual {v0, v1}, Landroid/content/ContentResolver;->unregisterContentObserver(Landroid/database/ContentObserver;)V
+
+    iget-object v1, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mObsIconLabelSize:Landroid/database/ContentObserver;
+
+    invoke-virtual {v0, v1}, Landroid/content/ContentResolver;->unregisterContentObserver(Landroid/database/ContentObserver;)V
+
     .line 323
     iget-object v1, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mBadgeObserver:Landroid/database/ContentObserver;
 
@@ -2669,6 +2701,65 @@
 
     .line 745
     .local v5, "resolver":Landroid/content/ContentResolver;
+    const-string v8, "launcher_hide_dock_label"
+
+    invoke-virtual {v8, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_icon_label_size_checked
+
+    new-instance v1, Lcom/smartisanos/launcher/ApplicationProxy$16;
+
+    const/16 v8, 0x64
+
+    invoke-direct {v1, p0, v8}, Lcom/smartisanos/launcher/ApplicationProxy$16;-><init>(Lcom/smartisanos/launcher/ApplicationProxy;I)V
+
+    .line 760
+    .local v1, "event":Lcom/smartisanos/smengine/Event;
+    invoke-static {}, Lcom/smartisanos/smengine/World;->getInstance()Lcom/smartisanos/smengine/World;
+
+    move-result-object v8
+
+    invoke-virtual {v8}, Lcom/smartisanos/smengine/World;->getEventManager()Lcom/smartisanos/smengine/EventManager;
+
+    move-result-object v8
+
+    invoke-virtual {v8, v1}, Lcom/smartisanos/smengine/EventManager;->sendEvent(Lcom/smartisanos/smengine/Event;)V
+
+    goto/16 :goto_0
+
+    :cond_icon_label_size_checked
+
+    const-string v8, "launcher_icon_label_size"
+
+    invoke-virtual {v8, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_app_name_setting_checked
+
+    new-instance v1, Lcom/smartisanos/launcher/ApplicationProxy$17;
+
+    const/16 v8, 0x64
+
+    invoke-direct {v1, p0, v8}, Lcom/smartisanos/launcher/ApplicationProxy$17;-><init>(Lcom/smartisanos/launcher/ApplicationProxy;I)V
+
+    .line 760
+    .local v1, "event":Lcom/smartisanos/smengine/Event;
+    invoke-static {}, Lcom/smartisanos/smengine/World;->getInstance()Lcom/smartisanos/smengine/World;
+
+    move-result-object v8
+
+    invoke-virtual {v8}, Lcom/smartisanos/smengine/World;->getEventManager()Lcom/smartisanos/smengine/EventManager;
+
+    move-result-object v8
+
+    invoke-virtual {v8, v1}, Lcom/smartisanos/smengine/EventManager;->sendEvent(Lcom/smartisanos/smengine/Event;)V
+
+    goto/16 :goto_0
+
+    :cond_app_name_setting_checked
     const-string v8, "launcher_hide_lable"
 
     invoke-virtual {v8, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z

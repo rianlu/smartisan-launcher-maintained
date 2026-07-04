@@ -476,7 +476,13 @@
     .line 474
     sget-object v17, Lcom/smartisanos/launcher/view/TextView;->sAppPaintTemp:Landroid/graphics/Paint;
 
-    int-to-float v0, v10
+    invoke-static {v10}, Lcom/smartisanos/launcher/view/TextView;->applyIconLabelSize(I)I
+
+    move-result v18
+
+    move/from16 v0, v18
+
+    int-to-float v0, v0
 
     move/from16 v18, v0
 
@@ -1095,8 +1101,85 @@
     return-object v10
 .end method
 
+.method private static applyIconLabelSize(I)I
+    .locals 3
+    .param p0, "fontSize"    # I
+
+    .prologue
+    const-string v0, "launcher_icon_label_size"
+
+    const/16 v1, 0x64
+
+    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;I)I
+
+    move-result v0
+
+    if-nez v0, :cond_not_0
+
+    const/16 v0, 0x50
+
+    goto :goto_ready
+
+    :cond_not_0
+    const/4 v1, 0x1
+
+    if-ne v0, v1, :cond_not_1
+
+    const/16 v0, 0x5a
+
+    goto :goto_ready
+
+    :cond_not_1
+    const/4 v1, 0x2
+
+    if-ne v0, v1, :cond_not_2
+
+    const/16 v0, 0x64
+
+    goto :goto_ready
+
+    :cond_not_2
+    const/4 v1, 0x3
+
+    if-ne v0, v1, :cond_not_3
+
+    const/16 v0, 0x82
+
+    goto :goto_ready
+
+    :cond_not_3
+    const/4 v1, 0x4
+
+    if-ne v0, v1, :cond_range
+
+    const/16 v0, 0x96
+
+    goto :goto_ready
+
+    :cond_range
+    const/16 v1, 0x32
+
+    if-lt v0, v1, :cond_standard
+
+    const/16 v1, 0xc8
+
+    if-gt v0, v1, :cond_standard
+
+    goto :goto_ready
+
+    :cond_standard
+    const/16 v0, 0x64
+
+    :goto_ready
+    mul-int v2, p0, v0
+
+    div-int/lit8 p0, v2, 0x64
+
+    return p0
+.end method
+
 .method public static initTextPaints()V
-    .locals 11
+    .locals 12
 
     .prologue
     const/4 v10, 0x0
@@ -1118,6 +1201,12 @@
 
     .line 101
     .local v0, "font_size":I
+    move v11, v0
+
+    invoke-static {v0}, Lcom/smartisanos/launcher/view/TextView;->applyIconLabelSize(I)I
+
+    move-result v0
+
     new-instance v2, Landroid/graphics/Paint;
 
     invoke-direct {v2}, Landroid/graphics/Paint;-><init>()V
@@ -1185,6 +1274,8 @@
     invoke-virtual {v2, v3}, Landroid/graphics/Paint;->setColor(I)V
 
     .line 113
+    move v0, v11
+
     new-instance v2, Landroid/graphics/Paint;
 
     invoke-direct {v2}, Landroid/graphics/Paint;-><init>()V

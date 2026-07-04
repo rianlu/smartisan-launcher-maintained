@@ -35,6 +35,12 @@
     <string name="additional_features_sub_text">桌面显示, 手势与搜索相关选项</string>
     <string name="transparent_theme_grid_lines_label">透明主题显示宫格分隔线</string>
     <string name="transparent_theme_grid_lines_tips">开启后透明主题会显示宫格边界</string>
+    <string name="icon_label_size_label">图标名称字体大小</string>
+    <string name="icon_label_size_50">50%</string>
+    <string name="icon_label_size_100">100%</string>
+    <string name="icon_label_size_200">200%</string>
+    <string name="hide_dock_label_label">隐藏 Dock 图标名称</string>
+    <string name="hide_dock_label_tips">仅隐藏 Dock 栏图标名称, 桌面图标名称仍跟随主设置</string>
     <string name="unlock_animation_compat_label">解锁动画兼容模式</string>
     <string name="unlock_animation_compat_tips">仅在解锁动画缺失或显示异常时开启, 部分设备开启后可能出现重复解锁动画</string>
     <string name="profile_apps_text">分身应用</string>
