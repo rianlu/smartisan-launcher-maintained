@@ -137,6 +137,59 @@
     :cond_0
     iget-object v4, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->mContext:Landroid/content/Context;
 
+    const v5, 0x7f080278
+
+    invoke-virtual {v4, v5}, Landroid/content/Context;->getString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {p1, v0}, Ljava/util/HashMap;->containsKey(Ljava/lang/Object;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_recent_done
+
+    invoke-virtual {p1, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v4
+
+    if-eqz v4, :cond_recent_done
+
+    invoke-virtual {p1, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v4
+
+    check-cast v4, Ljava/util/List;
+
+    invoke-interface {v4}, Ljava/util/List;->size()I
+
+    move-result v4
+
+    if-lt v4, v6, :cond_recent_done
+
+    const/4 v3, 0x0
+
+    iget-object v4, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->mRealDataList:Ljava/util/List;
+
+    new-instance v5, Lcom/smartisanos/quicksearchbox/repository/ui/bean/title/TitleBean;
+
+    invoke-direct {v5, v0}, Lcom/smartisanos/quicksearchbox/repository/ui/bean/title/TitleBean;-><init>(Ljava/lang/String;)V
+
+    invoke-interface {v4, v5}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    iget-object v5, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->mRealDataList:Ljava/util/List;
+
+    invoke-virtual {p1, v0}, Ljava/util/HashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v4
+
+    check-cast v4, Ljava/util/Collection;
+
+    invoke-interface {v5, v4}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
+
+    :cond_recent_done
+    iget-object v4, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->mContext:Landroid/content/Context;
+
     const v5, 0x7f0800b1
 
     invoke-virtual {v4, v5}, Landroid/content/Context;->getString(I)Ljava/lang/String;

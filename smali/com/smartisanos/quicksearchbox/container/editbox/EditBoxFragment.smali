@@ -309,12 +309,6 @@
 
     if-eqz v0, :cond_1
 
-    invoke-virtual {p0}, Lcom/smartisanos/quicksearchbox/container/editbox/EditBoxFragment;->isClearButtonVisible()Z
-
-    move-result v0
-
-    if-eqz v0, :cond_1
-
     .line 146
     invoke-virtual {p0}, Lcom/smartisanos/quicksearchbox/container/editbox/EditBoxFragment;->setClearButtonInvisible()V
 

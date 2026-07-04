@@ -1894,6 +1894,11 @@
     <public type="string" name="launcher_icon_size_standard" id="0x7f080271" />
     <public type="string" name="launcher_icon_size_large" id="0x7f080272" />
     <public type="string" name="launcher_icon_size_extra_large" id="0x7f080273" />
+    <public type="string" name="search_usage_sort_label" id="0x7f080274" />
+    <public type="string" name="search_usage_sort_tips" id="0x7f080275" />
+    <public type="string" name="search_recent_apps_label" id="0x7f080276" />
+    <public type="string" name="search_recent_apps_tips" id="0x7f080277" />
+    <public type="string" name="search_recent_apps_title" id="0x7f080278" />
     <public type="dimen" name="abc_alert_dialog_button_bar_height" id="0x7f090000" />
     <public type="dimen" name="quickbar_ex_grid_column_width" id="0x7f090001" />
     <public type="dimen" name="quickbar_ex_width" id="0x7f090002" />
@@ -3945,5 +3950,7 @@
     <public type="id" name="icon_size_preview_small" id="0x7f0f018d" />
     <public type="id" name="icon_size_preview_medium" id="0x7f0f018e" />
     <public type="id" name="icon_size_preview_large" id="0x7f0f018f" />
+    <public type="id" name="item_id_search_usage_sort" id="0x7f0f0192" />
+    <public type="id" name="item_id_search_recent_apps" id="0x7f0f0193" />
     <public type="menu" name="main" id="0x7f100000" />
 </resources>

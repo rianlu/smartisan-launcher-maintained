@@ -202,6 +202,11 @@
     <string name="swipe_up_search_tips">开启后可在桌面空白区域上滑呼出搜索</string>
     <string name="search_default_t9_keyboard_label">搜索默认使用 T9 键盘</string>
     <string name="search_default_t9_keyboard_tips">开启后打开搜索优先显示 T9 键盘, 关闭后显示系统输入法</string>
+    <string name="search_usage_sort_label">搜索结果按使用频率排序</string>
+    <string name="search_usage_sort_tips">开启后应用搜索结果会优先显示常用应用</string>
+    <string name="search_recent_apps_label">显示最近使用应用</string>
+    <string name="search_recent_apps_tips">开启后打开搜索且未输入内容时显示最近使用应用</string>
+    <string name="search_recent_apps_title">最近使用</string>
     <string name="search_contacts_label">在搜索中显示联系人</string>
     <string name="search_contacts_tips">开启后会申请联系人权限, 并在搜索结果中显示联系人</string>
     <string name="quick_start_setting_ok_btn_text">完成</string>

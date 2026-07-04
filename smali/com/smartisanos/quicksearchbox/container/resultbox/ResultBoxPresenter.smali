@@ -217,15 +217,55 @@
 
 # virtual methods
 .method public clearQueryResultShowBackground()V
-    .locals 1
+    .locals 5
 
     .prologue
     .line 80
+    iget-object v0, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxPresenter;->mBeanRepository:Lcom/smartisanos/quicksearchbox/repository/BeanRepository;
+
+    const/4 v1, 0x0
+
+    const-string v2, ""
+
+    invoke-virtual {v0, v1, v2}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->createAppBeanList(ZLjava/lang/String;)Ljava/util/List;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_clear
+
+    invoke-interface {v0}, Ljava/util/List;->isEmpty()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_recent
+
+    :cond_clear
     iget-object v0, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxPresenter;->mResultBoxView:Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxContract$View;
 
     invoke-interface {v0}, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxContract$View;->clearResult()V
 
     .line 81
+    return-void
+
+    :cond_recent
+    new-instance v1, Ljava/util/HashMap;
+
+    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+
+    iget-object v2, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxPresenter;->mContext:Landroid/content/Context;
+
+    const v3, 0x7f080278
+
+    invoke-virtual {v2, v3}, Landroid/content/Context;->getString(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2, v0}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    iget-object v4, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxPresenter;->mResultBoxView:Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxContract$View;
+
+    invoke-interface {v4, v1}, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxContract$View;->refreshResult(Ljava/util/HashMap;)V
+
     return-void
 .end method
 

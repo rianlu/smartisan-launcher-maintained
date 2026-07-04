@@ -52,6 +52,12 @@
 
     invoke-virtual {v1, v2}, Lcom/smartisanos/home/Launcher;->startActivity(Landroid/content/Intent;)V
 
+    iget-object v1, p0, Lcom/smartisanos/launcher/actions/StartActivity$2;->val$launcher:Lcom/smartisanos/home/Launcher;
+
+    iget-object v2, p0, Lcom/smartisanos/launcher/actions/StartActivity$2;->val$intent:Landroid/content/Intent;
+
+    invoke-static {v1, v2}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->recordIntent(Landroid/content/Context;Landroid/content/Intent;)V
+
     .line 170
     iget-object v1, p0, Lcom/smartisanos/launcher/actions/StartActivity$2;->val$launcher:Lcom/smartisanos/home/Launcher;
 

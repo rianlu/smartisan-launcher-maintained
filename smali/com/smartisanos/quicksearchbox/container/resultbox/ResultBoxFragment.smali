@@ -63,7 +63,6 @@
     return-object v1
 .end method
 
-
 # virtual methods
 .method public clearResult()V
     .locals 1
@@ -72,6 +71,8 @@
     .line 95
     iget-object v0, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxFragment;->mResultListAdapter:Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;
 
+    if-eqz v0, :cond_adapter_ready
+
     invoke-virtual {v0}, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->clearDataList()V
 
     .line 96
@@ -79,6 +80,7 @@
 
     invoke-virtual {v0}, Lcom/smartisanos/quicksearchbox/container/resultbox/resultlist/ResultListAdapter;->notifyDataSetChanged()V
 
+    :cond_adapter_ready
     .line 97
     iget-object v0, p0, Lcom/smartisanos/quicksearchbox/container/resultbox/ResultBoxFragment;->mContext:Landroid/content/Context;
 

@@ -200,6 +200,11 @@
     <string name="swipe_up_search_tips">Swipe up on an empty area of the home screen to open search.</string>
     <string name="search_default_t9_keyboard_label">Use T9 Keyboard By Default</string>
     <string name="search_default_t9_keyboard_tips">When enabled, search opens with the T9 keyboard first. When disabled, it opens with the system input method.</string>
+    <string name="search_usage_sort_label">Sort Search Results By Usage</string>
+    <string name="search_usage_sort_tips">When enabled, app search results put frequently used apps first.</string>
+    <string name="search_recent_apps_label">Show Recently Used Apps</string>
+    <string name="search_recent_apps_tips">When enabled, opening Search without keywords shows recently used apps.</string>
+    <string name="search_recent_apps_title">Recently Used</string>
     <string name="search_contacts_label">Show Contacts In Search</string>
     <string name="search_contacts_tips">When enabled, search requests Contacts permission and shows contacts in results.</string>
     <string name="quick_start_setting_ok_btn_text">Ok</string>

@@ -176,6 +176,16 @@
 
     move-result-object v4
 
+    iget-object v5, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository$1;->val$appSearchBean:Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;
+
+    invoke-static {v4, v5}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->record(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)V
+
+    iget-object v4, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository$1;->this$0:Lcom/smartisanos/quicksearchbox/repository/BeanRepository;
+
+    invoke-static {v4}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->access$100(Lcom/smartisanos/quicksearchbox/repository/BeanRepository;)Landroid/content/Context;
+
+    move-result-object v4
+
     const-class v5, Lcom/smartisanos/home/settings/view/SettingMainActivity;
 
     invoke-virtual {v0, v4, v5}, Landroid/content/Intent;->setClass(Landroid/content/Context;Ljava/lang/Class;)Landroid/content/Intent;
@@ -306,6 +316,16 @@
     invoke-virtual {v0, v4}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
 
     .line 198
+    iget-object v4, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository$1;->this$0:Lcom/smartisanos/quicksearchbox/repository/BeanRepository;
+
+    invoke-static {v4}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->access$100(Lcom/smartisanos/quicksearchbox/repository/BeanRepository;)Landroid/content/Context;
+
+    move-result-object v4
+
+    iget-object v5, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository$1;->val$appSearchBean:Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;
+
+    invoke-static {v4, v5}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->record(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)V
+
     iget-object v4, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository$1;->this$0:Lcom/smartisanos/quicksearchbox/repository/BeanRepository;
 
     invoke-static {v4}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->access$100(Lcom/smartisanos/quicksearchbox/repository/BeanRepository;)Landroid/content/Context;

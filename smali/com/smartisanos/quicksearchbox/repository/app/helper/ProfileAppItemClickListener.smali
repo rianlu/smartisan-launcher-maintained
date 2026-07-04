@@ -65,7 +65,15 @@
 
     move-result v0
 
-    if-nez v0, :cond_1
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppItemClickListener;->mContext:Landroid/content/Context;
+
+    iget-object v1, p0, Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppItemClickListener;->mProfileAppSearchBean:Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;
+
+    invoke-static {v0, v1}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->record(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;)V
+
+    goto :goto_0
 
     .line 25
     :cond_0
@@ -90,5 +98,6 @@
 
     .line 29
     :cond_1
+    :goto_0
     return-void
 .end method

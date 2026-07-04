@@ -196,6 +196,110 @@
     return-void
 .end method
 
+.method private appendRecentProfileAppBeans(Ljava/util/List;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)Z
+    .locals 10
+    .param p2, "appSearchBean"    # Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Ljava/util/List",
+            "<",
+            "Lcom/smartisanos/quicksearchbox/repository/ui/bean/doublesingle/DoubleSingleItemBean;",
+            ">;",
+            "Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;",
+            ")Z"
+        }
+    .end annotation
+
+    const/4 v7, 0x0
+
+    if-eqz p1, :cond_end
+
+    if-eqz p2, :cond_end
+
+    iget-object v0, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mProfileAppSearchHelper:Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppSearchHelper;
+
+    if-nez v0, :cond_0
+
+    goto :goto_end
+
+    :cond_0
+    invoke-virtual {v0, p2}, Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppSearchHelper;->findProfileApps(Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)Ljava/util/List;
+
+    move-result-object v4
+
+    if-eqz v4, :cond_end
+
+    invoke-interface {v4}, Ljava/util/List;->size()I
+
+    move-result v0
+
+    if-gtz v0, :cond_1
+
+    goto :goto_end
+
+    :cond_1
+    invoke-interface {v4}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+
+    move-result-object v0
+
+    :goto_0
+    invoke-interface {v0}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_end
+
+    invoke-interface {v0}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;
+
+    iget-object v8, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mContext:Landroid/content/Context;
+
+    invoke-static {v8, v1}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->getLastUsed(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;)J
+
+    move-result-wide v8
+
+    const-wide/16 v5, 0x0
+
+    cmp-long v2, v8, v5
+
+    if-lez v2, :cond_next
+
+    invoke-virtual {v1}, Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;->getTitle()Ljava/lang/String;
+
+    move-result-object v2
+
+    new-instance v3, Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppItemClickListener;
+
+    iget-object v5, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mContext:Landroid/content/Context;
+
+    iget-object v6, p0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mProfileAppSearchHelper:Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppSearchHelper;
+
+    invoke-direct {v3, v5, v6, v1}, Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppItemClickListener;-><init>(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/helper/ProfileAppSearchHelper;Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;)V
+
+    new-instance v5, Lcom/smartisanos/quicksearchbox/repository/ui/bean/doublesingle/AppBean;
+
+    invoke-virtual {v1}, Lcom/smartisanos/quicksearchbox/repository/app/bean/ProfileAppSearchBean;->getIcon()Landroid/graphics/drawable/Drawable;
+
+    move-result-object v6
+
+    invoke-direct {v5, v6, v2, v3}, Lcom/smartisanos/quicksearchbox/repository/ui/bean/doublesingle/AppBean;-><init>(Landroid/graphics/drawable/Drawable;Ljava/lang/String;Lcom/smartisanos/quicksearchbox/ibase/BaseItemOnClikcListener;)V
+
+    invoke-interface {p1, v5}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    const/4 v7, 0x1
+
+    :cond_next
+    goto :goto_0
+
+    :cond_end
+    :goto_end
+    return v7
+.end method
+
 .method static synthetic access$000(Lcom/smartisanos/quicksearchbox/repository/BeanRepository;Ljava/util/List;Ljava/lang/String;)Lcom/smartisanos/launcher/data/ItemInfo;
     .locals 1
     .param p0, "x0"    # Lcom/smartisanos/quicksearchbox/repository/BeanRepository;
@@ -340,6 +444,16 @@
     .line 123
     .local v11, "resultList":Ljava/util/List;, "Ljava/util/List<Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;>;"
     :goto_0
+    move-object/from16 v0, p0
+
+    iget-object v14, v0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mContext:Landroid/content/Context;
+
+    move-object/from16 v0, p2
+
+    invoke-static {v14, v11, v0}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->sortForSearch(Landroid/content/Context;Ljava/util/List;Ljava/lang/String;)Ljava/util/List;
+
+    move-result-object v11
+
     if-eqz v11, :cond_2
 
     .line 124
@@ -469,6 +583,37 @@
 
     .line 139
     .local v5, "finalUnInstalledApps":Ljava/util/List;, "Ljava/util/List<Lcom/smartisanos/launcher/data/ItemInfo;>;"
+    invoke-static/range {p2 .. p2}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v15
+
+    if-eqz v15, :cond_recent_main_ready
+
+    move-object/from16 v0, p0
+
+    iget-object v15, v0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mContext:Landroid/content/Context;
+
+    invoke-static {v15, v2}, Lcom/smartisanos/quicksearchbox/repository/app/helper/SearchUsageStore;->getLastUsed(Landroid/content/Context;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)J
+
+    move-result-wide v3
+
+    const-wide/16 v16, 0x0
+
+    cmp-long v15, v3, v16
+
+    if-lez v15, :cond_recent_profile_only
+
+    goto :goto_recent_main_ready
+
+    :cond_recent_profile_only
+    move-object/from16 v0, p0
+
+    invoke-direct {v0, v12, v2}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->appendRecentProfileAppBeans(Ljava/util/List;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)Z
+
+    goto :goto_2
+
+    :cond_recent_main_ready
+    :goto_recent_main_ready
     move-object/from16 v0, p0
 
     iget-object v15, v0, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->mContext:Landroid/content/Context;
@@ -571,10 +716,25 @@
     invoke-interface {v12, v15}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 154
+    invoke-static/range {p2 .. p2}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v15
+
+    if-eqz v15, :cond_append_profile_apps
+
+    move-object/from16 v0, p0
+
+    invoke-direct {v0, v12, v2}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->appendRecentProfileAppBeans(Ljava/util/List;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)Z
+
+    goto :cond_skip_profile_apps
+
+    :cond_append_profile_apps
+
     move-object/from16 v0, p0
 
     invoke-direct {v0, v12, v2}, Lcom/smartisanos/quicksearchbox/repository/BeanRepository;->appendProfileAppBeans(Ljava/util/List;Lcom/smartisanos/quicksearchbox/repository/app/bean/AppSearchBean;)V
 
+    :cond_skip_profile_apps
     goto :goto_2
 
     .line 146

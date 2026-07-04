@@ -20,6 +20,10 @@
 
 .field private mSearchContactsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+.field private mSearchRecentAppsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+.field private mSearchUsageSortSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
 .field private mTransparentThemeGridLinesSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
 .field private mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
@@ -172,6 +176,20 @@
     invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
     :cond_contacts
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchUsageSortSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_recent_apps
+
+    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_recent_apps
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchRecentAppsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_search_contacts
+
+    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_search_contacts
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchContactsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     if-eqz v0, :cond_end
@@ -681,6 +699,22 @@
 
     iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchDefaultT9KeyboardSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+    const-string v0, "item_id_search_usage_sort"
+
+    invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findSwitch(Ljava/lang/String;)Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchUsageSortSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v0, "item_id_search_recent_apps"
+
+    invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findSwitch(Ljava/lang/String;)Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchRecentAppsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
     const-string v0, "item_id_search_contacts"
 
     invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findSwitch(Ljava/lang/String;)Lcom/smartisanos/home/settings/SettingItemSwitch;
@@ -762,6 +796,26 @@
 
     if-nez v2, :cond_end
 
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchUsageSortSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "search_usage_sort_enabled"
+
+    invoke-direct {p0, p1, v0, v1, p2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->handleSwitchChanged(Landroid/widget/CompoundButton;Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)Z
+
+    move-result v2
+
+    if-nez v2, :cond_end
+
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchRecentAppsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "search_recent_apps_enabled"
+
+    invoke-direct {p0, p1, v0, v1, p2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->handleSwitchChanged(Landroid/widget/CompoundButton;Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)Z
+
+    move-result v2
+
+    if-nez v2, :cond_end
+
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchContactsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     const-string v1, "search_contacts_enabled"
@@ -823,6 +877,20 @@
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchDefaultT9KeyboardSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     const-string v1, "search_default_t9_keyboard"
+
+    invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
+
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchUsageSortSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "search_usage_sort_enabled"
+
+    const/4 v2, 0x1
+
+    invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
+
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchRecentAppsSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "search_recent_apps_enabled"
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
 
