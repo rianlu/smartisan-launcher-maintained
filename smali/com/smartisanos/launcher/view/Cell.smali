@@ -25833,13 +25833,13 @@
     const/high16 v5, 0x3f800000    # 1.0f
 
     .line 3423
-    sget-boolean v2, Lcom/smartisanos/launcher/data/Constants;->sIsTransparentTheme:Z
+    sget-boolean v2, Lcom/smartisanos/launcher/data/Constants;->sIsGaussianTheme:Z
 
     if-eqz v2, :cond_transparent_bg_visible
 
     const-string v2, "transparent_theme_grid_lines_enabled"
 
-    invoke-static {v2, v7}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+    invoke-static {v2, v6}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
 
     move-result v2
 

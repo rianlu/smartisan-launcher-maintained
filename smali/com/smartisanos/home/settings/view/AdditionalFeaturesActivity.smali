@@ -800,7 +800,7 @@
 
     const-string v1, "transparent_theme_grid_lines_enabled"
 
-    const/4 v2, 0x0
+    const/4 v2, 0x1
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
 
