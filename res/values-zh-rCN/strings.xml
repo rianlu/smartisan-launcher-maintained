@@ -528,4 +528,5 @@
     <string name="waiting_user_input_report">等待用户输入</string>
     <string name="weather_toast">当前 %1$s ℃，%2$s</string>
     <string name="weather_toast_no_data">当前无法获取天气数据</string>
+    <string name="shortcut_removed_success">快捷方式已删除</string>
 </resources>

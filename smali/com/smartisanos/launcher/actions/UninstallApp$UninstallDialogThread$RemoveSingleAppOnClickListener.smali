@@ -80,33 +80,23 @@
 
     .line 571
     :cond_1
-    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
+    move-object/from16 v0, p0
 
-    move-result-object v18
+    iget-object v0, v0, Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread$RemoveSingleAppOnClickListener;->this$1:Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread;
 
-    invoke-virtual/range {v18 .. v18}, Lcom/smartisanos/launcher/view/MainView;->getDockView()Lcom/smartisanos/launcher/view/DockView;
+    move-object/from16 v18, v0
 
-    move-result-object v18
+    invoke-static/range {v18 .. v18}, Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread;->access$600(Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread;)Lcom/smartisanos/launcher/data/ItemInfo;
 
-    invoke-virtual/range {v18 .. v18}, Lcom/smartisanos/launcher/view/DockView;->getTrashView()Lcom/smartisanos/launcher/view/TrashView;
-
-    move-result-object v18
-
-    invoke-virtual/range {v18 .. v18}, Lcom/smartisanos/launcher/view/TrashView;->getWaitingUninstallAppInfo()Lcom/smartisanos/launcher/view/Cell;
-
-    move-result-object v6
+    move-result-object v11
 
     .line 572
-    .local v6, "cell":Lcom/smartisanos/launcher/view/Cell;
-    if-eqz v6, :cond_2
-
-    invoke-virtual {v6}, Lcom/smartisanos/launcher/view/Cell;->getItemInfo()Lcom/smartisanos/launcher/data/ItemInfo;
-
-    move-result-object v18
-
-    if-nez v18, :cond_3
+    .local v11, "item":Lcom/smartisanos/launcher/data/ItemInfo;
+    if-eqz v11, :cond_2
 
     .line 573
+    goto :cond_3
+
     :cond_2
     const/16 v18, 0x0
 
@@ -116,12 +106,7 @@
 
     .line 576
     :cond_3
-    invoke-virtual {v6}, Lcom/smartisanos/launcher/view/Cell;->getItemInfo()Lcom/smartisanos/launcher/data/ItemInfo;
-
-    move-result-object v11
-
     .line 577
-    .local v11, "item":Lcom/smartisanos/launcher/data/ItemInfo;
     iget-byte v0, v11, Lcom/smartisanos/launcher/data/ItemInfo;->itemType:B
 
     move/from16 v18, v0

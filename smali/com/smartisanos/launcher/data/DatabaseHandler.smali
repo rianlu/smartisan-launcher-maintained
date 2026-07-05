@@ -5132,6 +5132,35 @@
     goto :goto_profile_shortcut_notify
 
     :cond_profile_shortcut_normal_icon
+    if-eqz v20, :cond_pinned_shortcut_use_generated_icon
+
+    invoke-virtual/range {v19 .. v19}, Landroid/content/Intent;->getComponent()Landroid/content/ComponentName;
+
+    move-result-object v29
+
+    if-eqz v29, :cond_pinned_shortcut_use_generated_icon
+
+    invoke-virtual/range {v29 .. v29}, Landroid/content/ComponentName;->getClassName()Ljava/lang/String;
+
+    move-result-object v29
+
+    const-string v30, "com.smartisanos.launcher.ShortcutLaunchActivity"
+
+    move-object/from16 v0, v30
+
+    move-object/from16 v1, v29
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v29
+
+    if-eqz v29, :cond_pinned_shortcut_use_generated_icon
+
+    move-object/from16 v14, v20
+
+    goto :cond_9
+
+    :cond_pinned_shortcut_use_generated_icon
     move-object/from16 v0, v23
 
     iget-object v0, v0, Lcom/smartisanos/launcher/data/ShortcutInfo;->packageName:Ljava/lang/String;

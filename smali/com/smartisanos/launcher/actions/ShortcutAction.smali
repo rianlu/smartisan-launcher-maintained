@@ -3,9 +3,6 @@
 .source "ShortcutAction.java"
 
 
-# static fields
-.field public static final SUPPORTED_APPS:[Ljava/lang/String;
-
 .field public static final WECHAT:Ljava/lang/String; = "com.tencent.mm"
 
 .field private static final log:Lcom/smartisanos/launcher/LOG;
@@ -13,7 +10,7 @@
 
 # direct methods
 .method static constructor <clinit>()V
-    .locals 3
+    .locals 1
 
     .prologue
     .line 25
@@ -24,27 +21,6 @@
     move-result-object v0
 
     sput-object v0, Lcom/smartisanos/launcher/actions/ShortcutAction;->log:Lcom/smartisanos/launcher/LOG;
-
-    .line 28
-    const/4 v0, 0x2
-
-    new-array v0, v0, [Ljava/lang/String;
-
-    const/4 v1, 0x0
-
-    const-string v2, "com.tencent.mm"
-
-    aput-object v2, v0, v1
-
-    const/4 v1, 0x1
-
-    sget-object v2, Lcom/smartisanos/launcher/data/SystemPreInstallApps;->PHONE:Lcom/smartisanos/launcher/data/SystemPreInstallApps$APP;
-
-    iget-object v2, v2, Lcom/smartisanos/launcher/data/SystemPreInstallApps$APP;->pkg:Ljava/lang/String;
-
-    aput-object v2, v0, v1
-
-    sput-object v0, Lcom/smartisanos/launcher/actions/ShortcutAction;->SUPPORTED_APPS:[Ljava/lang/String;
 
     return-void
 .end method
@@ -657,6 +633,17 @@
     .line 179
     :cond_1
     :goto_1
+    move-object/from16 v13, p0
+
+    invoke-static {v13, v9}, Lcom/smartisanos/launcher/ShortcutIconHelper;->loadContactPhoto(Landroid/content/Context;Landroid/content/Intent;)Landroid/graphics/Bitmap;
+
+    move-result-object v13
+
+    if-eqz v13, :cond_contact_photo_done
+
+    move-object v5, v13
+
+    :cond_contact_photo_done
     new-instance v8, Lcom/smartisanos/launcher/data/ShortcutInfo;
 
     invoke-direct {v8}, Lcom/smartisanos/launcher/data/ShortcutInfo;-><init>()V
@@ -795,66 +782,21 @@
 .end method
 
 .method public static isSupported(Ljava/lang/String;)Z
-    .locals 7
+    .locals 1
     .param p0, "pkg"    # Ljava/lang/String;
 
     .prologue
     .line 33
-    const/4 v1, 0x0
+    if-eqz p0, :cond_0
 
-    .line 34
-    .local v1, "supported":Z
-    if-nez p0, :cond_0
+    const/4 v0, 0x1
 
-    move v2, v1
+    return v0
 
-    .line 43
-    .end local v1    # "supported":Z
-    .local v2, "supported":I
-    :goto_0
-    return v2
-
-    .line 37
-    .end local v2    # "supported":I
-    .restart local v1    # "supported":Z
     :cond_0
-    sget-object v4, Lcom/smartisanos/launcher/actions/ShortcutAction;->SUPPORTED_APPS:[Ljava/lang/String;
+    const/4 v0, 0x0
 
-    array-length v5, v4
-
-    const/4 v3, 0x0
-
-    :goto_1
-    if-ge v3, v5, :cond_1
-
-    aget-object v0, v4, v3
-
-    .line 38
-    .local v0, "str":Ljava/lang/String;
-    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v6
-
-    if-eqz v6, :cond_2
-
-    .line 39
-    const/4 v1, 0x1
-
-    .end local v0    # "str":Ljava/lang/String;
-    :cond_1
-    move v2, v1
-
-    .line 43
-    .restart local v2    # "supported":I
-    goto :goto_0
-
-    .line 37
-    .end local v2    # "supported":I
-    .restart local v0    # "str":Ljava/lang/String;
-    :cond_2
-    add-int/lit8 v3, v3, 0x1
-
-    goto :goto_1
+    return v0
 .end method
 
 .method public static isValidShortcutLaunchIntent(Landroid/content/Intent;)Z

@@ -273,6 +273,12 @@
 
     .line 487
     .local v0, "appName":Ljava/lang/String;
+    iget-object v8, p0, Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread;->itemInfo:Lcom/smartisanos/launcher/data/ItemInfo;
+
+    iget-byte v8, v8, Lcom/smartisanos/launcher/data/ItemInfo;->itemType:B
+
+    if-eq v8, v12, :cond_shortcut_dialog_text
+
     sget v8, Lcom/smartisanos/launcher/ResIds$string;->uninstall_app_dialog_text:I
 
     invoke-virtual {v2, v8}, Lcom/smartisanos/home/Launcher;->getString(I)Ljava/lang/String;
@@ -287,6 +293,17 @@
     invoke-static {v4, v8}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v4
+
+    goto :goto_single_dialog_text_done
+
+    :cond_shortcut_dialog_text
+    const v8, 0x7f0801e9
+
+    invoke-virtual {v2, v8}, Lcom/smartisanos/home/Launcher;->getString(I)Ljava/lang/String;
+
+    move-result-object v4
+
+    :goto_single_dialog_text_done
 
     .line 489
     new-instance v5, Lcom/smartisanos/launcher/actions/UninstallApp$UninstallDialogThread$RemoveSingleAppOnClickListener;

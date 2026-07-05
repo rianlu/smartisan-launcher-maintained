@@ -2892,12 +2892,19 @@
 
     move-result-object v5
 
+    iget-byte v6, v5, Lcom/smartisanos/launcher/data/ItemInfo;->itemType:B
+
+    const/4 v7, 0x1
+
+    if-eq v6, v7, :cond_shortcut_removable_done
+
     invoke-static {v5}, Lcom/smartisanos/launcher/data/Utils;->isRemovable(Lcom/smartisanos/launcher/data/ItemInfo;)Z
 
     move-result v5
 
     if-eqz v5, :cond_13
 
+    :cond_shortcut_removable_done
     .line 312
     invoke-static {}, Lcom/smartisanos/launcher/data/DatabaseHandler$PackageTask;->taskCount()I
 
@@ -3214,6 +3221,19 @@
 
     .line 325
     .local v41, "uninstallByTrash":Z
+    move-object/from16 v0, v19
+
+    iget-byte v5, v0, Lcom/smartisanos/launcher/data/ItemInfo;->itemType:B
+
+    const/4 v6, 0x1
+
+    if-ne v5, v6, :cond_shortcut_uninstall_by_trash_continue
+
+    const/16 v41, 0x1
+
+    goto :goto_1
+
+    :cond_shortcut_uninstall_by_trash_continue
     const-string v5, "com.smartisanos.weather"
 
     move-object/from16 v0, v28

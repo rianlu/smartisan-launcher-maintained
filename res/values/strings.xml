@@ -671,4 +671,5 @@
     <string name="theme_default_id">smartisan_theme_black</string>
     <string name="theme_name">theme_name</string>
     <string name="twitter">Twitter</string>
+    <string name="shortcut_removed_success">Shortcut removed</string>
 </resources>

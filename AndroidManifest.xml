@@ -113,6 +113,13 @@
             <path-permission android:pathPrefix="/search_suggest_query" android:readPermission="android.permission.GLOBAL_SEARCH"/>
             <path-permission android:pathPrefix="/search_suggest_shortcut" android:readPermission="android.permission.GLOBAL_SEARCH"/>
         </provider>
+        <activity android:excludeFromRecents="true" android:exported="true" android:name="com.smartisanos.launcher.PinShortcutConfirmActivity" android:stateNotNeeded="true" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:excludeFromRecents="true" android:exported="true" android:name="com.smartisanos.launcher.ShortcutLaunchActivity" android:stateNotNeeded="true" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <provider android:authorities="com.smartisanos.theme.download" android:exported="true" android:name="com.smartisanos.launcher.provider.ThemeDownloadTriggerProvider" android:readPermission="android.permission.THEME_DOWNLOAD"/>
         <provider android:authorities="com.smartisanos.appstore.delegate" android:exported="true" android:multiprocess="true" android:name="com.smartisanos.launcher.provider.AppStoreDelegate" android:readPermission="com.smartisanos.launcher.APP_STORE_UPDATE"/>
         <provider android:authorities="com.smartisanos.launcher.call_method" android:exported="true" android:multiprocess="true" android:name="com.smartisanos.launcher.provider.LauncherCallProvider" android:readPermission="com.smartisanos.launcher.ACCESS_CALL_METHOD"/>

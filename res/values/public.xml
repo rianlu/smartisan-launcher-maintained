@@ -1899,6 +1899,7 @@
     <public type="string" name="search_recent_apps_label" id="0x7f080276" />
     <public type="string" name="search_recent_apps_tips" id="0x7f080277" />
     <public type="string" name="search_recent_apps_title" id="0x7f080278" />
+    <public type="string" name="shortcut_removed_success" id="0x7f080279" />
     <public type="dimen" name="abc_alert_dialog_button_bar_height" id="0x7f090000" />
     <public type="dimen" name="quickbar_ex_grid_column_width" id="0x7f090001" />
     <public type="dimen" name="quickbar_ex_width" id="0x7f090002" />
