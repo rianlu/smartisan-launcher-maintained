@@ -57,6 +57,8 @@
 
 .field private mItemHideLable:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+.field private mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
 .field private mHideNavigationBarSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
 .field private mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
@@ -964,6 +966,38 @@
     return-void
 .end method
 
+.method private isNotificationBadgeAccessGranted()Z
+    .locals 3
+
+    .prologue
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getContentResolver()Landroid/content/ContentResolver;
+
+    move-result-object v0
+
+    const-string v1, "enabled_notification_listeners"
+
+    invoke-static {v0, v1}, Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_false
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    return v0
+
+    :cond_false
+    const/4 v0, 0x0
+
+    return v0
+.end method
+
 .method private putInt(Ljava/lang/String;I)V
     .locals 0
     .param p1, "key"    # Ljava/lang/String;
@@ -991,6 +1025,13 @@
 
     invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_badge
+
+    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_badge
     .line 200
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mEnableCellular:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
@@ -2560,6 +2601,13 @@
 
     invoke-virtual {v0, v1}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_badge_unreg
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_badge_unreg
     .line 207
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mEnableCellular:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
@@ -3238,8 +3286,56 @@
 
     goto :goto_0
 
+    :cond_badge_checked
+    const/4 v0, 0x1
+
+    if-eqz p2, :cond_badge_enable
+
+    const/4 v0, 0x0
+
+    :cond_badge_enable
+    const-string v1, "notification_badge_enabled"
+
+    invoke-direct {p0, v1, v0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->putBoolean(Ljava/lang/String;Z)V
+
+    invoke-static {}, Lcom/smartisanos/launcher/notification/NotificationBadgeService;->syncNow()V
+
+    if-eqz v0, :goto_0
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->isNotificationBadgeAccessGranted()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_open_notification_access
+
+    goto :goto_0
+
+    :cond_open_notification_access
+    new-instance v1, Landroid/content/Intent;
+
+    const-string v2, "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
+
+    invoke-direct {v1, v2}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivity(Landroid/content/Intent;)V
+
+    goto :goto_0
+
     .line 325
     :cond_2
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_badge_next
+
+    invoke-virtual {v0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->getSwitch()Lsmartisanos/widget/SwitchEx;
+
+    move-result-object v0
+
+    if-ne p1, v0, :cond_badge_next
+
+    goto :cond_badge_checked
+
+    :cond_badge_next
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mHideNavigationBarSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     if-eqz v0, :cond_3
@@ -4182,6 +4278,38 @@
 
     iput-object v8, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mItemHideLable:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+    const-string v8, "item_id_notification_badge"
+
+    const-string v9, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v8, v9, v10}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v1
+
+    invoke-virtual {p0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_skip_notification_badge_switch
+
+    instance-of v1, v0, Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v1, :cond_skip_notification_badge_switch
+
+    check-cast v0, Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    :cond_skip_notification_badge_switch
+
     const-string v8, "item_id_hide_navigation_bar"
 
     const-string v9, "id"
@@ -4758,6 +4886,8 @@
     .line 335
     invoke-super {p0}, Lcom/smartisanos/home/settings/BaseActivity;->onResume()V
 
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->unregisterCheckedButton()V
+
     .line 336
     invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->changeEngineShowText()V
 
@@ -4779,6 +4909,32 @@
     iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mItemHideLable:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     invoke-virtual {v1, v0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setChecked(Z)V
+
+    iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v1, :cond_notification_badge_synced
+
+    const-string v2, "notification_badge_enabled"
+
+    const/4 v0, 0x0
+
+    invoke-static {v2, v0}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_notification_badge_hidden
+
+    const/4 v0, 0x0
+
+    goto :goto_notification_badge_state
+
+    :cond_notification_badge_hidden
+    const/4 v0, 0x1
+
+    :goto_notification_badge_state
+    invoke-virtual {v1, v0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setChecked(Z)V
+
+    :cond_notification_badge_synced
 
     .line 341
     iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mMultiBlockFastLaunchAppSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;

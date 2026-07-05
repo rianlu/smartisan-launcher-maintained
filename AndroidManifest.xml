@@ -166,6 +166,11 @@
         </receiver>
         <service android:exported="false" android:name="com.amap.api.location.APSService"/>
         <service android:exported="false" android:name="com.smartisanos.launcher.service.BusinessService" android:process="com.service.business"/>
+        <service android:exported="true" android:label="@string/obsession_hide_badge" android:name="com.smartisanos.launcher.notification.NotificationBadgeService" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
         <meta-data android:name="android.nfc.disable_beam_default" android:value="true"/>
         <meta-data android:name="TD_APP_ID" android:value="8CBB0DEE218C65BCEDCC22C4C758A005"/>
         <meta-data android:name="com.amap.api.v2.apikey" android:value="c13060c8758162c92938bd5c86d264f1"/>

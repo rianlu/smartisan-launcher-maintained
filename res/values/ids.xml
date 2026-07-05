@@ -287,6 +287,7 @@
     <id name="resultlist_item_grouptitle" />
     <id name="item_id_search_usage_sort" />
     <id name="item_id_search_recent_apps" />
+    <id name="item_id_notification_badge" />
     <id name="t9_keyboard" />
     <id name="search_t9_mainkeybord" />
     <id name="row_1" />

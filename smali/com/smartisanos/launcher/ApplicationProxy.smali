@@ -1808,7 +1808,7 @@
     iput-object v0, p0, Lcom/smartisanos/launcher/ApplicationProxy;->mObsIconLabelSize:Landroid/database/ContentObserver;
 
     .line 301
-    const-string v0, "launcher_hide_badge"
+    const-string v0, "notification_badge_enabled"
 
     const-string v1, "System"
 
@@ -2863,7 +2863,7 @@
     .end local v0    # "change":Z
     .end local v3    # "old":Z
     :cond_7
-    const-string v8, "launcher_hide_badge"
+    const-string v8, "notification_badge_enabled"
 
     invoke-virtual {v8, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
@@ -2961,7 +2961,13 @@
     if-eq v9, v8, :cond_3
 
     .line 771
-    const/4 v8, 0x0
+    invoke-static {}, Lcom/smartisanos/launcher/data/LauncherPreferences;->isHideMessageFlag()Z
+
+    move-result v8
+
+    if-nez v8, :cond_b
+
+    const/4 v8, 0x1
 
     :goto_3
     sput-boolean v8, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z

@@ -219,7 +219,7 @@
     iput-boolean v4, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideAppTitle:Z
 
     .line 71
-    iput-boolean v4, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
+    iput-boolean v3, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
     .line 72
     iput-boolean v3, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mEnableSweepMessageFlag:Z
@@ -235,7 +235,14 @@
     sput-boolean v2, Lcom/smartisanos/launcher/data/Constants;->SHOW_APP_NAME:Z
 
     .line 75
-    sput-boolean v4, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z
+    iget-boolean v2, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
+
+    if-nez v2, :cond_1
+
+    move v2, v3
+
+    :goto_1
+    sput-boolean v2, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z
 
     .line 76
     iget-boolean v2, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mEnableSweepMessageFlag:Z
@@ -282,6 +289,12 @@
     .line 74
     goto :goto_0
 
+    :cond_1
+    move v2, v4
+
+    .line 75
+    goto :goto_1
+
     .line 86
     .restart local v1    # "style":I
     :cond_2
@@ -325,6 +338,17 @@
 
     .line 97
     const-string v3, "launcher_hide_badge"
+
+    sget-object v4, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
+
+    invoke-virtual {v4}, Ljava/lang/Boolean;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-virtual {v0, v3, v4}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    .line 98
+    const-string v3, "notification_badge_enabled"
 
     sget-object v4, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
 
@@ -531,7 +555,7 @@
     invoke-virtual {v8, v9, v10}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;Ljava/lang/String;)V
 
     .line 148
-    const-string v8, "launcher_hide_badge"
+    const-string v8, "notification_badge_enabled"
 
     const/4 v9, 0x0
 
@@ -539,6 +563,16 @@
 
     move-result v8
 
+    if-eqz v8, :cond_badge_disabled_load
+
+    const/4 v8, 0x0
+
+    goto :goto_badge_hide
+
+    :cond_badge_disabled_load
+    const/4 v8, 0x1
+
+    :goto_badge_hide
     iput-boolean v8, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
     .line 149
@@ -1064,8 +1098,13 @@
     sput-boolean v8, Lcom/smartisanos/launcher/data/Constants;->SHOW_APP_NAME:Z
 
     .line 243
-    const/4 v8, 0x0
+    iget-boolean v8, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
+    if-nez v8, :cond_a
+
+    const/4 v8, 0x1
+
+    :goto_5
     sput-boolean v8, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z
 
     .line 244
@@ -1138,6 +1177,12 @@
     const/4 v8, 0x0
 
     goto :goto_4
+
+    .line 243
+    :cond_a
+    const/4 v8, 0x0
+
+    goto :goto_5
 
     .line 253
     .restart local v2    # "hand":I
@@ -1522,21 +1567,37 @@
     const/4 v0, 0x0
 
     .line 297
-    const-string v1, "launcher_hide_badge"
+    const-string v1, "notification_badge_enabled"
 
     invoke-static {v1, v0}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
 
     move-result v1
 
+    if-eqz v1, :cond_disabled
+
+    const/4 v1, 0x0
+
+    goto :goto_hide
+
+    :cond_disabled
+    const/4 v1, 0x1
+
+    :goto_hide
     iput-boolean v1, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
     .line 305
-    const/4 v1, 0x0
+    iget-boolean v1, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
-    sput-boolean v1, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z
+    if-nez v1, :cond_show_off
+
+    const/4 v0, 0x1
+
+    :cond_show_off
+
+    sput-boolean v0, Lcom/smartisanos/launcher/data/Constants;->SHOW_MESSAGE_FLAG:Z
 
     .line 306
-    const/4 v0, 0x1
+    iget-boolean v0, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
     return v0
 .end method
@@ -1595,7 +1656,7 @@
 
     .prologue
     .line 326
-    const/4 v0, 0x1
+    iget-boolean v0, p0, Lcom/smartisanos/launcher/data/LauncherSettings;->mHideMessageFlag:Z
 
     return v0
 .end method
