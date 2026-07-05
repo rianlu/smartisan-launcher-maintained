@@ -250,6 +250,22 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/content/ContentValues;->put(Ljava/lang/String;[B)V
 
+    move-object/from16 v0, p0
+
+    iget-object v2, v0, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB$1;->val$info:Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    iget-object v2, v2, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->drawableName:Ljava/lang/String;
+
+    if-eqz v2, :cond_skip_drawable_name
+
+    const-string v3, "data1"
+
+    move-object/from16 v0, v17
+
+    invoke-virtual {v0, v3, v2}, Landroid/content/ContentValues;->put(Ljava/lang/String;Ljava/lang/String;)V
+
+    :cond_skip_drawable_name
+
     .line 91
     if-lez v14, :cond_3
 

@@ -780,6 +780,177 @@
     return-object v0
 .end method
 
+.method private appendShortcutIconItems(Ljava/util/Map;)V
+    .locals 13
+    .param p1, "iconMap"    # Ljava/util/Map;
+
+    invoke-static {}, Lcom/smartisanos/launcher/LauncherModel;->getItemMap()Ljava/util/HashMap;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_shortcut_db_fallback
+
+    invoke-virtual {v0}, Ljava/util/HashMap;->values()Ljava/util/Collection;
+
+    move-result-object v0
+
+    goto :cond_shortcut_source_ready
+
+    :cond_shortcut_db_fallback
+    const/4 v0, 0x0
+
+    invoke-static {v0}, Lcom/smartisanos/launcher/data/handler/ItemDB;->listShortcuts(Ljava/util/Map;)Ljava/util/List;
+
+    move-result-object v0
+
+    :cond_shortcut_source_ready
+    if-eqz v0, :cond_return
+
+    invoke-interface {v0}, Ljava/util/Collection;->iterator()Ljava/util/Iterator;
+
+    move-result-object v1
+
+    :goto_loop
+    invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_return
+
+    invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v2
+
+    instance-of v3, v2, Lcom/smartisanos/launcher/data/ShortcutInfo;
+
+    if-eqz v3, :goto_loop
+
+    check-cast v2, Lcom/smartisanos/launcher/data/ShortcutInfo;
+
+    invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->isProfileShortcut(Lcom/smartisanos/launcher/data/ItemInfo;)Z
+
+    move-result v3
+
+    if-nez v3, :goto_loop
+
+    iget-wide v4, v2, Lcom/smartisanos/launcher/data/ShortcutInfo;->id:J
+
+    const-wide/16 v6, 0x0
+
+    cmp-long v3, v4, v6
+
+    if-lez v3, :goto_loop
+
+    iget-object v6, v2, Lcom/smartisanos/launcher/data/ShortcutInfo;->packageName:Ljava/lang/String;
+
+    invoke-static {v6}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v3
+
+    if-nez v3, :goto_loop
+
+    new-instance v7, Ljava/lang/StringBuilder;
+
+    invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v8, "shortcut:"
+
+    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v4, v5}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    move-result-object v7
+
+    invoke-virtual {v7}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-static {v4, v5}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->getRedirectIconInfo(J)Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    move-result-object v9
+
+    if-nez v9, :cond_info_ready
+
+    if-eqz p1, :cond_create_info
+
+    new-instance v8, Ljava/lang/StringBuilder;
+
+    invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v8, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v8
+
+    const-string v10, ";"
+
+    invoke-virtual {v8, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v8
+
+    invoke-virtual {v8, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v8
+
+    invoke-virtual {v8}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v8
+
+    invoke-interface {p1, v8}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v9
+
+    check-cast v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    :cond_create_info
+    if-nez v9, :cond_info_ready
+
+    new-instance v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    invoke-direct {v9}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;-><init>()V
+
+    :cond_info_ready
+    iput-wide v4, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->ownerId:J
+
+    iput-object v6, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->packageName:Ljava/lang/String;
+
+    iput-object v7, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->componentName:Ljava/lang/String;
+
+    iget-object v10, v2, Lcom/smartisanos/launcher/data/ShortcutInfo;->title:Ljava/lang/String;
+
+    iput-object v10, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->displayName:Ljava/lang/String;
+
+    const/4 v3, 0x0
+
+    iput-boolean v3, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
+
+    iget-object v10, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->iconData:[B
+
+    if-eqz v10, :cond_copy_shortcut_icon
+
+    array-length v10, v10
+
+    if-lez v10, :cond_copy_shortcut_icon
+
+    goto :cond_add
+
+    :cond_copy_shortcut_icon
+    iget-object v10, v2, Lcom/smartisanos/launcher/data/ShortcutInfo;->iconData:[B
+
+    iput-object v10, v9, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->iconData:[B
+
+    :cond_add
+    iget-object v10, p0, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->mAllIconInfoList:Ljava/util/ArrayList;
+
+    invoke-virtual {v10, v9}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    goto/16 :goto_loop
+
+    :cond_return
+    return-void
+.end method
+
 .method private initApplicationList()V
     .locals 14
 
@@ -935,6 +1106,8 @@
     goto :goto_1
 
     :cond_4
+    invoke-direct {p0, v5}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->appendShortcutIconItems(Ljava/util/Map;)V
+
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->applyIconFilter()V
 
     return-void
@@ -1009,12 +1182,18 @@
 
     return-object v0
 
+    :pswitch_5
+    const-string v0, "快捷方式"
+
+    return-object v0
+
     :pswitch_data_0
     .packed-switch 0x1
         :pswitch_1
         :pswitch_2
         :pswitch_3
         :pswitch_4
+        :pswitch_5
     .end packed-switch
 .end method
 
@@ -1145,6 +1324,19 @@
     return v0
 
     :cond_check
+    const/4 v0, 0x5
+
+    if-ne p2, v0, :cond_source_check
+
+    if-eqz p1, :cond_no
+
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v0
+
+    return v0
+
+    :cond_source_check
     invoke-direct {p0, p1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->getIconSourceMode(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)I
 
     move-result v0
@@ -1227,7 +1419,7 @@
 .method private showIconFilterChooser()V
     .locals 6
 
-    const/4 v0, 0x5
+    const/4 v0, 0x6
 
     new-array v2, v0, [Ljava/lang/CharSequence;
 
@@ -1258,6 +1450,12 @@
     const/4 v0, 0x4
 
     const-string v1, "未匹配"
+
+    aput-object v1, v2, v0
+
+    const/4 v0, 0x5
+
+    const-string v1, "快捷方式"
 
     aput-object v1, v2, v0
 
@@ -1298,7 +1496,7 @@
 
     if-ltz p1, :cond_reset
 
-    const/4 v0, 0x4
+    const/4 v0, 0x5
 
     if-gt p1, v0, :cond_reset
 
@@ -2074,6 +2272,60 @@
     return-void
 .end method
 
+.method private persistIconChoice(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
+    .locals 5
+    .param p1, "info"    # Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
+
+    if-nez p1, :cond_info
+
+    return-void
+
+    :cond_info
+    iget-object v0, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->packageName:Ljava/lang/String;
+
+    iget-object v1, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->componentName:Ljava/lang/String;
+
+    iget-object v2, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->drawableName:Ljava/lang/String;
+
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v3
+
+    if-eqz v3, :cond_simple
+
+    iget-object v3, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->iconData:[B
+
+    if-eqz v3, :cond_simple
+
+    array-length v3, v3
+
+    if-lez v3, :cond_simple
+
+    iget-object v3, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->md5:Ljava/lang/String;
+
+    invoke-static {v3}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_md5_ready
+
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->getPrimaryId()Ljava/lang/String;
+
+    move-result-object v3
+
+    iput-object v3, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->md5:Ljava/lang/String;
+
+    :cond_md5_ready
+    invoke-static {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->updateIcon(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)Z
+
+    return-void
+
+    :cond_simple
+    invoke-static {v0, v1, v2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->updateIconDrawableName(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+
+    return-void
+.end method
+
 .method public applyDefaultIconChoice(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
     .locals 8
     .param p1, "info"    # Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
@@ -2107,7 +2359,7 @@
 
     iput-boolean v3, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
 
-    invoke-static {v0, v1, v2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->updateIconDrawableName(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, p1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->persistIconChoice(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
 
     invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->getPrimaryId()Ljava/lang/String;
 
@@ -2177,6 +2429,17 @@
 
     if-nez v2, :cond_return
 
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_not_shortcut
+
+    invoke-virtual {p0, p1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->applyDefaultIconChoice(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
+
+    return-void
+
+    :cond_not_shortcut
     const-string v2, ""
 
     iput-object v2, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->drawableName:Ljava/lang/String;
@@ -2299,7 +2562,7 @@
 
     iput-boolean v0, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
 
-    invoke-static {v1, v2, p2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->updateIconDrawableName(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {p0, p1}, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->persistIconChoice(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)V
 
     invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->getPrimaryId()Ljava/lang/String;
 
@@ -2346,9 +2609,32 @@
 .end method
 
 .method public loadOfficialIcon(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)Landroid/graphics/drawable/Drawable;
-    .locals 1
+    .locals 2
     .param p1, "info"    # Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
 
+    if-eqz p1, :cond_manager
+
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_manager
+
+    iget-object v0, p1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->iconData:[B
+
+    if-eqz v0, :cond_manager
+
+    array-length v1, v0
+
+    if-lez v1, :cond_manager
+
+    invoke-static {v0}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;
+
+    move-result-object v0
+
+    return-object v0
+
+    :cond_manager
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;->mIconManager:Lcom/smartisanos/home/settings/icons/IconManager;
 
     invoke-virtual {v0, p1}, Lcom/smartisanos/home/settings/icons/IconManager;->getOfficialIcon(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)Landroid/graphics/drawable/Drawable;
@@ -2443,6 +2729,15 @@
 
     check-cast v4, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
 
+    invoke-virtual {v4}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_update_normal_icon_status
+
+    goto :goto_update_item_status
+
+    :cond_update_normal_icon_status
     iput-boolean p2, v4, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
 
     iget-object v0, v4, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->drawableName:Ljava/lang/String;

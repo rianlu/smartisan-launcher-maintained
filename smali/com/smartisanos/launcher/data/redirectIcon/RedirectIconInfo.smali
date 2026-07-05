@@ -25,6 +25,8 @@
 
 .field public drawableName:Ljava/lang/String;
 
+.field public displayName:Ljava/lang/String;
+
 .field public iconData:[B
 
 .field public installTime:J
@@ -161,6 +163,39 @@
     move-result-object v0
 
     return-object v0
+.end method
+
+.method public isShortcutIcon()Z
+    .locals 4
+
+    iget-wide v0, p0, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->ownerId:J
+
+    const-wide/16 v2, 0x0
+
+    cmp-long v0, v0, v2
+
+    if-lez v0, :cond_false
+
+    iget-object v0, p0, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->componentName:Ljava/lang/String;
+
+    invoke-static {v0}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_false
+
+    const-string v1, "shortcut:"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v0
+
+    return v0
+
+    :cond_false
+    const/4 v0, 0x0
+
+    return v0
 .end method
 
 .method public toString()Ljava/lang/String;

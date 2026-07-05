@@ -6273,6 +6273,12 @@
 
     if-eqz v12, :cond_0
 
+    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
+
+    move-result-object v12
+
+    invoke-static {v12, v9}, Lcom/smartisanos/launcher/ShortcutIconHelper;->syncPinnedShortcutsAfterRemove(Landroid/content/Context;Lcom/smartisanos/launcher/data/ShortcutInfo;)V
+
     .line 2509
     new-instance v3, Ljava/util/ArrayList;
 
@@ -6482,6 +6488,16 @@
 
     .line 2077
     :cond_1
+    move-object/from16 v0, v20
+
+    move-object/from16 v1, v23
+
+    invoke-static {v7, v1, v0}, Lcom/smartisanos/launcher/data/ShortcutIconHelper;->tryUpdateShortcutIcon(Landroid/content/Context;Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;Ljava/util/ArrayList;)Z
+
+    move-result v26
+
+    if-nez v26, :cond_3
+
     new-instance v26, Ljava/lang/StringBuilder;
 
     invoke-direct/range {v26 .. v26}, Ljava/lang/StringBuilder;-><init>()V
