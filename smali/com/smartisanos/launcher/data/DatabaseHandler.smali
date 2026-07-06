@@ -3102,6 +3102,12 @@
 
     check-cast v28, Lcom/smartisanos/launcher/data/ItemInfo;
 
+    move-object/from16 v1, v28
+
+    instance-of v0, v1, Lcom/smartisanos/launcher/data/ShortcutInfo;
+
+    if-nez v0, :cond_6
+
     .line 1719
     .local v28, "item":Lcom/smartisanos/launcher/data/ItemInfo;
     const/16 v42, 0x0
@@ -3330,6 +3336,9 @@
     goto :goto_1
 
     :cond_keep_normal_item
+    instance-of v0, v7, Lcom/smartisanos/launcher/data/ShortcutInfo;
+
+    if-nez v0, :goto_1
 
     .line 1744
     iget-object v0, v7, Lcom/smartisanos/launcher/data/ItemInfo;->componentName:Ljava/lang/String;
