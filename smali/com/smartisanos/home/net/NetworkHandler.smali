@@ -1928,6 +1928,16 @@
 
     check-cast v2, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
 
+    if-eqz v2, :cond_need_fetch_icon_for_item
+
+    iget-boolean v13, v2, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
+
+    if-nez v13, :cond_check_fetched_improved_icon
+
+    goto/16 :goto_1
+
+    :cond_check_fetched_improved_icon
+
     invoke-static {v2}, Lcom/smartisanos/home/net/NetworkHandler;->hasFetchedImprovedIcon(Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;)Z
 
     move-result v13

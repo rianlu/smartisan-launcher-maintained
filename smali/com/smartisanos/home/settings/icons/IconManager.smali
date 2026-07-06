@@ -348,33 +348,59 @@
 .end method
 
 .method public getRedirectedIcon(Ljava/lang/String;Ljava/lang/String;)Landroid/graphics/drawable/Drawable;
-    .locals 2
+    .locals 4
     .param p1, "packageName"    # Ljava/lang/String;
     .param p2, "componentName"    # Ljava/lang/String;
 
     .prologue
     .line 72
-    invoke-static {p1, p2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->getRedirectIcon(Ljava/lang/String;Ljava/lang/String;)[B
+    const/4 v0, 0x0
 
-    move-result-object v0
+    if-eqz p1, :goto_0
 
-    .line 73
-    .local v0, "data":[B
-    if-nez v0, :cond_0
+    if-nez p2, :cond_0
 
-    .line 74
-    const/4 v1, 0x0
-
-    .line 76
-    :goto_0
-    return-object v1
+    goto :goto_0
 
     :cond_0
-    invoke-static {v0}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;
+    invoke-static {p1, p2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->getRedirectIconInfo(Ljava/lang/String;Ljava/lang/String;)Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;
 
     move-result-object v1
 
+    if-eqz v1, :goto_0
+
+    iget-boolean v2, v1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->useImprovedAppIcon:Z
+
+    if-nez v2, :cond_1
+
+    iget-object v2, v1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->drawableName:Ljava/lang/String;
+
+    const-string v3, "__smartisan_improved_icon__"
+
+    invoke-virtual {v3, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :goto_0
+
+    :cond_1
+    iget-object v2, v1, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->iconData:[B
+
+    if-nez v2, :cond_2
+
+    .line 74
     goto :goto_0
+
+    :cond_2
+    invoke-static {v2}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;
+
+    move-result-object v0
+
+    .line 76
+    goto :goto_0
+
+    :goto_0
+    return-object v0
 .end method
 
 .method public getResolveInfo(Ljava/lang/String;Ljava/lang/String;)Landroid/content/pm/ResolveInfo;
