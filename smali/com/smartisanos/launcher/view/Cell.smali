@@ -16652,7 +16652,7 @@
 .end method
 
 .method public enableShowAppName(Z)V
-    .locals 1
+    .locals 3
     .param p1, "en"    # Z
 
     .prologue
@@ -16668,6 +16668,32 @@
     .line 4773
     :cond_0
     if-eqz p1, :cond_2
+
+    iget-object v0, p0, Lcom/smartisanos/launcher/view/Cell;->mItemInfo:Lcom/smartisanos/launcher/data/ItemInfo;
+
+    if-eqz v0, :cond_show_app_name
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/data/ItemInfo;->isDockItem()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_show_app_name
+
+    const-string v1, "launcher_hide_dock_label"
+
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_show_app_name
+
+    const/4 p1, 0x0
+
+    goto :cond_2
+
+    :cond_show_app_name
 
     .line 4774
     iget-object v0, p0, Lcom/smartisanos/launcher/view/Cell;->mAppNameRect:Lcom/smartisanos/launcher/view/TextView;
@@ -29501,12 +29527,38 @@
 .end method
 
 .method public setShowAppName(Z)V
-    .locals 1
+    .locals 3
     .param p1, "b"    # Z
 
     .prologue
     .line 1631
     if-eqz p1, :cond_0
+
+    iget-object v0, p0, Lcom/smartisanos/launcher/view/Cell;->mItemInfo:Lcom/smartisanos/launcher/data/ItemInfo;
+
+    if-eqz v0, :cond_show_app_name
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/data/ItemInfo;->isDockItem()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_show_app_name
+
+    const-string v1, "launcher_hide_dock_label"
+
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_show_app_name
+
+    const/4 p1, 0x0
+
+    goto :cond_0
+
+    :cond_show_app_name
 
     .line 1632
     iget v0, p0, Lcom/smartisanos/launcher/view/Cell;->mRenderFlags:I
