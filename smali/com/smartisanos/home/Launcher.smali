@@ -857,6 +857,21 @@
     return-object v0
 .end method
 
+.method public static rebootCurrentLauncher()V
+    .locals 1
+
+    invoke-static {}, Lcom/smartisanos/home/Launcher;->getInstance()Lcom/smartisanos/home/Launcher;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_return
+
+    invoke-direct {v0}, Lcom/smartisanos/home/Launcher;->rebootLauncher()V
+
+    :cond_return
+    return-void
+.end method
+
 .method public static isSystemAppByPackageName(Landroid/content/Context;Ljava/lang/String;)Z
     .locals 7
     .param p0, "context"    # Landroid/content/Context;

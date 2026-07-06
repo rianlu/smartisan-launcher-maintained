@@ -22,6 +22,15 @@
     .locals 3
 
     .line 17
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->isEnabled()Z
+
+    move-result v0
+
+    if-nez v0, :cond_weather_enabled
+
+    return-void
+
+    :cond_weather_enabled
     if-eqz p0, :cond_2
 
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I

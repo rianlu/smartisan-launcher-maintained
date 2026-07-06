@@ -59,6 +59,8 @@
 
 .field private mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+.field private mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
 .field private mHideNavigationBarSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
 .field private mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
@@ -1032,6 +1034,13 @@
     invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
     :cond_badge
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_dynamic_weather
+
+    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_dynamic_weather
     .line 200
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mEnableCellular:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
@@ -3001,6 +3010,13 @@
     invoke-virtual {v0, v1}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
 
     :cond_badge_unreg
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_dynamic_weather_unreg
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_dynamic_weather_unreg
     .line 207
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mEnableCellular:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
@@ -3729,6 +3745,25 @@
     goto :cond_badge_checked
 
     :cond_badge_next
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_dynamic_weather_next
+
+    invoke-virtual {v0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->getSwitch()Lsmartisanos/widget/SwitchEx;
+
+    move-result-object v0
+
+    if-ne p1, v0, :cond_dynamic_weather_next
+
+    invoke-static {p0, p2}, Lcom/a/a/DynamicWeatherHelper;->setEnabled(Landroid/content/Context;Z)V
+
+    if-eqz p2, :goto_0
+
+    invoke-static {p0}, Lcom/a/a/WeatherPermissionHelper;->maybeRequest(Landroid/app/Activity;)V
+
+    goto/16 :goto_0
+
+    :cond_dynamic_weather_next
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mHideNavigationBarSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     if-eqz v0, :cond_3
@@ -4702,6 +4737,37 @@
     iput-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mNotificationBadgeSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     :cond_skip_notification_badge_switch
+    const-string v8, "item_id_dynamic_weather"
+
+    const-string v9, "id"
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {p0}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v8, v9, v10}, Landroid/content/res/Resources;->getIdentifier(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v1
+
+    invoke-virtual {p0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_skip_dynamic_weather_switch
+
+    instance-of v1, v0, Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v1, :cond_skip_dynamic_weather_switch
+
+    check-cast v0, Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    :cond_skip_dynamic_weather_switch
 
     const-string v8, "item_id_hide_navigation_bar"
 
@@ -5328,6 +5394,17 @@
     invoke-virtual {v1, v0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setChecked(Z)V
 
     :cond_notification_badge_synced
+    iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mDynamicWeatherSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v1, :cond_dynamic_weather_synced
+
+    invoke-static {p0}, Lcom/a/a/DynamicWeatherHelper;->isActuallyEnabled(Landroid/content/Context;)Z
+
+    move-result v2
+
+    invoke-virtual {v1, v2}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setChecked(Z)V
+
+    :cond_dynamic_weather_synced
 
     .line 341
     iget-object v1, p0, Lcom/smartisanos/home/settings/view/SettingMainActivity;->mMultiBlockFastLaunchAppSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;

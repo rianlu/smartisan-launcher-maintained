@@ -176,6 +176,7 @@
     <string name="obsession_header_title">OCD Settings</string>
     <string name="obsession_hide_badge">Hide Icon Badge</string>
     <string name="obsession_hide_lable">Hide Icon Labels</string>
+    <string name="dynamic_weather_label">Dynamic Weather</string>
     <string name="hide_navigation_bar_label">Hide Bottom Navigation Bar</string>
     <string name="hide_navigation_bar_tips">Only hides the bottom navigation bar on the home screen. Settings and search pages are not affected.</string>
     <string name="ocd_setting">OCD Settings</string>

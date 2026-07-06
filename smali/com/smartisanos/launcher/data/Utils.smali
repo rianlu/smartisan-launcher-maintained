@@ -11913,6 +11913,18 @@
 
     .prologue
     .line 2153
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->isEnabled()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->hasWeatherIcon()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
     move-result-wide v2
@@ -11983,6 +11995,21 @@
     .param p0, "context"    # Landroid/content/Context;
 
     .prologue
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->isEnabled()Z
+
+    move-result v0
+
+    if-nez v0, :cond_weather_enabled
+
+    return-void
+
+    :cond_weather_enabled
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->hasWeatherIcon()Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
     if-eqz p0, :cond_0
 
     const-wide/16 v0, 0x0

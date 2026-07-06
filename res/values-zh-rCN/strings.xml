@@ -178,6 +178,7 @@
     <string name="obsession_header_title">强迫症选项</string>
     <string name="obsession_hide_badge">隐藏图标上的角标</string>
     <string name="obsession_hide_lable">隐藏桌面图标名称</string>
+    <string name="dynamic_weather_label">动态天气</string>
     <string name="hide_navigation_bar_label">隐藏底部虚拟键</string>
     <string name="hide_navigation_bar_tips">开启后仅在桌面主界面隐藏底部虚拟键, 设置和搜索等页面不受影响</string>
     <string name="ocd_setting">强迫症选项</string>
