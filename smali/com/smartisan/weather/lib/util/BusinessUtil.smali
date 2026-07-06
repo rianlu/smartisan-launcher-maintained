@@ -2675,6 +2675,15 @@
 
     .line 168
     .local v0, "weather":Lcom/smartisan/weather/lib/bean/Weather;
+    invoke-static {p0, p1}, Lcom/a/a/SmartisanWeatherSource;->getWeatherData(Landroid/content/Context;Ljava/lang/String;)Lcom/smartisan/weather/lib/bean/Weather;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_nmc_fallback
+
+    goto :goto_0
+
+    :cond_nmc_fallback
     invoke-static {p1}, Lcom/smartisan/weather/lib/Utility;->isNumeric(Ljava/lang/String;)Z
 
     move-result v1

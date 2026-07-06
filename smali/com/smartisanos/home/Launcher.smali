@@ -2394,6 +2394,8 @@
 
     invoke-direct {v0}, Lcom/smartisanos/home/Launcher;->maybeRequestWallpaperPermissionAndSync()V
 
+    invoke-static/range {p0 .. p0}, Lcom/a/a/WeatherPermissionHelper;->maybeRequest(Landroid/app/Activity;)V
+
     .line 313
     sget-object v2, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
 
@@ -2993,6 +2995,9 @@
 
     .prologue
     invoke-super {p0, p1, p2, p3}, Landroid/app/Activity;->onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+
+    invoke-static {p0, p1, p3}, Lcom/a/a/WeatherPermissionHelper;->onRequestPermissionsResult(Landroid/app/Activity;I[I)V
+
     return-void
 .end method
 

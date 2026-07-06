@@ -458,7 +458,7 @@
 
     cmp-long v10, v10, v12
 
-    if-eqz v10, :cond_weather_toast
+    if-eqz v10, :cond_4
 
     iget-wide v10, p0, Lcom/smartisanos/launcher/actions/StartActivity;->mLastStartActivityTime:J
 
@@ -484,7 +484,7 @@
     goto :goto_0
 
     .line 85
-    :cond_weather_toast
+    :cond_4
     iput-wide v2, p0, Lcom/smartisanos/launcher/actions/StartActivity;->mLastStartActivityTime:J
 
     .line 86
@@ -525,19 +525,8 @@
 
     move-result-object v10
 
-    invoke-static {v10}, Lcom/smartisanos/launcher/data/Utils;->getAvailableWeatherLaunchIntent(Landroid/content/Context;)Landroid/content/Intent;
+    invoke-static {v10}, Lcom/smartisanos/launcher/data/Utils;->forceSyncWeatherData(Landroid/content/Context;)V
 
-    move-result-object v10
-
-    if-eqz v10, :cond_4
-
-    const/4 v11, 0x1
-
-    invoke-direct {p0, v10, v11}, Lcom/smartisanos/launcher/actions/StartActivity;->launchWithCellDownAnimation(Landroid/content/Intent;Z)V
-
-    goto/16 :goto_0
-
-    :cond_4
     invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->showWeatherInfoToast()V
 
     goto/16 :goto_0

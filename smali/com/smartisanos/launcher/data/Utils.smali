@@ -11930,45 +11930,7 @@
     if-gez v4, :cond_1
 
     .line 2155
-    sget-object v4, Lcom/smartisanos/launcher/data/Utils;->log:Lcom/smartisanos/launcher/LOG;
-
-    new-instance v5, Ljava/lang/StringBuilder;
-
-    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v6, "requestSyncWeatherData return by sync time too close. ["
-
-    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v5
-
-    invoke-virtual {v5, v2, v3}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
-
-    move-result-object v5
-
-    const-string v6, "], ["
-
-    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v5
-
-    sget-wide v6, Lcom/smartisanos/launcher/data/Utils;->lastSyncWeatherDataTime:J
-
-    invoke-virtual {v5, v6, v7}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
-
-    move-result-object v5
-
-    const-string v6, "]"
-
-    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v5
-
-    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v5
-
-    invoke-virtual {v4, v5}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
+    goto :goto_0
 
     .line 2210
     :cond_0
@@ -12016,268 +11978,29 @@
     goto :goto_0
 .end method
 
-.method private static getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
+.method public static forceSyncWeatherData(Landroid/content/Context;)V
     .locals 2
     .param p0, "context"    # Landroid/content/Context;
-    .param p1, "pkg"    # Ljava/lang/String;
 
     .prologue
-    const/4 v1, 0x0
-
-    if-eqz p1, :cond_0
-
-    invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
-
-    move-result-object v0
-
-    if-eqz v0, :cond_0
-
-    invoke-virtual {v0, p1}, Landroid/content/pm/PackageManager;->getLaunchIntentForPackage(Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v1
-
-    :cond_0
-    return-object v1
-.end method
-
-.method private static getLaunchIntentForComponentIfExists(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
-    .locals 5
-    .param p0, "context"    # Landroid/content/Context;
-    .param p1, "pkg"    # Ljava/lang/String;
-    .param p2, "cmp"    # Ljava/lang/String;
-
-    .prologue
-    const/4 v0, 0x0
-
     if-eqz p0, :cond_0
 
-    if-eqz p1, :cond_0
+    const-wide/16 v0, 0x0
 
-    if-nez p2, :cond_1
+    sput-wide v0, Lcom/smartisanos/launcher/data/Utils;->lastSyncWeatherDataTime:J
+
+    new-instance v0, Lcom/smartisanos/launcher/data/WeatherForceSyncTask;
+
+    invoke-direct {v0, p0}, Lcom/smartisanos/launcher/data/WeatherForceSyncTask;-><init>(Landroid/content/Context;)V
+
+    const/4 v1, 0x0
+
+    new-array v1, v1, [Ljava/lang/Void;
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/launcher/data/WeatherForceSyncTask;->execute([Ljava/lang/Object;)Landroid/os/AsyncTask;
 
     :cond_0
-    return-object v0
-
-    :cond_1
-    :try_start_0
-    invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
-
-    move-result-object v1
-
-    if-eqz v1, :cond_0
-
-    new-instance v2, Landroid/content/ComponentName;
-
-    invoke-direct {v2, p1, p2}, Landroid/content/ComponentName;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    const/4 v3, 0x0
-
-    invoke-virtual {v1, v2, v3}, Landroid/content/pm/PackageManager;->getActivityInfo(Landroid/content/ComponentName;I)Landroid/content/pm/ActivityInfo;
-
-    move-result-object v3
-
-    if-eqz v3, :cond_0
-
-    new-instance v4, Landroid/content/Intent;
-
-    const-string v1, "android.intent.action.MAIN"
-
-    invoke-direct {v4, v1}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
-
-    invoke-virtual {v4, v2}, Landroid/content/Intent;->setComponent(Landroid/content/ComponentName;)Landroid/content/Intent;
-
-    const-string v1, "android.intent.category.LAUNCHER"
-
-    invoke-virtual {v4, v1}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
-    :try_end_0
-    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
-
-    move-object v0, v4
-
-    goto :cond_0
-
-    :catch_0
-    move-exception v1
-
-    goto :cond_0
-.end method
-
-.method public static getAvailableWeatherLaunchIntent(Landroid/content/Context;)Landroid/content/Intent;
-    .locals 10
-    .param p0, "context"    # Landroid/content/Context;
-
-    .prologue
-    const/4 v9, 0x0
-
-    const-string v0, "com.smartisanos.weather"
-
-    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-nez v8, :cond_0
-
-    const-string v0, "com.miui.weather2"
-
-    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-nez v8, :cond_0
-
-    const-string v0, "com.coloros.weather2"
-
-    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-nez v8, :cond_0
-
-    const-string v0, "com.sec.android.daemonapp"
-
-    const-string v1, "com.samsung.android.weather.app.AppSearchableActivity"
-
-    invoke-static {p0, v0, v1}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForComponentIfExists(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-nez v8, :cond_0
-
-    const-string v0, "com.oneplus.weather"
-
-    invoke-static {p0, v0}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-nez v8, :cond_0
-
-    invoke-virtual {p0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
-
-    move-result-object v0
-
-    if-eqz v0, :cond_1
-
-    new-instance v1, Landroid/content/Intent;
-
-    const-string v2, "android.intent.action.MAIN"
-
-    invoke-direct {v1, v2, v9}, Landroid/content/Intent;-><init>(Ljava/lang/String;Landroid/net/Uri;)V
-
-    const-string v2, "android.intent.category.LAUNCHER"
-
-    invoke-virtual {v1, v2}, Landroid/content/Intent;->addCategory(Ljava/lang/String;)Landroid/content/Intent;
-
-    const/4 v2, 0x0
-
-    invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->queryIntentActivities(Landroid/content/Intent;I)Ljava/util/List;
-
-    move-result-object v2
-
-    if-eqz v2, :cond_1
-
-    invoke-interface {v2}, Ljava/util/List;->iterator()Ljava/util/Iterator;
-
-    move-result-object v3
-
-    :cond_2
-    :goto_0
-    invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v4
-
-    if-eqz v4, :cond_1
-
-    invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
-    move-result-object v4
-
-    check-cast v4, Landroid/content/pm/ResolveInfo;
-
-    if-eqz v4, :cond_2
-
-    iget-object v5, v4, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    if-eqz v5, :cond_2
-
-    iget-object v6, v5, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-
-    if-eqz v6, :cond_2
-
-    invoke-virtual {v6}, Ljava/lang/String;->toLowerCase()Ljava/lang/String;
-
-    move-result-object v7
-
-    const-string v5, "weather"
-
-    invoke-virtual {v7, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v5
-
-    if-nez v5, :cond_3
-
-    invoke-virtual {v4, v0}, Landroid/content/pm/ResolveInfo;->loadLabel(Landroid/content/pm/PackageManager;)Ljava/lang/CharSequence;
-
-    move-result-object v5
-
-    if-eqz v5, :cond_2
-
-    invoke-interface {v5}, Ljava/lang/CharSequence;->toString()Ljava/lang/String;
-
-    move-result-object v7
-
-    const-string v5, "天气"
-
-    invoke-virtual {v7, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v5
-
-    if-nez v5, :cond_3
-
-    invoke-virtual {v7}, Ljava/lang/String;->toLowerCase()Ljava/lang/String;
-
-    move-result-object v7
-
-    const-string v5, "weather"
-
-    invoke-virtual {v7, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v5
-
-    if-eqz v5, :cond_2
-
-    :cond_3
-    invoke-static {p0, v6}, Lcom/smartisanos/launcher/data/Utils;->getLaunchIntentForPackageIfExists(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;
-
-    move-result-object v8
-
-    if-eqz v8, :cond_2
-
-    iget-object v5, v4, Landroid/content/pm/ResolveInfo;->activityInfo:Landroid/content/pm/ActivityInfo;
-
-    iget-object v5, v5, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
-
-    if-eqz v5, :cond_4
-
-    iget v5, v5, Landroid/content/pm/ApplicationInfo;->flags:I
-
-    and-int/lit16 v5, v5, 0x81
-
-    if-eqz v5, :cond_4
-
-    goto :cond_0
-
-    :cond_4
-    if-nez v9, :cond_2
-
-    move-object v9, v8
-
-    goto :cond_2
-
-    :cond_0
-    return-object v8
-
-    :cond_1
-    return-object v9
+    return-void
 .end method
 
 .method public static saveWeatherDataToCache(Landroid/content/Context;Landroid/content/Intent;J)V

@@ -59,14 +59,6 @@
 
     .line 2170
     :cond_0
-    invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->access$000()Lcom/smartisanos/launcher/LOG;
-
-    move-result-object v11
-
-    const-string v12, "requestSyncWeatherData onLoad"
-
-    invoke-virtual {v11, v12}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
     .line 2171
     iget-object v3, p1, Lcom/smartisan/weather/lib/bean/Weather;->locationKey:Ljava/lang/String;
 
@@ -100,56 +92,25 @@
 
     .line 2179
     .local v7, "sunRiseAndSetTime":Ljava/lang/String;
-    invoke-static {}, Lcom/smartisanos/launcher/data/Utils;->access$000()Lcom/smartisanos/launcher/LOG;
+    iget-object v11, p1, Lcom/smartisan/weather/lib/bean/Weather;->otherData:Ljava/lang/Object;
 
-    move-result-object v11
+    instance-of v12, v11, Ljava/lang/String;
 
-    new-instance v12, Ljava/lang/StringBuilder;
+    if-eqz v12, :cond_sun_time_done
 
-    invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+    check-cast v11, Ljava/lang/String;
 
-    const-string v13, "onLoad data=> ["
+    const-string v12, "|"
 
-    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v11, v12}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 
-    move-result-object v12
+    move-result v12
 
-    invoke-virtual {v12, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    if-eqz v12, :cond_sun_time_done
 
-    move-result-object v12
+    move-object v7, v11
 
-    const-string v13, "], ["
-
-    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v12
-
-    invoke-virtual {v12, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v12
-
-    const-string v13, "], ["
-
-    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v12
-
-    invoke-virtual {v12, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v12
-
-    const-string v13, "]"
-
-    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v12
-
-    invoke-virtual {v12}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v12
-
-    invoke-virtual {v11, v12}, Lcom/smartisanos/launcher/LOG;->error(Ljava/lang/String;)V
-
+    :cond_sun_time_done
     .line 2181
     new-instance v2, Landroid/content/Intent;
 
