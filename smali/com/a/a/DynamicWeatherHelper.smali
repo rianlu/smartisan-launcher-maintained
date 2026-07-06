@@ -212,7 +212,7 @@
 
     const-string v0, "dynamic_weather_enabled"
 
-    const/4 v1, 0x1
+    const/4 v1, 0x0
 
     invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
 
@@ -255,7 +255,7 @@
 .end method
 
 .method public static removeWeatherIcon()V
-    .locals 7
+    .locals 4
 
     invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->findWeatherItems()Ljava/util/ArrayList;
 
@@ -274,75 +274,16 @@
     return-void
 
     :cond_0
-    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
-
-    move-result-object v1
-
-    if-nez v1, :cond_1
-
-    goto :goto_remove_model_only
-
-    :cond_1
-    invoke-virtual {v1}, Lcom/smartisanos/launcher/view/MainView;->getDockView()Lcom/smartisanos/launcher/view/DockView;
-
-    move-result-object v1
-
-    if-nez v1, :cond_2
-
-    goto :goto_remove_model_only
-
-    :cond_2
-    new-instance v1, Ljava/util/ArrayList;
-
-    invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
-
-    invoke-virtual {v0}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
-
-    move-result-object v2
-
-    :goto_0
-    invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v3
-
-    if-eqz v3, :cond_3
-
-    invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
-    move-result-object v3
-
-    check-cast v3, Lcom/smartisanos/launcher/data/ItemInfo;
-
-    iget-wide v4, v3, Lcom/smartisanos/launcher/data/ItemInfo;->id:J
-
-    invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
-
-    move-result-object v3
-
-    invoke-virtual {v1, v3}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    goto :goto_0
-
-    :cond_3
-    const-string v2, "com.smartisanos.weather"
-
-    const/4 v3, 0x0
-
-    invoke-static {v2, v1, v3}, Lcom/smartisanos/launcher/LauncherModel;->removeItemDataFromDataMap(Ljava/lang/String;Ljava/util/List;Ljava/lang/Runnable;)V
-
-    return-void
-
-    :goto_remove_model_only
     invoke-virtual {v0}, Ljava/util/ArrayList;->iterator()Ljava/util/Iterator;
 
     move-result-object v0
 
-    :goto_1
+    :goto_0
     invoke-interface {v0}, Ljava/util/Iterator;->hasNext()Z
 
     move-result v1
 
-    if-eqz v1, :cond_4
+    if-eqz v1, :cond_1
 
     invoke-interface {v0}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
@@ -354,9 +295,9 @@
 
     invoke-static {v2, v3}, Lcom/smartisanos/launcher/LauncherModel;->removeItemInfo(J)Lcom/smartisanos/launcher/data/ItemInfo;
 
-    goto :goto_1
+    goto :goto_0
 
-    :cond_4
+    :cond_1
     return-void
 .end method
 
@@ -397,8 +338,17 @@
 
     :cond_disabled
 
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->hasWeatherIcon()Z
+
+    move-result v1
+
     invoke-static {p0}, Lcom/a/a/DynamicWeatherHelper;->syncWeatherIcon(Landroid/content/Context;)V
 
+    if-eqz v1, :cond_disabled_return
+
+    invoke-static {}, Lcom/a/a/DynamicWeatherHelper;->scheduleLauncherReboot()V
+
+    :cond_disabled_return
     return-void
 .end method
 

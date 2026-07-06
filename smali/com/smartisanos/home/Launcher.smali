@@ -2409,8 +2409,6 @@
 
     invoke-direct {v0}, Lcom/smartisanos/home/Launcher;->maybeRequestWallpaperPermissionAndSync()V
 
-    invoke-static/range {p0 .. p0}, Lcom/a/a/WeatherPermissionHelper;->maybeRequest(Landroid/app/Activity;)V
-
     .line 313
     sget-object v2, Lcom/smartisanos/home/Launcher;->log:Lcom/smartisanos/launcher/LOG;
 
