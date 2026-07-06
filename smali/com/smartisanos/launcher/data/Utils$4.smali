@@ -120,6 +120,10 @@
 
     .line 2182
     .local v2, "intent":Landroid/content/Intent;
+    const-string v11, "locationName"
+
+    invoke-virtual {v2, v11, v3}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
     const-string v11, "weatherCode"
 
     invoke-virtual {v2, v11, v10}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;

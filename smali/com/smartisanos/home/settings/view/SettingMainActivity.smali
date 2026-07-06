@@ -5508,3 +5508,14 @@
     .line 354
     return-void
 .end method
+
+.method public onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+    .locals 0
+
+    .prologue
+    invoke-super {p0, p1, p2, p3}, Lcom/smartisanos/home/settings/BaseActivity;->onRequestPermissionsResult(I[Ljava/lang/String;[I)V
+
+    invoke-static {p0, p1, p3}, Lcom/a/a/WeatherPermissionHelper;->onRequestPermissionsResult(Landroid/app/Activity;I[I)V
+
+    return-void
+.end method

@@ -26,7 +26,7 @@
 
 .field public static final SINGLE_DB_VERSION:I = 0x2
 
-.field public static final VERSION:I = 0x5
+.field public static final VERSION:I = 0x6
 
 .field public static final WEATHER_TABLE_NAME:Ljava/lang/String; = "weather_provider"
 
@@ -48,7 +48,7 @@
 
     const/4 v1, 0x0
 
-    const/4 v2, 0x5
+    const/4 v2, 0x6
 
     invoke-direct {p0, p1, v0, v1, v2}, Landroid/database/sqlite/SQLiteOpenHelper;-><init>(Landroid/content/Context;Ljava/lang/String;Landroid/database/sqlite/SQLiteDatabase$CursorFactory;I)V
 
@@ -1871,7 +1871,31 @@
     .line 304
     const/4 v0, 0x5
 
-    .line 306
     :cond_3
+    const/4 v1, 0x5
+
+    if-ne v0, v1, :cond_4
+
+    const-string v1, "drop table if exists city_base"
+
+    invoke-virtual {p1, v1}, Landroid/database/sqlite/SQLiteDatabase;->execSQL(Ljava/lang/String;)V
+
+    const-string v1, "drop table if exists city_cn"
+
+    invoke-virtual {p1, v1}, Landroid/database/sqlite/SQLiteDatabase;->execSQL(Ljava/lang/String;)V
+
+    const-string v1, "drop table if exists city_en"
+
+    invoke-virtual {p1, v1}, Landroid/database/sqlite/SQLiteDatabase;->execSQL(Ljava/lang/String;)V
+
+    const-string v1, "drop table if exists city_tw"
+
+    invoke-virtual {p1, v1}, Landroid/database/sqlite/SQLiteDatabase;->execSQL(Ljava/lang/String;)V
+
+    invoke-direct {p0, p1}, Lcom/smartisan/weather/lib/db/DatabaseHelper;->createCityTable(Landroid/database/sqlite/SQLiteDatabase;)V
+
+    const/4 v0, 0x6
+
+    :cond_4
     return-void
 .end method

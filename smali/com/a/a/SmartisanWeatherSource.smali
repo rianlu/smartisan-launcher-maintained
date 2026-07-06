@@ -320,7 +320,7 @@
 .end method
 
 .method public static getWeatherData(Landroid/content/Context;Ljava/lang/String;)Lcom/smartisan/weather/lib/bean/Weather;
-    .locals 8
+    .locals 12
 
     .line 29
     const/4 v0, 0x0
@@ -363,6 +363,8 @@
 
     .line 37
     :cond_1
+    iget-object v11, p0, Lcom/a/a/NmcCityIndex$Entry;->name:Ljava/lang/String;
+
     iget-object p0, p0, Lcom/a/a/NmcCityIndex$Entry;->stationId:Ljava/lang/String;
 
     const-string v1, "UTF-8"
@@ -482,7 +484,7 @@
     invoke-direct {v4}, Lcom/smartisan/weather/lib/bean/Weather;-><init>()V
 
     .line 53
-    iput-object p1, v4, Lcom/smartisan/weather/lib/bean/Weather;->locationKey:Ljava/lang/String;
+    iput-object v11, v4, Lcom/smartisan/weather/lib/bean/Weather;->locationKey:Ljava/lang/String;
 
     .line 54
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -1082,6 +1084,38 @@
     return-object v0
 .end method
 
+.method private static resolvePredictPart(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
+    .locals 3
+
+    invoke-static {p0, p1}, Lcom/a/a/SmartisanWeatherSource;->child(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONObject;
+
+    move-result-object p0
+
+    const-string p1, "weather"
+
+    invoke-static {p0, p1}, Lcom/a/a/SmartisanWeatherSource;->child(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONObject;
+
+    move-result-object p0
+
+    const-string p1, "img"
+
+    invoke-static {p0, p1}, Lcom/a/a/SmartisanWeatherSource;->nmcString(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const-string v1, "info"
+
+    invoke-static {p0, v1}, Lcom/a/a/SmartisanWeatherSource;->nmcString(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lcom/a/a/SmartisanWeatherSource;->normalizeWeatherCode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    return-object v2
+.end method
+
 .method private static resolveWeatherCode(Lorg/json/JSONObject;Lorg/json/JSONObject;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
     .locals 5
 
@@ -1163,35 +1197,36 @@
     :cond_use_night
     const-string v1, "night"
 
+    const-string v2, "day"
+
     goto :goto_part_selected
 
     :cond_use_day
     const-string v1, "day"
 
+    const-string v2, "night"
+
     :goto_part_selected
-    invoke-static {p0, v1}, Lcom/a/a/SmartisanWeatherSource;->child(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONObject;
+    invoke-static {p0, v1}, Lcom/a/a/SmartisanWeatherSource;->resolvePredictPart(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object p0
+    move-result-object v3
 
-    const-string v1, "weather"
+    invoke-static {v3}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
 
-    invoke-static {p0, v1}, Lcom/a/a/SmartisanWeatherSource;->child(Lorg/json/JSONObject;Ljava/lang/String;)Lorg/json/JSONObject;
+    move-result v4
 
-    move-result-object p0
+    if-nez v4, :cond_try_other_part
 
-    const-string v1, "img"
+    const-string v4, "99"
 
-    invoke-static {p0, v1}, Lcom/a/a/SmartisanWeatherSource;->nmcString(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v4, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
-    move-result-object v1
+    move-result v4
 
-    const-string v2, "info"
+    if-eqz v4, :cond_return_first_part
 
-    invoke-static {p0, v2}, Lcom/a/a/SmartisanWeatherSource;->nmcString(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object p0
-
-    invoke-static {v1, p0}, Lcom/a/a/SmartisanWeatherSource;->normalizeWeatherCode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    :cond_try_other_part
+    invoke-static {p0, v2}, Lcom/a/a/SmartisanWeatherSource;->resolvePredictPart(Lorg/json/JSONObject;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p0
 
@@ -1201,6 +1236,20 @@
 
     if-nez v1, :cond_return_current
 
+    const-string v1, "99"
+
+    invoke-virtual {v1, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_return_other_part
+
+    goto :goto_return_current
+
+    :cond_return_first_part
+    return-object v3
+
+    :cond_return_other_part
     return-object p0
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
