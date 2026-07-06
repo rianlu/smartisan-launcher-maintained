@@ -7,7 +7,7 @@ sdkInfo:
   minSdkVersion: 19
   targetSdkVersion: 28
 versionInfo:
-  versionCode: 2026070601
+  versionCode: 2026070602
   versionName: 1.5.1-r11
 resourcesInfo:
   packageId: 127
