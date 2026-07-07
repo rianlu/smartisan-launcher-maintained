@@ -2699,6 +2699,13 @@
 
     .line 114
     :cond_1
+    sget-boolean v8, Lcom/smartisanos/launcher/data/Constants;->sIsGaussianTheme:Z
+
+    if-eqz v8, :cond_issue69_end_gaussian_done
+
+    invoke-virtual {v3, v14}, Lcom/smartisanos/launcher/view/Page;->showOrHideGaussianBatchBackground(Z)V
+
+    :cond_issue69_end_gaussian_done
     invoke-virtual {v3}, Lcom/smartisanos/launcher/view/Page;->getAllPageCell()Ljava/util/ArrayList;
 
     move-result-object v4
@@ -3103,6 +3110,13 @@
 
     .line 61
     :cond_1
+    sget-boolean v6, Lcom/smartisanos/launcher/data/Constants;->sIsGaussianTheme:Z
+
+    if-eqz v6, :cond_issue69_start_gaussian_done
+
+    invoke-virtual {v2, v9}, Lcom/smartisanos/launcher/view/Page;->showOrHideGaussianBatchBackground(Z)V
+
+    :cond_issue69_start_gaussian_done
     invoke-virtual {v2}, Lcom/smartisanos/launcher/view/Page;->getAllPageCell()Ljava/util/ArrayList;
 
     move-result-object v3

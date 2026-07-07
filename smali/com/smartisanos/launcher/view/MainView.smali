@@ -7914,6 +7914,8 @@
 
     invoke-virtual {v4, v5, v6}, Lcom/smartisanos/smengine/TextureManager;->setTexture(Ljava/lang/String;Lcom/smartisanos/smengine/Texture;)V
 
+    invoke-virtual {v6}, Lcom/smartisanos/smengine/Texture;->bind()Z
+
     goto :goto_blur_setup_done
 
     :cond_transparent_blur
