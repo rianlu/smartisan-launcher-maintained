@@ -25886,9 +25886,59 @@
 
     invoke-virtual {v2, v6}, Lcom/smartisanos/smengine/RectNode;->setVisibility(Z)V
 
-    iget-object v2, p0, Lcom/smartisanos/launcher/view/Cell;->mBackgroundRect:Lcom/smartisanos/smengine/RectNode;
+    invoke-static {}, Lcom/smartisanos/launcher/LauncherApplication;->getInstance()Lcom/smartisanos/launcher/LauncherApplication;
+
+    move-result-object v2
+
+    invoke-static {v2}, Lcom/smartisanos/launcher/theme/ThemeManager;->getCurrentTheme(Landroid/content/Context;)Lcom/smartisanos/launcher/theme/Theme;
+
+    move-result-object v2
+
+    iget-object v2, v2, Lcom/smartisanos/launcher/theme/Theme;->mId:Ljava/lang/String;
+
+    const-string v3, "smartisan_theme_mist"
+
+    invoke-virtual {v3, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v3
+
+    if-nez v3, :cond_grid_fill_mist
+
+    const-string v3, "smartisan_theme_aero"
+
+    invoke-virtual {v3, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v3
+
+    if-nez v3, :cond_grid_fill_aero
+
+    const-string v3, "smartisan_theme_trans"
+
+    invoke-virtual {v3, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v3
+
+    if-nez v3, :cond_grid_fill_trans
 
     const-string v3, "Textures/1080p/transparent.png"
+
+    goto :goto_grid_fill_apply
+
+    :cond_grid_fill_mist
+    const-string v3, "Textures/1080p/grid_fill_mist.png"
+
+    goto :goto_grid_fill_apply
+
+    :cond_grid_fill_aero
+    const-string v3, "Textures/1080p/grid_fill_aero.png"
+
+    goto :goto_grid_fill_apply
+
+    :cond_grid_fill_trans
+    const-string v3, "Textures/1080p/grid_fill_trans.png"
+
+    :goto_grid_fill_apply
+    iget-object v2, p0, Lcom/smartisanos/launcher/view/Cell;->mBackgroundRect:Lcom/smartisanos/smengine/RectNode;
 
     invoke-virtual {v2, v3}, Lcom/smartisanos/smengine/RectNode;->setImageName(Ljava/lang/String;)V
 
