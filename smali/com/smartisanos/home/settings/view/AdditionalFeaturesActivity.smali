@@ -26,6 +26,8 @@
 
 .field private mTransparentThemeGridLinesSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+.field private mDockSlideReverseSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
 .field private mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
 
@@ -149,6 +151,13 @@
 
     :cond_grid_lines
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mTransparentThemeGridLinesSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    if-eqz v0, :cond_dock_slide_both
+
+    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
+
+    :cond_dock_slide_both
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mDockSlideReverseSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     if-eqz v0, :cond_swipe_search
 
@@ -635,6 +644,14 @@
 
     iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mTransparentThemeGridLinesSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
+    const-string v0, "item_id_dock_slide_reverse"
+
+    invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findSwitch(Ljava/lang/String;)Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mDockSlideReverseSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
     const-string v0, "item_id_icon_label_size"
 
     invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findTextItem(Ljava/lang/String;)Landroid/view/View;
@@ -766,6 +783,16 @@
 
     if-nez v2, :cond_end
 
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mDockSlideReverseSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "dock_slide_reverse_enabled"
+
+    invoke-direct {p0, p1, v0, v1, p2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->handleSwitchChanged(Landroid/widget/CompoundButton;Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)Z
+
+    move-result v2
+
+    if-nez v2, :cond_end
+
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     const-string v1, "unlock_animation_compat_mode"
@@ -855,6 +882,14 @@
     const-string v1, "transparent_theme_grid_lines_enabled"
 
     const/4 v2, 0x1
+
+    invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
+
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mDockSlideReverseSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+
+    const-string v1, "dock_slide_reverse_enabled"
+
+    const/4 v2, 0x0
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
 

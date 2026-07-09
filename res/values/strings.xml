@@ -35,6 +35,8 @@
     <string name="additional_features_sub_text">Display, gestures, and search options</string>
     <string name="transparent_theme_grid_lines_label">Show grid lines in transparent/glass themes</string>
     <string name="transparent_theme_grid_lines_tips">Show cell borders when using transparent or glass themes.</string>
+    <string name="dock_slide_reverse_label">Reverse dock swipe direction</string>
+    <string name="dock_slide_reverse_tips">Swipe right to enter edit mode and left to exit, reversing the default direction.</string>
     <string name="icon_label_size_label">Icon Label Size</string>
     <string name="icon_label_size_50">50%</string>
     <string name="icon_label_size_100">100%</string>

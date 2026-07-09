@@ -35,6 +35,8 @@
     <string name="additional_features_sub_text">桌面显示, 手势与搜索相关选项</string>
     <string name="transparent_theme_grid_lines_label">透明/毛玻璃主题显示宫格分隔线</string>
     <string name="transparent_theme_grid_lines_tips">开启后透明主题和毛玻璃主题会显示宫格边界</string>
+    <string name="dock_slide_reverse_label">Dock 栏滑动方向反转</string>
+    <string name="dock_slide_reverse_tips">开启后改为右滑进入编辑模式, 左滑退出; 关闭时为默认的左滑进入, 右滑退出</string>
     <string name="icon_label_size_label">图标名称字体大小</string>
     <string name="icon_label_size_50">50%</string>
     <string name="icon_label_size_100">100%</string>

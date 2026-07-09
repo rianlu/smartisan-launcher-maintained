@@ -8244,6 +8244,35 @@
     goto :goto_1
 .end method
 
+.method private static getSlideDockActionType()I
+    .locals 3
+
+    .prologue
+    sget v0, Lcom/smartisanos/launcher/data/Constants;->SLIDE_DOCK_ACTION_TYPE:I
+
+    const-string v1, "dock_slide_reverse_enabled"
+
+    const/4 v2, 0x0
+
+    invoke-static {v1, v2}, Lcom/smartisanos/launcher/data/LauncherSettings;->readSetting(Ljava/lang/String;Z)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_type_done
+
+    if-nez v0, :cond_type_swap_zero
+
+    const/4 v0, 0x1
+
+    goto :cond_type_done
+
+    :cond_type_swap_zero
+    const/4 v0, 0x0
+
+    :cond_type_done
+    return v0
+.end method
+
 .method public onTouchEvent(Lcom/smartisanos/smengine/TMotionEvent;)Z
     .locals 11
     .param p1, "ev"    # Lcom/smartisanos/smengine/TMotionEvent;
@@ -8320,7 +8349,9 @@
 
     if-lez v5, :cond_0
 
-    sget v5, Lcom/smartisanos/launcher/data/Constants;->SLIDE_DOCK_ACTION_TYPE:I
+    invoke-static {}, Lcom/smartisanos/launcher/view/DockView;->getSlideDockActionType()I
+
+    move-result v5
 
     if-eqz v5, :cond_1
 
@@ -8329,7 +8360,9 @@
 
     if-gez v5, :cond_4
 
-    sget v5, Lcom/smartisanos/launcher/data/Constants;->SLIDE_DOCK_ACTION_TYPE:I
+    invoke-static {}, Lcom/smartisanos/launcher/view/DockView;->getSlideDockActionType()I
+
+    move-result v5
 
     if-eqz v5, :cond_4
 
@@ -8408,7 +8441,9 @@
 
     if-gez v5, :cond_5
 
-    sget v5, Lcom/smartisanos/launcher/data/Constants;->SLIDE_DOCK_ACTION_TYPE:I
+    invoke-static {}, Lcom/smartisanos/launcher/view/DockView;->getSlideDockActionType()I
+
+    move-result v5
 
     if-eqz v5, :cond_6
 
@@ -8417,7 +8452,9 @@
 
     if-lez v5, :cond_3
 
-    sget v5, Lcom/smartisanos/launcher/data/Constants;->SLIDE_DOCK_ACTION_TYPE:I
+    invoke-static {}, Lcom/smartisanos/launcher/view/DockView;->getSlideDockActionType()I
+
+    move-result v5
 
     if-eqz v5, :cond_3
 
