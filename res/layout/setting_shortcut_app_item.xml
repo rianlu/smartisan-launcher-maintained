@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.smartisanos.home.settings.SettingItemTextVertical xmlns:android="http://schemas.android.com/apk/res/android" xmlns:setting="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/selector_setting_sub_item_bg_single"
+    android:layout_width="match_parent"
+    android:layout_height="78.0dp"
+    setting:setting_item_text_vertical_icon="@drawable/launcher_icon"
+    setting:setting_item_text_vertical_title="@string/app_name"
+    setting:singleLine="true"
+    setting:arrow="@drawable/secletor_setting_item_arrow" />

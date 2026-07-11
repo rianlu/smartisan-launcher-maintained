@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="64.0dp"
+    android:paddingLeft="16.0dp"
+    android:paddingRight="16.0dp">
+    <ImageView android:id="@+id/shortcut_choice_icon" android:layout_width="42.0dp" android:layout_height="42.0dp" android:layout_alignParentLeft="true" android:layout_centerVertical="true" android:scaleType="centerInside" />
+    <TextView android:id="@+id/shortcut_choice_action" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentRight="true" android:gravity="center" android:text="@string/shortcut_apps_add_action" android:textColor="#5079da" android:textSize="15.0sp" />
+    <TextView android:id="@+id/shortcut_choice_title" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_toRightOf="@id/shortcut_choice_icon" android:layout_toLeftOf="@id/shortcut_choice_action" android:layout_marginLeft="12.0dp" android:layout_marginRight="12.0dp" android:gravity="center_vertical" android:singleLine="true" android:ellipsize="end" android:textColor="#de000000" android:textSize="16.0sp" />
+</RelativeLayout>

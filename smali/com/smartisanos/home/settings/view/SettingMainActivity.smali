@@ -5338,6 +5338,29 @@
     return-void
 .end method
 
+.method public openShortcutApps(Landroid/view/View;)V
+    .locals 3
+    .param p1, "view"    # Landroid/view/View;
+
+    new-instance v0, Landroid/content/Intent;
+
+    const-class v1, Lcom/smartisanos/home/settings/view/ShortcutAppsSettingsActivity;
+
+    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+    const-string v1, "back_text_id"
+
+    const v2, 0x7f080020
+
+    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;I)Landroid/content/Intent;
+
+    const/4 v1, 0x1
+
+    invoke-virtual {p0, v0, v1}, Lcom/smartisanos/home/settings/view/SettingMainActivity;->startActivityWithAnim(Landroid/content/Intent;I)V
+
+    return-void
+.end method
+
 .method protected onResume()V
     .locals 3
 

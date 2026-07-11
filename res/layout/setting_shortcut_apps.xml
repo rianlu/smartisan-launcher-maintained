@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/background" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:setting="http://schemas.android.com/apk/res-auto">
+    <com.smartisanos.home.widget.sys.Title android:id="@id/view_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:overScrollMode="always" setting:title_titlex="@string/shortcut_apps_text" />
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@id/view_title">
+        <EditText android:id="@+id/shortcut_apps_search" android:enabled="false" android:background="@drawable/search_edit_bg" android:layout_width="match_parent" android:layout_height="58.0dp" android:layout_marginLeft="12.0dp" android:layout_marginTop="8.0dp" android:layout_marginRight="12.0dp" android:layout_marginBottom="2.0dp" android:paddingLeft="22.0dp" android:paddingRight="22.0dp" android:singleLine="true" android:textSize="16.0sp" android:textColor="#ff333333" android:textColorHint="#7f333333" android:hint="@string/shortcut_apps_search_hint" android:imeOptions="actionDone" android:inputType="text" />
+        <FrameLayout android:layout_width="match_parent" android:layout_height="0.0dp" android:layout_weight="1.0">
+            <ListView android:id="@+id/shortcut_apps_list" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingTop="6.0dp" android:paddingBottom="8.0dp" android:clipToPadding="false" android:divider="@android:color/transparent" android:dividerHeight="4.0dp" android:overScrollMode="always" />
+            <TextView android:id="@+id/shortcut_apps_empty" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:text="@string/shortcut_apps_empty" android:textSize="15.0sp" android:textColor="#888888" />
+            <LinearLayout android:id="@+id/shortcut_apps_loading" android:orientation="vertical" android:gravity="center" android:clickable="true" android:background="@drawable/background" android:layout_width="match_parent" android:layout_height="match_parent">
+                <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content" android:indeterminate="true" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10.0dp" android:text="@string/shortcut_apps_loading" android:textSize="15.0sp" android:textColor="#777777" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+    <include android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_below="@id/view_title" layout="@layout/title_bar_shadow" />
+</RelativeLayout>
