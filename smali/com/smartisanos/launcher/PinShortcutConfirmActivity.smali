@@ -227,7 +227,7 @@
 
     if-eqz p1, :cond_9
 
-    invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->drawableToBitmapWithoutShadow(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+    invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->drawableToNormalizedShortcutBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
 
     move-result-object p1
 
@@ -251,7 +251,7 @@
 
     move-result-object p1
 
-    invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->drawableToBitmapWithoutShadow(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+    invoke-static {p1}, Lcom/smartisanos/launcher/data/Utils;->drawableToNormalizedShortcutBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
 
     move-result-object p1
 

@@ -3432,6 +3432,189 @@
     goto :goto_0
 .end method
 
+.method public static drawableToNormalizedShortcutBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+    .locals 15
+    .param p0, "drawable"    # Landroid/graphics/drawable/Drawable;
+
+    invoke-static {p0}, Lcom/smartisanos/launcher/data/Utils;->drawableToBitmapWithoutShadow(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+
+    move-result-object v0
+
+    if-nez v0, :cond_0
+
+    const/4 v0, 0x0
+
+    return-object v0
+
+    :cond_0
+    invoke-virtual {v0}, Landroid/graphics/Bitmap;->getWidth()I
+
+    move-result v1
+
+    invoke-virtual {v0}, Landroid/graphics/Bitmap;->getHeight()I
+
+    move-result v2
+
+    move v3, v1
+
+    move v4, v2
+
+    const/4 v5, -0x1
+
+    const/4 v6, -0x1
+
+    const/4 v7, 0x0
+
+    :goto_0
+    if-ge v7, v2, :cond_6
+
+    const/4 v8, 0x0
+
+    :goto_1
+    if-ge v8, v1, :cond_5
+
+    invoke-virtual {v0, v8, v7}, Landroid/graphics/Bitmap;->getPixel(II)I
+
+    move-result v9
+
+    ushr-int/lit8 v9, v9, 0x18
+
+    const/16 v10, 0x8
+
+    if-le v9, v10, :cond_4
+
+    if-ge v8, v3, :cond_1
+
+    move v3, v8
+
+    :cond_1
+    if-ge v7, v4, :cond_2
+
+    move v4, v7
+
+    :cond_2
+    if-le v8, v5, :cond_3
+
+    move v5, v8
+
+    :cond_3
+    if-le v7, v6, :cond_4
+
+    move v6, v7
+
+    :cond_4
+    add-int/lit8 v8, v8, 0x1
+
+    goto :goto_1
+
+    :cond_5
+    add-int/lit8 v7, v7, 0x1
+
+    goto :goto_0
+
+    :cond_6
+    if-lt v5, v3, :cond_a
+
+    if-lt v6, v4, :cond_a
+
+    sub-int v7, v5, v3
+
+    add-int/lit8 v7, v7, 0x1
+
+    sub-int v8, v6, v4
+
+    add-int/lit8 v8, v8, 0x1
+
+    invoke-static {v1, v2}, Ljava/lang/Math;->min(II)I
+
+    move-result v9
+
+    if-le v7, v8, :cond_7
+
+    move v10, v9
+
+    mul-int v11, v8, v9
+
+    div-int/2addr v11, v7
+
+    goto :goto_2
+
+    :cond_7
+    move v11, v9
+
+    mul-int v10, v7, v9
+
+    div-int/2addr v10, v8
+
+    :goto_2
+    const/4 v9, 0x1
+
+    invoke-static {v9, v10}, Ljava/lang/Math;->max(II)I
+
+    move-result v10
+
+    invoke-static {v9, v11}, Ljava/lang/Math;->max(II)I
+
+    move-result v11
+
+    sget-object v9, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
+
+    invoke-static {v1, v2, v9}, Landroid/graphics/Bitmap;->createBitmap(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;
+
+    move-result-object v9
+
+    new-instance v12, Landroid/graphics/Canvas;
+
+    invoke-direct {v12, v9}, Landroid/graphics/Canvas;-><init>(Landroid/graphics/Bitmap;)V
+
+    new-instance v13, Landroid/graphics/Rect;
+
+    add-int/lit8 v5, v5, 0x1
+
+    add-int/lit8 v6, v6, 0x1
+
+    invoke-direct {v13, v3, v4, v5, v6}, Landroid/graphics/Rect;-><init>(IIII)V
+
+    new-instance v14, Landroid/graphics/RectF;
+
+    move-object v3, v14
+
+    sub-int v4, v1, v10
+
+    div-int/lit8 v4, v4, 0x2
+
+    int-to-float v4, v4
+
+    sub-int v5, v2, v11
+
+    div-int/lit8 v5, v5, 0x2
+
+    int-to-float v5, v5
+
+    int-to-float v6, v10
+
+    add-float/2addr v6, v4
+
+    int-to-float v7, v11
+
+    add-float/2addr v7, v5
+
+    invoke-direct/range {v3 .. v7}, Landroid/graphics/RectF;-><init>(FFFF)V
+
+    new-instance v3, Landroid/graphics/Paint;
+
+    const/4 v4, 0x3
+
+    invoke-direct {v3, v4}, Landroid/graphics/Paint;-><init>(I)V
+
+    invoke-virtual {v12, v0, v13, v14, v3}, Landroid/graphics/Canvas;->drawBitmap(Landroid/graphics/Bitmap;Landroid/graphics/Rect;Landroid/graphics/RectF;Landroid/graphics/Paint;)V
+
+    return-object v9
+
+    :cond_a
+    return-object v0
+.end method
+
 .method public static findActivitiesForPackage(Landroid/content/Context;Ljava/lang/String;)Ljava/util/List;
     .locals 5
     .param p0, "context"    # Landroid/content/Context;

@@ -261,7 +261,7 @@
 
     .line 246
     :cond_3
-    invoke-direct {p0, v3}, Lcom/smartisanos/home/settings/view/ShortcutAppsSettingsActivity;->toBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
+    invoke-static {v3}, Lcom/smartisanos/launcher/data/Utils;->drawableToNormalizedShortcutBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
 
     move-result-object v1
 
@@ -1212,76 +1212,6 @@
     .line 153
     return-void
 .end method
-
-.method private toBitmap(Landroid/graphics/drawable/Drawable;)Landroid/graphics/Bitmap;
-    .locals 5
-
-    .line 289
-    if-nez p1, :cond_0
-
-    const/4 p1, 0x0
-
-    return-object p1
-
-    .line 290
-    :cond_0
-    instance-of v0, p1, Landroid/graphics/drawable/BitmapDrawable;
-
-    if-eqz v0, :cond_1
-
-    check-cast p1, Landroid/graphics/drawable/BitmapDrawable;
-
-    invoke-virtual {p1}, Landroid/graphics/drawable/BitmapDrawable;->getBitmap()Landroid/graphics/Bitmap;
-
-    move-result-object p1
-
-    return-object p1
-
-    .line 291
-    :cond_1
-    invoke-virtual {p1}, Landroid/graphics/drawable/Drawable;->getIntrinsicWidth()I
-
-    move-result v0
-
-    const/4 v1, 0x1
-
-    invoke-static {v1, v0}, Ljava/lang/Math;->max(II)I
-
-    move-result v0
-
-    .line 292
-    invoke-virtual {p1}, Landroid/graphics/drawable/Drawable;->getIntrinsicHeight()I
-
-    move-result v2
-
-    invoke-static {v1, v2}, Ljava/lang/Math;->max(II)I
-
-    move-result v1
-
-    .line 293
-    sget-object v2, Landroid/graphics/Bitmap$Config;->ARGB_8888:Landroid/graphics/Bitmap$Config;
-
-    invoke-static {v0, v1, v2}, Landroid/graphics/Bitmap;->createBitmap(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;
-
-    move-result-object v2
-
-    .line 294
-    new-instance v3, Landroid/graphics/Canvas;
-
-    invoke-direct {v3, v2}, Landroid/graphics/Canvas;-><init>(Landroid/graphics/Bitmap;)V
-
-    .line 295
-    const/4 v4, 0x0
-
-    invoke-virtual {p1, v4, v4, v0, v1}, Landroid/graphics/drawable/Drawable;->setBounds(IIII)V
-
-    .line 296
-    invoke-virtual {p1, v3}, Landroid/graphics/drawable/Drawable;->draw(Landroid/graphics/Canvas;)V
-
-    .line 297
-    return-object v2
-.end method
-
 
 # virtual methods
 .method public afterTextChanged(Landroid/text/Editable;)V
