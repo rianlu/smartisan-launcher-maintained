@@ -10,6 +10,7 @@ output_dir="${2:-$repo_root/themes/maintained}"
 work_root="${THEME_WORK_DIR:-$repo_root/build/theme-work}"
 theme_filter="${THEME_FILTER:-}"
 theme_limit="${THEME_LIMIT:-}"
+theme_min_sdk="${THEME_MIN_SDK:-8}"
 theme_target_sdk="${THEME_TARGET_SDK:-36}"
 keep_theme_work="${KEEP_THEME_WORK:-0}"
 
@@ -115,10 +116,19 @@ collect_apks() {
 patch_apktool_yml() {
   apktool_yml="$1"
   require_file "$apktool_yml"
+  grep -q 'minSdkVersion:' "$apktool_yml" || fail "minSdkVersion not found in $apktool_yml"
   grep -q 'targetSdkVersion:' "$apktool_yml" || fail "targetSdkVersion not found in $apktool_yml"
 
+  THEME_MIN_SDK_VALUE="$theme_min_sdk" \
+  perl -0pi -e 's/(minSdkVersion:\s*)\d+/${1}.$ENV{"THEME_MIN_SDK_VALUE"}/ge' "$apktool_yml"
   THEME_TARGET_SDK_VALUE="$theme_target_sdk" \
   perl -0pi -e 's/(targetSdkVersion:\s*)\d+/${1}.$ENV{"THEME_TARGET_SDK_VALUE"}/ge' "$apktool_yml"
+}
+
+patch_manifest() {
+  manifest="$1"
+  require_file "$manifest"
+  perl -0pi -e 's/ android:compileSdkVersion="[^"]*"//g; s/ android:compileSdkVersionCodename="[^"]*"//g; s/ android:usesNonSdkApi="[^"]*"//g' "$manifest"
 }
 
 sign_with_apksigner() {
@@ -197,6 +207,7 @@ build_theme() {
   clean_macos_metadata "$theme_work_dir"
   assert_clean_macos_metadata "$theme_work_dir"
   patch_apktool_yml "$theme_work_dir/apktool.yml"
+  patch_manifest "$theme_work_dir/AndroidManifest.xml"
   apktool b "$theme_work_dir" -o "$unsigned_apk" >/dev/null
   sign_apk "$unsigned_apk" "$aligned_apk" "$signed_apk"
 
@@ -243,6 +254,7 @@ theme_count=$(printf '%s\n' "$theme_apks" | sed '/^$/d' | wc -l | tr -d ' ')
 printf '%s\n' "theme apk count: $theme_count"
 printf '%s\n' "input path: $input_path"
 printf '%s\n' "output dir: $output_dir"
+printf '%s\n' "minSdkVersion: $theme_min_sdk"
 printf '%s\n' "targetSdkVersion: $theme_target_sdk"
 printf '%s\n' "keystore: $keystore_path"
 
