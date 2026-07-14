@@ -1288,6 +1288,12 @@
     return v0
 
     :cond_check_pack
+    invoke-virtual {p1}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v0
+
+    if-nez v0, :cond_default
+
     invoke-static {p0}, Lcom/smartisanos/home/settings/icons/IconPackManager;->hasSelectedIconPack(Landroid/content/Context;)Z
 
     move-result v0

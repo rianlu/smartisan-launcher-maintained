@@ -475,6 +475,12 @@
     goto :goto_set_right_drawable
 
     :goto_check_icon_pack
+    invoke-virtual {v4}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconInfo;->isShortcutIcon()Z
+
+    move-result v0
+
+    if-nez v0, :goto_set_plus_icon
+
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity$IconSettingsAdapter;->this$0:Lcom/smartisanos/home/settings/view/AppIconsSettingsActivity;
 
     invoke-static {v0}, Lcom/smartisanos/home/settings/icons/IconPackManager;->hasSelectedIconPack(Landroid/content/Context;)Z

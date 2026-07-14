@@ -365,6 +365,18 @@
 
     if-eqz v6, :cond_loop
 
+    instance-of v0, v6, Lcom/smartisanos/launcher/data/ShortcutInfo;
+
+    if-eqz v0, :cond_item_type_ready
+
+    invoke-static {v6}, Lcom/smartisanos/launcher/data/Utils;->isProfileShortcut(Lcom/smartisanos/launcher/data/ItemInfo;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_loop
+
+    :cond_item_type_ready
+
     iget-object v9, v6, Lcom/smartisanos/launcher/data/ItemInfo;->packageName:Ljava/lang/String;
 
     invoke-static {v9}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z

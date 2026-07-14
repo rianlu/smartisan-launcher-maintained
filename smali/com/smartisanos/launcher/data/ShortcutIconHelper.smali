@@ -110,11 +110,7 @@
 
     if-lez v4, :cond_load_original_db
 
-    invoke-static {v6}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;
-
-    move-result-object v7
-
-    goto :cond_drawable_ready
+    goto :cond_restore_original
 
     :cond_load_original_db
     invoke-static {v1, v2}, Lcom/smartisanos/launcher/data/redirectIcon/RedirectIconDB;->getRedirectIcon(J)[B
@@ -123,11 +119,34 @@
 
     if-eqz v6, :cond_return_true
 
-    invoke-static {v6}, Lcom/smartisanos/launcher/data/Utils;->iconDataToDrawable([B)Landroid/graphics/drawable/Drawable;
+    :cond_restore_original
+    new-instance v8, Landroid/content/ContentValues;
 
-    move-result-object v7
+    invoke-direct {v8}, Landroid/content/ContentValues;-><init>()V
 
-    goto :cond_drawable_ready
+    const-string v4, "owner"
+
+    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+
+    move-result-object v5
+
+    invoke-virtual {v8, v4, v5}, Landroid/content/ContentValues;->put(Ljava/lang/String;Ljava/lang/Long;)V
+
+    const-string v4, "dark_icon"
+
+    invoke-virtual {v8, v4, v6}, Landroid/content/ContentValues;->put(Ljava/lang/String;[B)V
+
+    const-string v4, "light_icon"
+
+    invoke-virtual {v8, v4, v6}, Landroid/content/ContentValues;->put(Ljava/lang/String;[B)V
+
+    invoke-static {v8}, Lcom/smartisanos/launcher/data/handler/IconDB;->saveIconData(Landroid/content/ContentValues;)Z
+
+    move-object v9, v6
+
+    const/4 v12, 0x0
+
+    goto :cond_update_item
 
     :cond_load_icon_pack
     invoke-static {p0, v5}, Lcom/smartisanos/home/settings/view/IconPackChoiceSupport;->getDrawable(Landroid/content/Context;Ljava/lang/String;)Landroid/graphics/drawable/Drawable;
@@ -169,6 +188,7 @@
 
     move-result-object v12
 
+    :cond_update_item
     invoke-static {v1, v2}, Lcom/smartisanos/launcher/LauncherModel;->getItemInfo(J)Lcom/smartisanos/launcher/data/ItemInfo;
 
     move-result-object v11
