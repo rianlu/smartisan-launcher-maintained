@@ -231,7 +231,7 @@
     <integer name="icon_size_origin_64">256</integer>
     <integer name="icon_size_origin_81">256</integer>
     <integer name="icon_size_origin_9">256</integer>
-    <integer name="icon_size_origin_resize_9">222</integer>
+    <integer name="icon_size_origin_resize_9">256</integer>
     <integer name="icon_size_with_shadow_16">235</integer>
     <integer name="icon_size_with_shadow_36">356</integer>
     <integer name="icon_size_with_shadow_64">218</integer>
