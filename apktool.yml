@@ -7,8 +7,8 @@ sdkInfo:
   minSdkVersion: 19
   targetSdkVersion: 28
 versionInfo:
-  versionCode: 2026070602
-  versionName: 1.5.1-r11
+  versionCode: 2026071501
+  versionName: 1.5.1-r12
 resourcesInfo:
   packageId: 127
   keepRawValues: true
