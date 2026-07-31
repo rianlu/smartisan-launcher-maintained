@@ -335,23 +335,6 @@
     .param p6, "upTime"    # J
 
     .prologue
-    const-string v0, "swipe_up_search_enabled"
-
-    const-string v1, "true"
-
-    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/setting/SettingDB;->readString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-static {v0}, Ljava/lang/Boolean;->parseBoolean(Ljava/lang/String;)Z
-
-    move-result v0
-
-    if-nez v0, :cond_swipe_up_search_enabled
-
-    return-void
-
-    :cond_swipe_up_search_enabled
     .line 92
     sub-long v4, p6, p2
 
@@ -420,7 +403,49 @@
     :cond_2
     if-eqz v2, :cond_0
 
-    .line 113
+    const-string v0, "swipe_up_search_enabled"
+
+    const-string v1, "true"
+
+    invoke-static {v0, v1}, Lcom/smartisanos/launcher/data/setting/SettingDB;->readString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v0}, Ljava/lang/Boolean;->parseBoolean(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_open_search
+
+    sget v0, Lcom/smartisanos/launcher/data/Constants;->sPageMode:I
+
+    sget v1, Lcom/smartisanos/launcher/data/Constants;->SINGLE_PAGE_MODE:I
+
+    if-ne v0, v1, :cond_0
+
+    const-string v0, "A260007"
+
+    invoke-static {v0}, Lcom/smartisanos/home/tracker/LauncherAgent;->event(Ljava/lang/String;)V
+
+    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->getPageView()Lcom/smartisanos/launcher/view/PageView;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v1, 0x0
+
+    invoke-virtual {v0, v1}, Lcom/smartisanos/launcher/view/PageView;->switchPageMode(Lcom/smartisanos/launcher/view/Page;)Z
+
+    goto :goto_0
+
+    :cond_open_search
     new-instance v3, Lcom/smartisanos/launcher/actions/gesture/FlingUpGesture$1;
 
     const/16 v4, 0x64
