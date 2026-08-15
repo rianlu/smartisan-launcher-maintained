@@ -2604,12 +2604,42 @@
     if-lez v0, :cond_1
 
     .line 1383
+    sget v0, Lcom/smartisanos/launcher/data/Constants;->sPageMode:I
+
+    sget v3, Lcom/smartisanos/launcher/data/Constants;->MULTI_PAGE_MODE:I
+
+    if-ne v0, v3, :cond_notification_panel
+
+    invoke-static {}, Lcom/smartisanos/launcher/view/MainView;->getInstance()Lcom/smartisanos/launcher/view/MainView;
+
+    move-result-object v3
+
+    if-eqz v3, :cond_notification_panel
+
+    invoke-virtual {v3}, Lcom/smartisanos/launcher/view/MainView;->getPageView()Lcom/smartisanos/launcher/view/PageView;
+
+    move-result-object v3
+
+    if-eqz v3, :cond_notification_panel
+
+    const/4 v0, 0x0
+
+    invoke-virtual {v3, v0}, Lcom/smartisanos/launcher/view/PageView;->switchPageMode(Lcom/smartisanos/launcher/view/Page;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    goto :cond_pull_down_consumed
+
+    :cond_notification_panel
     invoke-direct {p0}, Lcom/smartisanos/launcher/view/DragLayer;->tryExpandNotificationPanel()Z
 
     move-result v0
 
     if-eqz v0, :cond_1
 
+    :cond_pull_down_consumed
     .line 1384
     invoke-virtual {p1}, Lcom/smartisanos/smengine/TMotionEvent;->getY()F
 

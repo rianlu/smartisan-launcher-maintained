@@ -14,7 +14,7 @@
 
 .field private mIconLabelSizeItem:Landroid/view/View;
 
-.field private mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+.field private mSwipeUpActionItem:Landroid/view/View;
 
 .field private mSearchDefaultT9KeyboardSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
@@ -166,13 +166,6 @@
     :cond_swipe_search
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
-    if-eqz v0, :cond_swipe_search_ready
-
-    invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
-
-    :cond_swipe_search_ready
-    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
-
     if-eqz v0, :cond_t9
 
     invoke-virtual {v0, p0}, Lcom/smartisanos/home/settings/SettingItemSwitch;->setOnCheckedChangeListener(Landroid/widget/CompoundButton$OnCheckedChangeListener;)V
@@ -258,6 +251,166 @@
 
     :cond_fallback
     return-object p2
+.end method
+
+.method private getSwipeUpActionLabel(I)Ljava/lang/String;
+    .locals 3
+
+    if-nez p1, :cond_search
+
+    const-string v0, "swipe_up_action_none"
+
+    const-string v1, "不执行操作"
+
+    invoke-direct {p0, v0, v1}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getStringByName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+
+    :cond_search
+    const/4 v0, 0x2
+
+    if-ne p1, v0, :cond_search_label
+
+    const-string v0, "swipe_up_action_multi_page"
+
+    const-string v1, "打开多板块视图"
+
+    invoke-direct {p0, v0, v1}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getStringByName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+
+    :cond_search_label
+    const-string v0, "swipe_up_action_search"
+
+    const-string v1, "打开搜索"
+
+    invoke-direct {p0, v0, v1}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getStringByName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method private updateSwipeUpActionSummary()V
+    .locals 4
+
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpActionItem:Landroid/view/View;
+
+    if-eqz v0, :cond_end
+
+    invoke-static {}, Lcom/smartisanos/launcher/actions/gesture/FlingUpGesture;->getSwipeUpAction()I
+
+    move-result v1
+
+    invoke-direct {p0, v1}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getSwipeUpActionLabel(I)Ljava/lang/String;
+
+    move-result-object v1
+
+    const v2, 0x7f0f0161
+
+    invoke-virtual {v0, v2}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/widget/TextView;
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    :cond_end
+    return-void
+.end method
+
+.method private showSwipeUpActionDialog()V
+    .locals 8
+
+    new-instance v0, Landroid/view/ContextThemeWrapper;
+
+    const v2, 0x103012b
+
+    invoke-direct {v0, p0, v2}, Landroid/view/ContextThemeWrapper;-><init>(Landroid/content/Context;I)V
+
+    const/4 v2, 0x3
+
+    new-array v1, v2, [Ljava/lang/CharSequence;
+
+    const/4 v3, 0x0
+
+    invoke-direct {p0, v3}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getSwipeUpActionLabel(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v3
+
+    const/4 v3, 0x1
+
+    invoke-direct {p0, v3}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getSwipeUpActionLabel(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v3
+
+    const/4 v3, 0x2
+
+    invoke-direct {p0, v3}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getSwipeUpActionLabel(I)Ljava/lang/String;
+
+    move-result-object v2
+
+    aput-object v2, v1, v3
+
+    new-instance v4, Landroid/app/AlertDialog$Builder;
+
+    invoke-direct {v4, v0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+
+    const-string v2, "swipe_up_action_dialog_title"
+
+    const-string v3, "桌面上滑操作"
+
+    invoke-direct {p0, v2, v3}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getStringByName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v4, v2}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v4
+
+    invoke-static {}, Lcom/smartisanos/launcher/actions/gesture/FlingUpGesture;->getSwipeUpAction()I
+
+    move-result v2
+
+    new-instance v3, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity$3;
+
+    invoke-direct {v3, p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity$3;-><init>(Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;)V
+
+    invoke-virtual {v4, v1, v2, v3}, Landroid/app/AlertDialog$Builder;->setSingleChoiceItems([Ljava/lang/CharSequence;ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    move-result-object v4
+
+    invoke-virtual {v4}, Landroid/app/AlertDialog$Builder;->show()Landroid/app/AlertDialog;
+
+    return-void
+.end method
+
+.method public setSwipeUpAction(I)V
+    .locals 2
+
+    if-ltz p1, :cond_end
+
+    const/4 v0, 0x2
+
+    if-gt p1, v0, :cond_end
+
+    const-string v0, "swipe_up_action"
+
+    invoke-static {v0, p1, p0}, Lcom/smartisanos/launcher/data/LauncherSettings;->updateAndNotice(Ljava/lang/String;ILandroid/content/Context;)V
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->updateSwipeUpActionSummary()V
+
+    :cond_end
+    return-void
 .end method
 
 .method public getIconLabelSizeName(I)Ljava/lang/String;
@@ -558,9 +711,18 @@
     .prologue
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mIconLabelSizeItem:Landroid/view/View;
 
-    if-ne p1, v0, :cond_end
+    if-ne p1, v0, :cond_swipe_up_action
 
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->showIconLabelSizeDialogInternal()V
+
+    return-void
+
+    :cond_swipe_up_action
+    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpActionItem:Landroid/view/View;
+
+    if-ne p1, v0, :cond_end
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->showSwipeUpActionDialog()V
 
     :cond_end
     return-void
@@ -700,13 +862,37 @@
 
     iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
-    const-string v0, "item_id_swipe_up_search"
+    const-string v0, "item_id_swipe_up_action"
 
-    invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findSwitch(Ljava/lang/String;)Lcom/smartisanos/home/settings/SettingItemSwitch;
+    invoke-direct {p0, v0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->findTextItem(Ljava/lang/String;)Landroid/view/View;
 
     move-result-object v0
 
-    iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
+    iput-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpActionItem:Landroid/view/View;
+
+    if-eqz v0, :cond_swipe_up_action_ready
+
+    const v1, 0x7f0f0160
+
+    invoke-virtual {v0, v1}, Landroid/view/View;->findViewById(I)Landroid/view/View;
+
+    move-result-object v1
+
+    check-cast v1, Landroid/widget/TextView;
+
+    const-string v2, "swipe_up_action_label"
+
+    const-string v3, "桌面上滑操作"
+
+    invoke-direct {p0, v2, v3}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->getStringByName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    invoke-virtual {v0, p0}, Landroid/view/View;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    :cond_swipe_up_action_ready
 
     const-string v0, "item_id_search_default_t9_keyboard"
 
@@ -743,6 +929,8 @@
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->registerCheckedButton()V
 
     invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->updateIconLabelSizeSummary()V
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->updateSwipeUpActionSummary()V
 
     return-void
 .end method
@@ -796,16 +984,6 @@
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mUnlockAnimationCompatSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     const-string v1, "unlock_animation_compat_mode"
-
-    invoke-direct {p0, p1, v0, v1, p2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->handleSwitchChanged(Landroid/widget/CompoundButton;Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)Z
-
-    move-result v2
-
-    if-nez v2, :cond_end
-
-    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
-
-    const-string v1, "swipe_up_search_enabled"
 
     invoke-direct {p0, p1, v0, v1, p2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->handleSwitchChanged(Landroid/widget/CompoundButton;Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)Z
 
@@ -901,17 +1079,11 @@
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
 
-    iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSwipeUpSearchSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
-
-    const-string v1, "swipe_up_search_enabled"
-
-    const/4 v2, 0x1
-
-    invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
-
     iget-object v0, p0, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->mSearchDefaultT9KeyboardSwitch:Lcom/smartisanos/home/settings/SettingItemSwitch;
 
     const-string v1, "search_default_t9_keyboard"
+
+    const/4 v2, 0x1
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
 
@@ -936,6 +1108,8 @@
     const/4 v2, 0x0
 
     invoke-direct {p0, v0, v1, v2}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->syncSwitch(Lcom/smartisanos/home/settings/SettingItemSwitch;Ljava/lang/String;Z)V
+
+    invoke-direct {p0}, Lcom/smartisanos/home/settings/view/AdditionalFeaturesActivity;->updateSwipeUpActionSummary()V
 
     return-void
 .end method

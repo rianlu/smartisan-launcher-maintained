@@ -218,6 +218,12 @@
     <string name="quick_search">快速搜索</string>
     <string name="swipe_up_search_label">桌面上滑打开搜索</string>
     <string name="swipe_up_search_tips">开启后可在桌面空白区域上滑呼出搜索</string>
+    <string name="swipe_up_action_label">桌面上滑操作</string>
+    <string name="swipe_up_action_tips">选择在桌面空白区域上滑时执行的操作</string>
+    <string name="swipe_up_action_dialog_title">桌面上滑操作</string>
+    <string name="swipe_up_action_none">不执行操作</string>
+    <string name="swipe_up_action_search">打开搜索</string>
+    <string name="swipe_up_action_multi_page">打开多板块视图</string>
     <string name="search_default_t9_keyboard_label">搜索默认使用 T9 键盘</string>
     <string name="search_default_t9_keyboard_tips">开启后打开搜索优先显示 T9 键盘, 关闭后显示系统输入法</string>
     <string name="search_usage_sort_label">搜索结果按使用频率排序</string>

@@ -216,6 +216,12 @@
     <string name="quick_search">Quick Search</string>
     <string name="swipe_up_search_label">Swipe Up On Home Screen To Search</string>
     <string name="swipe_up_search_tips">Swipe up on an empty area of the home screen to open search.</string>
+    <string name="swipe_up_action_label">Home Screen Swipe Up Action</string>
+    <string name="swipe_up_action_tips">Choose what happens when you swipe up on an empty area of the home screen.</string>
+    <string name="swipe_up_action_dialog_title">Home Screen Swipe Up Action</string>
+    <string name="swipe_up_action_none">No Action</string>
+    <string name="swipe_up_action_search">Open Search</string>
+    <string name="swipe_up_action_multi_page">Open Multi-panel View</string>
     <string name="search_default_t9_keyboard_label">Use T9 Keyboard By Default</string>
     <string name="search_default_t9_keyboard_tips">When enabled, search opens with the T9 keyboard first. When disabled, it opens with the system input method.</string>
     <string name="search_usage_sort_label">Sort Search Results By Usage</string>
