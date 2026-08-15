@@ -1160,6 +1160,80 @@
     goto :goto_2
 .end method
 
+.method private showDownloadFallbackDialog()V
+    .locals 6
+
+    .prologue
+    new-instance v0, Landroid/app/AlertDialog$Builder;
+
+    iget-object v1, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
+
+    invoke-direct {v0, v1}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
+
+    const-string v1, "在线更新失败"
+
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setTitle(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    const-string v1, "在线更新暂时无法完成, 可使用浏览器下载最新版本."
+
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
+
+    const-string v1, "浏览器下载"
+
+    new-instance v2, Lcom/smartisan/updater/ApkUpdater$7;
+
+    invoke-direct {v2, p0}, Lcom/smartisan/updater/ApkUpdater$7;-><init>(Lcom/smartisan/updater/ApkUpdater;)V
+
+    invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    sget v1, Lcom/smartisan/updater/R$string;->update_cancel:I
+
+    const/4 v2, 0x0
+
+    invoke-virtual {v0, v1, v2}, Landroid/app/AlertDialog$Builder;->setNegativeButton(ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
+
+    const/4 v1, 0x1
+
+    invoke-virtual {v0, v1}, Landroid/app/AlertDialog$Builder;->setCancelable(Z)Landroid/app/AlertDialog$Builder;
+
+    invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->create()Landroid/app/AlertDialog;
+
+    move-result-object v3
+
+    invoke-virtual {v3, p0}, Landroid/app/AlertDialog;->setOnDismissListener(Landroid/content/DialogInterface$OnDismissListener;)V
+
+    iget-object v1, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
+
+    instance-of v1, v1, Landroid/app/Activity;
+
+    if-nez v1, :cond_0
+
+    invoke-virtual {v3}, Landroid/app/AlertDialog;->getWindow()Landroid/view/Window;
+
+    move-result-object v4
+
+    sget v5, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v1, 0x13
+
+    if-lt v5, v1, :cond_1
+
+    const/16 v1, 0x7d5
+
+    goto :goto_0
+
+    :cond_1
+    const/16 v1, 0x7d2
+
+    :goto_0
+    invoke-virtual {v4, v1}, Landroid/view/Window;->setType(I)V
+
+    :cond_0
+    invoke-virtual {v3}, Landroid/app/AlertDialog;->show()V
+
+    return-void
+.end method
+
 .method private showForceDownloadConfirmDialog(Lcom/smartisan/updater/Version;)V
     .locals 14
     .param p1, "version"    # Lcom/smartisan/updater/Version;
@@ -2581,24 +2655,7 @@
 
     if-nez v3, :cond_1
 
-    .line 239
-    iget-object v3, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
-
-    sget v4, Lcom/smartisan/updater/R$string;->check_update_fail:I
-
-    invoke-virtual {v3, v4}, Landroid/content/Context;->getString(I)Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 240
-    .local v0, "error":Ljava/lang/String;
-    iget-object v3, p0, Lcom/smartisan/updater/ApkUpdater;->mContext:Landroid/content/Context;
-
-    invoke-static {v3, v0, v6}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Landroid/widget/Toast;->show()V
+    invoke-direct {p0}, Lcom/smartisan/updater/ApkUpdater;->showDownloadFallbackDialog()V
 
     goto :goto_0
 .end method
