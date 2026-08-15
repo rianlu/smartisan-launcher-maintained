@@ -107,7 +107,7 @@
 
     move-result-object v0
 
-    invoke-virtual {v0, v2}, Lcom/smartisanos/launcher/view/MainView;->updateStatusBarText(I)V
+    invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->updateStatusBarTextToLongPressText()V
 
     .line 327
     return-void
