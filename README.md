@@ -160,10 +160,10 @@ Smartisan Launcher Maintained 是基于锤子官方公开发布的最后一个�
 
 ## Star History
 
-<a href="https://star-history.com/#rianlu/smartisan-launcher-maintained&Date">
+<a href="https://star-history.dera.page/#rianlu/smartisan-launcher-maintained&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rianlu/smartisan-launcher-maintained&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rianlu/smartisan-launcher-maintained&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rianlu/smartisan-launcher-maintained&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=rianlu/smartisan-launcher-maintained&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=rianlu/smartisan-launcher-maintained&type=Date" />
+    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=rianlu/smartisan-launcher-maintained&type=Date" />
   </picture>
 </a>
