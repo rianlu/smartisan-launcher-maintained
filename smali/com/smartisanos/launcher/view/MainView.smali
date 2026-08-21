@@ -12651,6 +12651,20 @@
     .line 3177
     .restart local p1    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
     :cond_0
+    sget-boolean v0, Lcom/smartisanos/launcher/data/Constants;->sIsTransparentTheme:Z
+
+    if-eqz v0, :cond_mist
+
+    # transparent theme: identity blend, do not apply mist white fog
+    check-cast p1, Lcom/smartisanos/smengine/mymaterial/TexturePreColorMaterial;
+
+    .end local p1    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
+    invoke-virtual {p1, v2, v2, v2, v2}, Lcom/smartisanos/smengine/mymaterial/TexturePreColorMaterial;->setBlendColor(FFFF)V
+
+    goto :goto_0
+
+    .restart local p1    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
+    :cond_mist
     check-cast p1, Lcom/smartisanos/smengine/mymaterial/TexturePreColorMaterial;
 
     .end local p1    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
