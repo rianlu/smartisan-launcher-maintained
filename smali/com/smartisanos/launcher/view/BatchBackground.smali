@@ -3279,6 +3279,20 @@
     .line 119
     .restart local v0    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
     :cond_0
+    sget-boolean v1, Lcom/smartisanos/launcher/data/Constants;->sIsTransparentTheme:Z
+
+    if-eqz v1, :cond_mist
+
+    # transparent theme: identity blend, do not apply mist white fog
+    check-cast v0, Lcom/smartisanos/smengine/mymaterial/TextureBatchPreColorMaterial;
+
+    .end local v0    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
+    invoke-virtual {v0, v3, v3, v3, v3}, Lcom/smartisanos/smengine/mymaterial/TextureBatchPreColorMaterial;->setBlendColor(FFFF)V
+
+    goto :goto_0
+
+    .restart local v0    # "m":Lcom/smartisanos/smengine/mymaterial/Material;
+    :cond_mist
     check-cast v0, Lcom/smartisanos/smengine/mymaterial/TextureBatchPreColorMaterial;
 
     .end local v0    # "m":Lcom/smartisanos/smengine/mymaterial/Material;

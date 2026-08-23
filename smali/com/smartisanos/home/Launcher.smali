@@ -3509,6 +3509,8 @@
 
     invoke-virtual {v0}, Lcom/smartisanos/launcher/view/MainView;->forceFinishDismissAnimation()V
 
+    invoke-virtual {v0, v2}, Lcom/smartisanos/launcher/view/MainView;->setUsePostEffect(Z)V
+
     .line 638
     :cond_1
     invoke-virtual {p0}, Lcom/smartisanos/home/Launcher;->removeEmergencyUnlockEvent()V
