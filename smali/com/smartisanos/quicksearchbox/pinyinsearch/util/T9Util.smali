@@ -38,6 +38,7 @@
     .prologue
     .line 175
     .local p0, "pinyinUnits":Ljava/util/List;, "Ljava/util/List<Lcom/smartisanos/quicksearchbox/pinyinsearch/model/PinyinUnit;>;"
+    .try_start_0
     if-eqz p0, :cond_0
 
     if-eqz p3, :cond_0
@@ -888,6 +889,14 @@
     const/4 v1, 0x1
 
     goto/16 :goto_0
+
+.try_end_0
+
+    .catch Ljava/lang/StringIndexOutOfBoundsException; {:try_start_0 .. :try_end_0} :catch_0
+
+    const/4 v1, 0x0
+    return v1
+
 .end method
 
 .method public static getT9Number(C)C
